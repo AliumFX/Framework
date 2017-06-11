@@ -1,0 +1,3 @@
+[submodule "build-template"]
+	path = build-template
+	url = git@github.com:AliumFX/Template-Build.git
