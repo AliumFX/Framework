@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <VersionPrefix>0.1.0</VersionPrefix>
+        <VersionSuffix>alpha</VersionSuffix>
+
+        <Product>Alium Framework</Product>
+        <RepositoryUrl>https://github.com/AliumFX/Framework</RepositoryUrl>
+    </PropertyGroup>
+</Project>
