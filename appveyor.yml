@@ -1,0 +1,11 @@
+version: 0.1.0-alpha-{build}
+image: Visual Studio 2017
+build_script:
+- ps: Invoke-Expression -Command .\build.ps1
+notifications:
+- provider: Slack
+  incoming_webhook: https://hooks.slack.com/services/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
+  channel: framework
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
