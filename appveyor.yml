@@ -29,11 +29,19 @@ artifacts:
 
 # Deploy
 deploy: 
-  provider: NuGet
-  server: https://ci.appveyor.com/nuget/aliumfx
-  api_key:
-    secure: 9UKX4yVinYkkf7GHubwvhXMSI3f4aqpbvETU6KbF9RQ=
-  skip_symbols: true
+  - provider: NuGet
+    server: https://ci.appveyor.com/nuget/aliumfx
+    api_key:
+      secure: 9UKX4yVinYkkf7GHubwvhXMSI3f4aqpbvETU6KbF9RQ=
+    skip_symbols: true
+    
+  - provider: GitHub
+    artifact: /.*\.nupkg/
+    draft: false
+    prerelease: false
+    on:
+      branch: release
+      appveyor_repo_tag: true
 
 # Notifications
 notifications:
