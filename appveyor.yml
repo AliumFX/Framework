@@ -24,7 +24,11 @@ build_script:
 test: false
 
 # Deploy
-deploy: false
+deploy:
+  provider: NuGet
+  server: https://ci.appveyor.com/nuget/aliumfx
+  api_key: bpk8im3nsp3x9twj2bt0buw4
+  artifact: /.*\.nupkg/
 
 # Notifications
 notifications:
