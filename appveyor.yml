@@ -2,8 +2,8 @@
 version: 0.1.0-{branch}-ci-{build}
 
 # Branches
-branches:
-  only: master
+#branches:
+#  only: master
 
 skip_tags: true
 
