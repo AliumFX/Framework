@@ -23,6 +23,10 @@ build_script:
 # Tests
 test: false
 
+# Define artifacts
+artifacts:
+  - path: 'build\*.nupkg'
+
 # Deploy
 deploy: 
   provider: NuGet
