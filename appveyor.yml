@@ -25,6 +25,12 @@ test: false
 # Deploy
 deploy: false
 
+# Caching
+cache:
+  - build-template\tools\Cake
+  - packages -> **\packages.config
+  - '%USERPROFILE%\.nuget\packages -> **\*.csproj'
+
 # Notifications
 notifications:
   - provider: Slack
