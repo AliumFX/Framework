@@ -1,5 +1,5 @@
 # Version
-version: 0.1.0-{branch}-ci-{build}
+version: {build}
 
 # Branches
 #branches:
@@ -14,6 +14,7 @@ image: Visual Studio 2017
 install:
   - cmd: git submodule init
   - cmd: git submodule update
+  - ps: $env:APPVEYOR_BUILD_NUMBER_PADDED = ([int]$env:appveyor_build_number).ToString("00000")
 
 # Build Script
 build_script:
