@@ -1,6 +1,7 @@
 version: 0.1.0-alpha-{build}
 image: Visual Studio 2017
 build_script:
+- cmd: git submodule init && cd .\build-template && git pull
 - ps: . .\build.ps1
 notifications:
 - provider: Slack
