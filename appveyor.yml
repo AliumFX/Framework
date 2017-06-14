@@ -3,7 +3,6 @@ image: Visual Studio 2017
 build_script:
 - cmd: >-
     git submodule init
-    cd ..\
     powershell .\build.ps1
 notifications:
 - provider: Slack
