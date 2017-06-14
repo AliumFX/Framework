@@ -19,6 +19,12 @@ install:
 build_script:
   - ps: . .\build.ps1
 
+# Tests
+test: false
+
+# Deploy
+deploy: false
+
 # Notifications
 notifications:
   - provider: Slack
