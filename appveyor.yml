@@ -1,5 +1,5 @@
 # Version
-version: {build}
+version: '{build}'
 
 # Branches
 #branches:
