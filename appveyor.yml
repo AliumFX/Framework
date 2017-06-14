@@ -31,9 +31,9 @@ artifacts:
 deploy: 
   - provider: NuGet
     server: https://www.myget.org/F/aliumfx/api/v2/package
+    symbol_server: https://www.myget.org/F/aliumfx/symbols/api/v2/package
     api_key:
       secure: 8BRAlgURo0mIptDMIPCGEaxift9MAA3R0CisisiR6aIFZDk2Ol/2cyyQFPCWJeCg
-    skip_symbols: true
     
   - provider: GitHub
     artifact: /.*\.nupkg/
