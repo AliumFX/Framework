@@ -1,3 +1,5 @@
+Write-Host (Get-Item -Path ".\" -Verbose).FullName
+
 # Perform a submodule init
 git submodule init
 
