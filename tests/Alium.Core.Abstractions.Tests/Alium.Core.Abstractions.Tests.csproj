@@ -4,6 +4,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <HostType>UnitTest</HostType>
+    <RootNamespace>Alium</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

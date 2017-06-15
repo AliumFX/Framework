@@ -1,15 +1,15 @@
 // Copyright (c) Alium FX. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Alium.Core.Abstractions.Tests
+namespace Alium.Modules
 {
     using System;
     using Xunit;
 
     /// <summary>
-    /// Provides tests for the <see cref="SysCode"/> type.
+    /// Provides tests for the <see cref="ModuleId"/> type.
     /// </summary>
-    public class SysCodeTests
+    public class ModuleIdTests
     {
         [Fact]
         public void Constructor_ValidatesArguments()
@@ -19,8 +19,8 @@ namespace Alium.Core.Abstractions.Tests
             // Act
 
             // Assert
-            Assert.Throws<ArgumentException>(() => new SysCode(null));
-            Assert.Throws<ArgumentException>(() => new SysCode(string.Empty));
+            Assert.Throws<ArgumentException>(() => new ModuleId(null));
+            Assert.Throws<ArgumentException>(() => new ModuleId(string.Empty));
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace Alium.Core.Abstractions.Tests
             // Arrange
 
             // Act
-            var value = new SysCode("test");
+            var value = new ModuleId("test");
 
             // Asset
             Assert.Equal(true, value.HasValue);
@@ -40,7 +40,7 @@ namespace Alium.Core.Abstractions.Tests
         public void CanCompare_AgainstString()
         {
             // Arrange
-            var code = new SysCode("test");
+            var code = new ModuleId("test");
 
             // Act
             int compare1 = code.CompareTo("test");
@@ -58,7 +58,7 @@ namespace Alium.Core.Abstractions.Tests
         {
             // Arrange
             string value = "test";
-            var code = new SysCode(value);
+            var code = new ModuleId(value);
 
             // Act
             int compare = code.CompareTo(value.ToUpper());

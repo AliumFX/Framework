@@ -11,7 +11,7 @@ namespace Alium.Modules
         /// <summary>
         /// Gets the system code for the module.
         /// </summary>
-        SysCode Code { get; }
+        ModuleId Id { get; }
 
         /// <summary>
         /// Gets the description of the module.

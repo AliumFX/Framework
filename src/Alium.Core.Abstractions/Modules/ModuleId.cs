@@ -1,25 +1,25 @@
 ﻿// Copyright (c) Alium FX. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Alium
+namespace Alium.Modules
 {
     using System;
 
     /// <summary>
     /// Represents a system code.
     /// </summary>
-    public struct SysCode : IComparable<string>, IComparable<SysCode>, IEquatable<string>, IEquatable<SysCode>
+    public struct ModuleId : IComparable<string>, IComparable<ModuleId>, IEquatable<string>, IEquatable<ModuleId>
     {
         /// <summary>
         /// Represents an empty sys code.
         /// </summary>
-        public static readonly SysCode Empty = new SysCode();
+        public static readonly ModuleId Empty = new ModuleId();
 
         /// <summary>
-        /// Initialises a new instance of <see cref="SysCode"/>.
+        /// Initialises a new instance of <see cref="ModuleId"/>.
         /// </summary>
         /// <param name="value">The system code value.</param>
-        public SysCode(string value)
+        public ModuleId(string value)
         {
             HasValue = true;
             Value = Ensure.IsNotNullOrEmpty(value, nameof(value));
@@ -52,7 +52,7 @@ namespace Alium
         }
 
         /// <inheritdoc />
-        public int CompareTo(SysCode other)
+        public int CompareTo(ModuleId other)
         {
             if (other.HasValue)
             {
@@ -72,13 +72,13 @@ namespace Alium
             => CompareTo(other) == 0;
 
         /// <inheritdoc />
-        public bool Equals(SysCode other)
+        public bool Equals(ModuleId other)
             => CompareTo(other) == 0;
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is SysCode c)
+            if (obj is ModuleId c)
             {
                 return Equals(c);
             }
@@ -99,17 +99,17 @@ namespace Alium
             => $"SysCode: {Value}";
 
         /// <summary>
-        /// Converts from a <see cref="SysCode"/> to a <see cref="string"/>
+        /// Converts from a <see cref="ModuleId"/> to a <see cref="string"/>
         /// </summary>
-        /// <param name="sysCode">The <see cref="SysCode"/> value.</param>
-        public static explicit operator string(SysCode sysCode)
+        /// <param name="sysCode">The <see cref="ModuleId"/> value.</param>
+        public static explicit operator string(ModuleId sysCode)
             => sysCode.Value;
 
         /// <summary>
-        /// Converts from a <see cref="string"/> to a <see cref="SysCode"/>
+        /// Converts from a <see cref="string"/> to a <see cref="ModuleId"/>
         /// </summary>
         /// <param name="value">The <see cref="string"/> value.</param>
-        public static explicit operator SysCode(string value)
-            => string.IsNullOrEmpty(value) ? Empty : new SysCode(value);
+        public static explicit operator ModuleId(string value)
+            => string.IsNullOrEmpty(value) ? Empty : new ModuleId(value);
     }
 }
