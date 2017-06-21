@@ -13,14 +13,14 @@ namespace Alium.Modules
     public struct ModuleId : IComparable<string>, IComparable<ModuleId>, IEquatable<string>, IEquatable<ModuleId>
     {
         /// <summary>
-        /// Represents an empty sys code.
+        /// Represents an empty module id.
         /// </summary>
         public static readonly ModuleId Empty = new ModuleId();
 
         /// <summary>
         /// Initialises a new instance of <see cref="ModuleId"/>.
         /// </summary>
-        /// <param name="value">The system code value.</param>
+        /// <param name="value">The moule id value.</param>
         public ModuleId(string value)
         {
             HasValue = true;
@@ -33,7 +33,7 @@ namespace Alium.Modules
         public bool HasValue { get; }
 
         /// <summary>
-        /// Gets the system code.
+        /// Gets the module id value.
         /// </summary>
         public string Value { get; }
 
@@ -108,9 +108,9 @@ namespace Alium.Modules
         /// <summary>
         /// Converts from a <see cref="ModuleId"/> to a <see cref="string"/>
         /// </summary>
-        /// <param name="sysCode">The <see cref="ModuleId"/> value.</param>
-        public static explicit operator string(ModuleId sysCode)
-            => sysCode.Value;
+        /// <param name="moduleId">The <see cref="ModuleId"/> value.</param>
+        public static explicit operator string(ModuleId moduleId)
+            => moduleId.Value;
 
         /// <summary>
         /// Converts from a <see cref="string"/> to a <see cref="ModuleId"/>
