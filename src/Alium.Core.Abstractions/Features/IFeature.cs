@@ -3,6 +3,8 @@
 
 namespace Alium.Features
 {
+    using Alium.Modules;
+
     /// <summary>
     /// Defines the required contract for implementing a feaure.
     /// </summary>
@@ -27,6 +29,11 @@ namespace Alium.Features
         /// Gets the parent feature.
         /// </summary>
         IFeature ParentFeature { get; }
+
+        /// <summary>
+        /// Gets the parent module.
+        /// </summary>
+        IModule ParentModule { get; }
 
         /// <summary>
         /// Initialises the feature if the feature is enabled.

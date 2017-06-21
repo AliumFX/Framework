@@ -11,7 +11,7 @@ namespace Alium.Features
     /// <summary>
     /// Represents a feature id.
     /// </summary>
-    [DebuggerDisplay("Feature Id: {nameof(Value)}")]
+    [DebuggerDisplay("Feature Id: {Value}")]
     public struct FeatureId : IComparable<string>, IComparable<FeatureId>, IEquatable<string>, IEquatable<FeatureId>
     {
         /// <summary>
