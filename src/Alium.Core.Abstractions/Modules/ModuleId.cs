@@ -4,10 +4,12 @@
 namespace Alium.Modules
 {
     using System;
+    using System.Diagnostics;
 
     /// <summary>
-    /// Represents a system code.
+    /// Represents a module id.
     /// </summary>
+    [DebuggerDisplay("Module Id: {nameof(Value)}")]
     public struct ModuleId : IComparable<string>, IComparable<ModuleId>, IEquatable<string>, IEquatable<ModuleId>
     {
         /// <summary>
@@ -40,12 +42,17 @@ namespace Alium.Modules
         {
             if (HasValue)
             {
-                return StringComparer.OrdinalIgnoreCase.Compare(Value, other);
+                int stringCompare = StringComparer.OrdinalIgnoreCase.Compare(Value, other);
+                return stringCompare < 0
+                    ? -1
+                    : stringCompare == 0
+                        ? 0
+                        : 1;
             }
 
             if (string.IsNullOrEmpty(other))
             {
-                return -1;
+                return 1;
             }
 
             return 0;
@@ -61,7 +68,7 @@ namespace Alium.Modules
 
             if (HasValue)
             {
-                return -1;
+                return 1;
             }
 
             return 0;
@@ -96,7 +103,7 @@ namespace Alium.Modules
 
         /// <inheritdoc />
         public override string ToString()
-            => $"SysCode: {Value}";
+            => Value;
 
         /// <summary>
         /// Converts from a <see cref="ModuleId"/> to a <see cref="string"/>
