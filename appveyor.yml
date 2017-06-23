@@ -21,7 +21,13 @@ build_script:
   - ps: . .\build.ps1
 
 # Tests
-test: false
+test:
+  assemblies:
+    - 'test\**\*.Tests.dll'
+  
+  categories:
+    except:
+      - CIIgnore
 
 # Define artifacts
 artifacts:
