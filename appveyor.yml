@@ -23,7 +23,7 @@ build_script:
 # Tests
 test:
   assemblies:
-    - 'test\**\*.Tests.dll'
+    - 'tests\**\*.Tests.dll'
   
   categories:
     except:
