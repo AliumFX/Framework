@@ -32,7 +32,7 @@ namespace Alium.Modules
             var value = new ModuleId("test");
 
             // Asset
-            Assert.Equal(true, value.HasValue);
+            Assert.True(value.HasValue);
             Assert.Equal("test", value.Value);
         }
 
@@ -100,9 +100,9 @@ namespace Alium.Modules
             bool equate2 = id.Equals(new ModuleId("aaaa"));
 
             // Assert
-            Assert.Equal(false, equate0);
-            Assert.Equal(true, equate1);
-            Assert.Equal(false, equate2);
+            Assert.False(equate0);
+            Assert.True(equate1);
+            Assert.False(equate2);
         }
 
         [Fact]
@@ -117,9 +117,9 @@ namespace Alium.Modules
             bool equate2 = id.Equals("aaaa");
 
             // Assert
-            Assert.Equal(false, equate0);
-            Assert.Equal(true, equate1);
-            Assert.Equal(false, equate2);
+            Assert.False(equate0);
+            Assert.True(equate1);
+            Assert.False(equate2);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace Alium.Modules
             bool equals = id.Equals(new ModuleId("TEST"));
 
             // Assert
-            Assert.Equal(true, equals);
+            Assert.True(equals);
         }
 
         [Fact]

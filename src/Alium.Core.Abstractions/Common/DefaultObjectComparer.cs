@@ -51,6 +51,12 @@ namespace Alium
                 return 0;
             }
 
+            if (ReferenceEquals(x, y))
+            {
+                // MA - Exact same reference.
+                return 0;
+            }
+
             if (x == null)
             {
                 // MA - x is null, so that comes first.

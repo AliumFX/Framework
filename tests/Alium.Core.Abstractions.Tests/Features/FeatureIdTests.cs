@@ -44,8 +44,8 @@ namespace Alium.Features
             var value = new FeatureId(moduleId, "feature");
 
             // Asset
-            Assert.Equal(true, value.HasValue);
-            Assert.Equal(true, value.ModuleId.HasValue);
+            Assert.True(value.HasValue);
+            Assert.True(value.ModuleId.HasValue);
             Assert.True(value.ModuleId.Equals(moduleId));
             Assert.Equal("feature", value.LocalValue);
             Assert.Equal("module.feature", value.Value);
@@ -62,8 +62,8 @@ namespace Alium.Features
             var value = new FeatureId(featureId, "feature");
 
             // Asset
-            Assert.Equal(true, value.HasValue);
-            Assert.Equal(true, value.ModuleId.HasValue);
+            Assert.True(value.HasValue);
+            Assert.True(value.ModuleId.HasValue);
             Assert.True(value.ModuleId.Equals(moduleId));
             Assert.Equal("feature", value.LocalValue);
             Assert.Equal("module.parentFeature.feature", value.Value);
@@ -152,9 +152,9 @@ namespace Alium.Features
             bool equate2 = id.Equals(new FeatureId(moduleId, "aaaa"));
 
             // Assert
-            Assert.Equal(false, equate0);
-            Assert.Equal(true, equate1);
-            Assert.Equal(false, equate2);
+            Assert.False(equate0);
+            Assert.True(equate1);
+            Assert.False(equate2);
         }
 
         [Fact]
@@ -170,9 +170,9 @@ namespace Alium.Features
             bool equate2 = id.Equals("module.aaaa");
 
             // Assert
-            Assert.Equal(false, equate0);
-            Assert.Equal(true, equate1);
-            Assert.Equal(false, equate2);
+            Assert.False(equate0);
+            Assert.True(equate1);
+            Assert.False(equate2);
         }
 
         [Fact]
@@ -186,7 +186,7 @@ namespace Alium.Features
             bool equals = id.Equals(new FeatureId(moduleId, "FEATURE"));
 
             // Assert
-            Assert.Equal(true, equals);
+            Assert.True(equals);
         }
 
         [Fact]

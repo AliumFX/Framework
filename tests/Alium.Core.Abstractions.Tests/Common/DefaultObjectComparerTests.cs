@@ -24,7 +24,20 @@ namespace Alium
             bool equals = comparer.Equals(person, person);
 
             // Assert
-            Assert.Equal(true, equals);
+            Assert.True(equals);
+        }
+
+        [Fact]
+        public void Equals_ReturnsTrue_ForNullInstances()
+        {
+            // Arrange
+            var comparer = new DefaultObjectComparer<Person>();
+
+            // Act
+            bool equals = comparer.Equals(null, null);
+
+            // Assert
+            Assert.True(equals);
         }
 
         [Fact]
@@ -39,8 +52,8 @@ namespace Alium
             bool equals1 = comparer.Equals(null, person);
 
             // Assert
-            Assert.Equal(false, equals0);
-            Assert.Equal(false, equals1);
+            Assert.False(equals0);
+            Assert.False(equals1);
         }
 
         [Fact]
@@ -55,7 +68,7 @@ namespace Alium
             bool equals = comparer.Equals(person0, person1);
 
             // Assert
-            Assert.Equal(true, equals);
+            Assert.True(equals);
         }
 
         [Fact]
@@ -97,9 +110,68 @@ namespace Alium
             bool equals2 = comparer1.Equals(person0, person2);
 
             // Assert
-            Assert.Equal(true, equals0);
-            Assert.Equal(true, equals1);
-            Assert.Equal(false, equals2);
+            Assert.True(equals0);
+            Assert.True(equals1);
+            Assert.False(equals2);
+        }
+
+        [Fact]
+        public void Compare_ReturnsZero_WhenNoPropertySelectorsProvided()
+        {
+            // Arrange
+            var person0 = new Person();
+            var person1 = new Person();
+            var comparer = new DefaultObjectComparer<Person>();
+
+            // Act
+            var result = comparer.Compare(person0, person1);
+
+            // Assert
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void Compare_ReturnsZero_NullInstances()
+        {
+            // Arrange
+            var comparer = new DefaultObjectComparer<Person>();
+
+            // Act
+            var result = comparer.Compare(null, null);
+
+            // Assert
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void Compare_ReturnsZero_ForSameInstance()
+        {
+            // Arrange
+            var person = new Person();
+            var comparer = new DefaultObjectComparer<Person>();
+
+            // Act
+            var result = comparer.Compare(person, person);
+            
+            // Assert
+            Assert.Equal(0, result);
+        }
+
+        [Fact]
+        public void Compare_OrdersNullInstancesFirst()
+        {
+            // Arrange
+            var person = new Person();
+            // MA - Provide at least 1 property selector.
+            var comparer = new DefaultObjectComparer<Person>(p => p.Forename);
+
+            // Act
+            var result0 = comparer.Compare(null, person);
+            var result1 = comparer.Compare(person, null);
+
+            // Assert
+            Assert.Equal(-1, result0);
+            Assert.Equal(1, result1);
         }
 
         private class Person
