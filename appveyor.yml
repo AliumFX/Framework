@@ -18,7 +18,7 @@ install:
 
 # Build Script
 build_script:
-  - ps: . .\build.ps1
+  - ps: . .\build.ps1 -Verbosity Diagnostic
 
 # Tests
 test: false
