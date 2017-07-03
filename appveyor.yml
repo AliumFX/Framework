@@ -15,6 +15,7 @@ install:
   - cmd: git submodule init
   - cmd: git submodule update
   - ps: $env:APPVEYOR_BUILD_NUMBER_PADDED = ([int]$env:appveyor_build_number).ToString("00000")
+  - cmd: dotnet --version
 
 # Build Script
 build_script:
