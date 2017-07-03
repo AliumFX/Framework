@@ -174,6 +174,52 @@ namespace Alium
             Assert.Equal(1, result1);
         }
 
+        [Fact]
+        public void Compare_OrdersUsingPropertySelectors()
+        {
+            // Arrange
+            var person0 = new Person
+            {
+                Forename = "Matt",
+                Surname = "Abbott",
+                DateOfBirth = new DateTime(1984, 3, 11)
+            };
+            var person1 = new Person()
+            {
+                Forename = "Abbott",
+                Surname = "Matt",
+                DateOfBirth = new DateTime(1984, 11, 3)
+            };
+            var person2 = new Person
+            {
+                Forename = "Matthew",
+                Surname = "Abbott",
+                DateOfBirth = new DateTime(1984, 3, 11)
+            };
+            var comparer0 = new DefaultObjectComparer<Person>(
+                p => p.Forename,
+                p => p.Surname);
+            var comparer1 = new DefaultObjectComparer<Person>(
+                p => p.Surname,
+                p => p.Forename);
+
+            // Act
+            // MA - Matt > Abbott
+            int result0 = comparer0.Compare(person0, person1);
+            // MA - Matt < Matthew
+            int result1 = comparer0.Compare(person0, person2);
+            // MA - Abbott < Matt
+            int result2 = comparer1.Compare(person0, person1);
+            // MA - Abbott = Abbott, Matt < Matthew 
+            int result3 = comparer0.Compare(person0, person2);
+
+            // Assert
+            Assert.True(result0 > 0);
+            Assert.True(result1 < 0);
+            Assert.True(result2 < 0);
+            Assert.True(result3 < 0);
+        }
+
         private class Person
         {
             public string Forename { get; set; }
