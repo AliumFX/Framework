@@ -11,6 +11,18 @@ namespace Alium
     public static class Ensure
     {
         /// <summary>
+        /// Ensures the given argument is not null.
+        /// </summary>
+        /// <typeparam name="TArgument">The argument type.</typeparam>
+        /// <param name="argument">The argument value.</param>
+        /// <param name="parameterName">The parameter name.</param>
+        /// <exception cref="ArgumentException">If the argument value is null or an empty string.</exception>
+        /// <returns>The argument value.</returns>
+        public static TArgument IsNotNull<TArgument>(TArgument argument, string parameterName)
+            where TArgument : class
+            => argument ?? throw new ArgumentNullException(parameterName);
+
+        /// <summary>
         /// Ensures the given argument is not null or an empty string.
         /// </summary>
         /// <param name="argument">The argument value.</param>
