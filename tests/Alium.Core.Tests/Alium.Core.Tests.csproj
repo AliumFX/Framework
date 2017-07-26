@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../build-template/build.targets" />
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <HostType>UnitTest</HostType>
+    <RootNamespace>Alium</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Alium.Core\Alium.Core.csproj" />
+    <ProjectReference Include="..\..\src\Alium.Core.Abstractions\Alium.Core.Abstractions.csproj" />
+  </ItemGroup>
+</Project>
