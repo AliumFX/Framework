@@ -18,7 +18,9 @@ namespace Alium.Modules
         /// <param name="modules">The set of modules.</param>
         public ModuleProvider(IEnumerable<IModule> modules)
         {
-            Modules = new ReadOnlyCollection<IModule>(Ensure.IsNotNull(modules, nameof(modules)).ToList());
+            Modules = new ReadOnlyCollection<IModule>(Ensure.IsNotNull(modules, nameof(modules))
+                .OrderByDependencies(module => module.Id, (module, id) => module.Dependencies)
+                .ToList());
         }
 
         /// <inheritdoc />

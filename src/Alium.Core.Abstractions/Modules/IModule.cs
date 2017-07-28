@@ -3,11 +3,18 @@
 
 namespace Alium.Modules
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Defines the required contract for implementing a module.
     /// </summary>
     public interface IModule
     {
+        /// <summary>
+        /// Gets the set of dependencies for this module.
+        /// </summary>
+        IReadOnlyCollection<ModuleId> Dependencies { get; }
+
         /// <summary>
         /// Gets the module id.
         /// </summary>

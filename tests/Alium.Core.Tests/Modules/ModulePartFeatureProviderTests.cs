@@ -38,7 +38,7 @@ namespace Alium.Modules
             var feature = new ModulePartFeature();
             var parts = new IPart[]
             {
-                new TestPart(), new TestPart2()
+                new TestPart()
             };
 
             // Act
@@ -46,40 +46,15 @@ namespace Alium.Modules
 
             // Assert
             Assert.NotEmpty(feature.ModuleTypes);
-            Assert.Contains(feature.ModuleTypes, t => t == typeof(TestModule).GetTypeInfo());
-            Assert.Contains(feature.ModuleTypes, t => t == typeof(TestModule2).GetTypeInfo());
-        }
-
-        private class TestModule : ModuleBase
-        {
-            protected TestModule() 
-                : base(new ModuleId("Test"), name: "Test")
-            {
-            }
+            Assert.Contains(feature.ModuleTypes, t => t == typeof(CoreModule).GetTypeInfo());
         }
 
         private class TestPart : IPart, IPartTypeProvider
         {
             public IEnumerable<TypeInfo> Types
-                => new[] { typeof(TestModule).GetTypeInfo() };
+                => new[] { typeof(CoreModule).GetTypeInfo() };
 
             public string Name => "TestPart";
-        }
-
-        private class TestModule2 : ModuleBase
-        {
-            protected TestModule2()
-                : base(new ModuleId("Test2"), name: "Test2")
-            {
-            }
-        }
-
-        private class TestPart2 : IPart, IPartTypeProvider
-        {
-            public IEnumerable<TypeInfo> Types
-                => new[] { typeof(TestModule2).GetTypeInfo() };
-
-            public string Name => "TestPart2";
         }
     }
 }

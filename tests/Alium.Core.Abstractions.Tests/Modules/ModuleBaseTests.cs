@@ -4,6 +4,7 @@
 namespace Alium.Modules
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using Moq;
     using Xunit;
@@ -17,13 +18,26 @@ namespace Alium.Modules
         public void Constructor_ValidatesParameters()
         {
             // Arrange
-            var mock = new Mock<ModuleBase>(MockBehavior.Loose, ModuleId.Empty, (string) null, (string) null);
+            var mock = new Mock<ModuleBase>(MockBehavior.Loose, ModuleId.Empty, (string) null, (string) null, (IEnumerable<ModuleId>)null);
 
             // Act
 
             // Assert
             var tie = Assert.Throws<TargetInvocationException>(() => mock.Object); // MA - Catch TIE because of Moq.
             Assert.IsType<ArgumentException>(tie.InnerException);
+        }
+
+        [Fact]
+        public void Constructor_SetsDependencies_WhenProvidedSetIsNull()
+        {
+            // Arrange
+            var mock = new Mock<ModuleBase>(MockBehavior.Loose, new ModuleId("Test"), (string) null, (string) null, (IEnumerable<ModuleId>) null);
+            var module = mock.Object;
+
+            // Act
+
+            // Assert
+            Assert.NotNull(module.Dependencies);
         }
     }
 }

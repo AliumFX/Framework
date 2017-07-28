@@ -4,6 +4,9 @@
 namespace Alium.Modules
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
 
     /// <summary>
     /// Provides a base implementation of a module.
@@ -16,7 +19,8 @@ namespace Alium.Modules
         /// <param name="id">The module id.</param>
         /// <param name="name">[Optional] The module name.</param>
         /// <param name="description">[Optional] The module description.</param>
-        protected ModuleBase(ModuleId id, string name = null, string description = null)
+        /// <param name="dependencies">[Optional] The set of dependencies for this module.</param>
+        protected ModuleBase(ModuleId id, string name = null, string description = null, IEnumerable<ModuleId> dependencies = null)
         {
             if (id.Equals(ModuleId.Empty))
             {
@@ -26,7 +30,11 @@ namespace Alium.Modules
             Id = id;
             Name = name;
             Description = description;
+            Dependencies = new ReadOnlyCollection<ModuleId>((dependencies ?? Enumerable.Empty<ModuleId>()).ToList());
         }
+
+        /// <inheritdoc />
+        public IReadOnlyCollection<ModuleId> Dependencies { get; }
 
         /// <inheritdoc />
         public ModuleId Id { get; }
