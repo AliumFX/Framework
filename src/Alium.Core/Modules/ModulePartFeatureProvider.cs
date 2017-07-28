@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+﻿// Copyright (c) Alium Project. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 namespace Alium.Modules
@@ -26,12 +26,19 @@ namespace Alium.Modules
             {
                 foreach (var type in part.Types)
                 {
-                    if (ModuleType.IsAssignableFrom(type.AsType()))
+                    if (IsModule(type.AsType()))
                     {
                         feature.ModuleTypes.Add(type);
                     }
                 }
             }
+        }
+
+        private static bool IsModule(Type type)
+        {
+            return type.IsPublic
+                && !type.IsAbstract
+                && ModuleType.IsAssignableFrom(type);
         }
     }
 }

@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0-preview2-final" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Alium.Core\Alium.Core.csproj" />
     <ProjectReference Include="..\..\src\Alium.Core.Abstractions\Alium.Core.Abstractions.csproj" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+﻿// Copyright (c) Alium Project. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 namespace Alium.Modules
@@ -27,6 +27,7 @@ namespace Alium.Modules
         public static IWebHostBuilder UseModules(this IWebHostBuilder builder, params IModule[] modules)
         {
             Ensure.IsNotNull(builder, nameof(builder));
+            Ensure.IsNotNull(modules, nameof(modules));
 
             // MA - Create the module provider.
             var provider = new ModuleProvider(modules);
@@ -38,6 +39,9 @@ namespace Alium.Modules
                 // MA - Add the module assemblies as parts.
                 partManager.Parts.Add(new AssemblyPart(assembly));
             }
+
+            // MA - Add the module part feature provider.
+            partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
 
             // MA - Add our module provider and part manager to the application services.
             builder.ConfigureServices(services => EnsureModuleProviderAndPartManager(services, provider, partManager));
@@ -56,7 +60,7 @@ namespace Alium.Modules
         {
             Ensure.IsNotNull(builder, nameof(builder));
 
-            dependencyContext = dependencyContext ?? DependencyContext.Load(Assembly.GetEntryAssembly());
+            dependencyContext = dependencyContext ?? DependencyContext.Default;
             if (dependencyContext != null)
             {
                 // MA - Create the assembly provider
@@ -69,6 +73,9 @@ namespace Alium.Modules
                     // MA - Add the discovered parts.
                     partManager.Parts.Add(new AssemblyPart(assembly));
                 }
+
+                // MA - Add the module part feature provider.
+                partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
 
                 // MA - Create the module part feature and populate it.
                 var feature = new ModulePartFeature();
