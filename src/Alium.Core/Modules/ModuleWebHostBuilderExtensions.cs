@@ -5,11 +5,11 @@ namespace Alium.Modules
 {
     using System;
     using System.Linq;
-    using System.Reflection;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
 
+    using Alium.DependencyInjection;
     using Alium.Infrastructure;
     using Alium.Parts;
 
@@ -44,7 +44,14 @@ namespace Alium.Modules
             partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
 
             // MA - Add our module provider and part manager to the application services.
-            builder.ConfigureServices(services => EnsureModuleProviderAndPartManager(services, provider, partManager));
+            builder.ConfigureServices(services =>
+            {
+                // Add the module provider and part manager.
+                EnsureModuleProviderAndPartManager(services, provider, partManager);
+
+                // Add any module services.
+                services.AddModuleServices(provider);
+            });
 
             return builder;
         }
@@ -85,7 +92,15 @@ namespace Alium.Modules
                 var modules = feature.ModuleTypes.Select(t => (IModule)Activator.CreateInstance(t));
                 var provider = new ModuleProvider(modules);
 
-                builder.ConfigureServices(services => EnsureModuleProviderAndPartManager(services, provider, partManager));
+                // MA - Add our module provider and part manager to the application services.
+                builder.ConfigureServices(services =>
+                {
+                    // Add the module provider and part manager.
+                    EnsureModuleProviderAndPartManager(services, provider, partManager);
+
+                    // Add any module services.
+                    services.AddModuleServices(provider);
+                });
             }
 
             return builder;
