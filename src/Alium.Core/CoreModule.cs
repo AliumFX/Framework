@@ -27,9 +27,10 @@ namespace Alium
         {
             Ensure.IsNotNull(services, nameof(services));
 
-            // MA - Lifetime/Task services
-            services.AddSingleton<IStartupFilter, TaskExecutorStartupFilter>();
             services.AddSingleton<ITaskExecutor, TaskExecutor>();
+            services.AddSingleton<IStartupFilter, TaskExecutorStartupFilter>();
+
+            services.AddSingleton<IStartupFilter, ModuleInitialiserStartupFilter>();
         }
     }
 }

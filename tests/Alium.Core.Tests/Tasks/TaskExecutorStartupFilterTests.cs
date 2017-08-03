@@ -14,7 +14,7 @@ namespace Alium.Tasks
     /// <summary>
     /// Provides tests for the <see cref="TaskExecutorStartupFilter"/> type.
     /// </summary>
-    public class LifetimeTaskStartupFilterTests
+    public class TaskExecutorStartupFilterTests
     {
         [Fact]
         public void Constructor_ValidatesArguments()

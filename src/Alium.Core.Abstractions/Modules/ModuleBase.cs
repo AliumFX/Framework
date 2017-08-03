@@ -46,6 +46,6 @@ namespace Alium.Modules
         public string Name { get; }
 
         /// <inheritdoc />
-        public virtual void Initialise() { }
+        public virtual void Initialise(ModuleInitialisationContext context) { }
     }
 }

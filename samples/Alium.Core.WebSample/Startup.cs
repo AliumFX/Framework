@@ -53,6 +53,13 @@ namespace Alium.Core.WebSample
             services.AddScoped<IStartupTask, AppModuleStartupTask>();
             services.AddScoped<IShutdownTask, AppModuleShutdownTask>();
         }
+
+        public override void Initialise(ModuleInitialisationContext context)
+        {
+            var logger = context.ApplicationServices.GetRequiredService<ILoggerFactory>().CreateLogger<AppModule>();
+
+            logger.LogInformation("In module initialisation");
+        }
     }
 
     public class AppModuleStartupTask : IStartupTask

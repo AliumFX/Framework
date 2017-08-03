@@ -33,6 +33,7 @@ namespace Alium.Modules
         /// <summary>
         /// Initialises the module.
         /// </summary>
-        void Initialise();
+        /// <param name="context">The module initialisation context.</param>
+        void Initialise(ModuleInitialisationContext context);
     }
 }
