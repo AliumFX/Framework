@@ -43,9 +43,9 @@ namespace Alium.Features
         public string Name { get; }
 
         /// <inheritdoc />
-        public void Initialise()
+        public virtual void Initialise(FeatureInitialisationContext context)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 }

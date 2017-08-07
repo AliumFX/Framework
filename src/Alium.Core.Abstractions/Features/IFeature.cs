@@ -33,6 +33,7 @@ namespace Alium.Features
         /// <summary>
         /// Initialises the feature if the feature is enabled.
         /// </summary>
-        void Initialise();
+        /// <param name="context">The feature initialisation context.</param>
+        void Initialise(FeatureInitialisationContext context);
     }
 }

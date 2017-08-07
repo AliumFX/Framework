@@ -6,9 +6,9 @@ namespace Alium.Modules
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Microsoft.AspNetCore.Builder;
     using Moq;
     using Xunit;
-    using Microsoft.AspNetCore.Builder;
 
     /// <summary>
     /// Provides tests for the <see cref="ModuleInitialiserStartupFilter"/> type.
