@@ -25,7 +25,7 @@ namespace Alium.Core.WebSample
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IModuleProvider moduleProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IModuleProvider moduleProvider, IFeatureProvider featureProvider, IFeatureStateProvider featureStateProvider)
         {
             if (env.IsDevelopment())
             {
@@ -37,19 +37,27 @@ namespace Alium.Core.WebSample
                 Console.WriteLine($"Module: {module.Id}");
             }
 
+            foreach (var feature in featureProvider.Features)
+            {
+                if ((featureStateProvider.GetFeatureState(feature.Id)?.Enabled).GetValueOrDefault(false))
+                {
+                    Console.WriteLine($"Feature: {feature.Id}");
+                }
+            }
+
             app.Run(async (context) =>
             {
-                var feature = context.RequestServices.GetRequiredService<IFeature<IAppService>>();
+                var feature1 = context.RequestServices.GetRequiredService<IFeature<IAppService>>();
                 var feature2 = context.RequestServices.GetRequiredService<IFeature<IAppService, AppFeatureConfiguration>>();
 
-                if (feature.Enabled)
+                if (feature1.Enabled)
                 {
-                    feature.Service.DoAction();
+                    feature1.Service.DoAction();
                 }
 
                 if (feature2.Enabled)
                 {
-                    feature.Service.DoAction(feature2.Configuration);
+                    feature2.Service.DoAction(feature2.Configuration);
                 }
 
                 await context.Response.WriteAsync("Hello World!");
@@ -91,6 +99,16 @@ namespace Alium.Core.WebSample
         public void BuildServices(IServiceCollection services)
         {
             services.AddTransient<IAppService, AppService>();
+
+            services.AddScoped<IStartupTask, AppFeatureStartupTask>();
+            services.AddScoped<IShutdownTask, AppFeatureShutdownTask>();
+        }
+
+        public override void Initialise(FeatureInitialisationContext context)
+        {
+            var logger = context.ApplicationServices.GetRequiredService<ILoggerFactory>().CreateLogger<AppFeature>();
+
+            logger.LogInformation("In feature initialisation");
         }
     }
 
@@ -110,7 +128,7 @@ namespace Alium.Core.WebSample
 
         public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            _logger.LogInformation("In startup task");
+            _logger.LogInformation("In module startup task");
 
             return Task.CompletedTask;
         }
@@ -127,7 +145,41 @@ namespace Alium.Core.WebSample
 
         public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            _logger.LogInformation("In shutdown task");
+            _logger.LogInformation("In module shutdown task");
+
+            return Task.CompletedTask;
+        }
+    }
+
+    public class AppFeatureStartupTask : IStartupTask
+    {
+        private readonly ILogger _logger;
+
+        public AppFeatureStartupTask(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<AppFeatureStartupTask>();
+        }
+
+        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            _logger.LogInformation("In feature startup task");
+
+            return Task.CompletedTask;
+        }
+    }
+
+    public class AppFeatureShutdownTask : IShutdownTask
+    {
+        private readonly ILogger _logger;
+
+        public AppFeatureShutdownTask(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<AppFeatureShutdownTask>();
+        }
+
+        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            _logger.LogInformation("In feature shutdown task");
 
             return Task.CompletedTask;
         }
@@ -150,6 +202,5 @@ namespace Alium.Core.WebSample
         {
             Console.WriteLine(config.Message);
         }
-}
-
+    }
 }

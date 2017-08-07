@@ -35,6 +35,7 @@ namespace Alium
             services.AddSingleton<ITaskExecutor, TaskExecutor>();
             services.AddSingleton<IStartupFilter, TaskExecutorStartupFilter>();
 
+            services.AddSingleton<IStartupFilter, FeatureInitialiserStartupFilter>();
             services.AddSingleton<IStartupFilter, ModuleInitialiserStartupFilter>();
         }
     }
