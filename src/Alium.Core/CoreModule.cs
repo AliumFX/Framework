@@ -7,8 +7,9 @@ namespace Alium
     using Microsoft.Extensions.DependencyInjection;
 
     using Alium.DependencyInjection;
-    using Alium.Tasks;
+    using Alium.Features;
     using Alium.Modules;
+    using Alium.Tasks;
 
     /// <summary>
     /// Core module.
@@ -26,6 +27,10 @@ namespace Alium
         public void BuildServices(IServiceCollection services)
         {
             Ensure.IsNotNull(services, nameof(services));
+
+            services.AddSingleton<IFeatureStateProvider, FeatureStateProvider>();
+            services.AddTransient(typeof(IFeatureFactory<>), typeof(FeatureFactory<>));
+            services.AddTransient(typeof(IFeature<,>), typeof(Feature<,>));
 
             services.AddSingleton<ITaskExecutor, TaskExecutor>();
             services.AddSingleton<IStartupFilter, TaskExecutorStartupFilter>();

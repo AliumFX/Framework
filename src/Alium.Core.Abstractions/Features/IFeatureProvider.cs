@@ -13,7 +13,13 @@ namespace Alium.Features
         /// <summary>
         /// Gets the set of features.
         /// </summary>
-        /// <returns>The set of features.</returns>
-        IEnumerable<IFeature> GetFeatures();
+        IReadOnlyCollection<IFeature> Features { get;  }
+
+        /// <summary>
+        /// Gets the feature with the given feature id.
+        /// </summary>
+        /// <param name="feaureId">The feature id.</param>
+        /// <returns>The feature instance.</returns>
+        IFeature GetFeature(FeatureId feaureId);
     }
 }

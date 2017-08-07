@@ -14,6 +14,8 @@ namespace Alium.Features
     [DebuggerDisplay("Feature Id: {Value}")]
     public struct FeatureId : IComparable<string>, IComparable<FeatureId>, IEquatable<string>, IEquatable<FeatureId>
     {
+        private readonly Lazy<FeatureId> _parentFeatureIdThunk;
+
         /// <summary>
         /// Represents an empty feature id.
         /// </summary>
@@ -22,30 +24,39 @@ namespace Alium.Features
         /// <summary>
         /// Initialises a new instance of <see cref="FeatureId"/>.
         /// </summary>
-        /// <param name="parentModuleId">The parent module id.</param>
+        /// <param name="sourceModuleId">The source module id.</param>
         /// <param name="value">The feature id value.</param>
-        public FeatureId(ModuleId parentModuleId, string value)
+        public FeatureId(ModuleId sourceModuleId, string value)
         {
-            if (parentModuleId.Equals(ModuleId.Empty))
+            if (sourceModuleId.Equals(ModuleId.Empty))
             {
-                throw new ArgumentException("The parent module id must be provided and cannot be ModuleId.Empty",
-                    nameof(parentModuleId));
+                throw new ArgumentException("The source module id must be provided and cannot be ModuleId.Empty",
+                    nameof(sourceModuleId));
             }
 
             HasValue = true;
-            ModuleId = parentModuleId;
+            ParentModuleId = sourceModuleId;
+            SourceModuleId = sourceModuleId;
+            _parentFeatureIdThunk = null;
 
             LocalValue = Ensure.IsNotNullOrEmpty(value, nameof(value));
-            Value = ResolveValue(ModuleId, Empty, value);
+            Value = ResolveValue(ParentModuleId, Empty, value);
         }
 
         /// <summary>
         /// Initialises a new instance of <see cref="FeatureId"/>.
         /// </summary>
+        /// <param name="sourceModuleId">The source module id.</param>
         /// <param name="parentFeatureId">The parent feature id.</param>
         /// <param name="value">The feature id value.</param>
-        public FeatureId(FeatureId parentFeatureId, string value)
+        public FeatureId(ModuleId sourceModuleId, FeatureId parentFeatureId, string value)
         {
+            if (sourceModuleId.Equals(ModuleId.Empty))
+            {
+                throw new ArgumentException("The source module id must be provided and cannot be ModuleId.Empty",
+                    nameof(sourceModuleId));
+            }
+
             if (parentFeatureId.Equals(Empty))
             {
                 throw new ArgumentException("The parent feature id must be provided and cannot be FeatureId.Empty",
@@ -53,10 +64,12 @@ namespace Alium.Features
             }
 
             HasValue = true;
-            ModuleId = parentFeatureId.ModuleId;
+            ParentModuleId = parentFeatureId.ParentModuleId;
+            SourceModuleId = sourceModuleId;
+            _parentFeatureIdThunk = new Lazy<FeatureId>(() => parentFeatureId);
 
             LocalValue = Ensure.IsNotNullOrEmpty(value, nameof(value));
-            Value = ResolveValue(ModuleId, parentFeatureId, value);
+            Value = ResolveValue(ParentModuleId, parentFeatureId, value);
         }
 
         /// <summary>
@@ -72,7 +85,25 @@ namespace Alium.Features
         /// <summary>
         /// Gets the parent module id.
         /// </summary>
-        public ModuleId ModuleId { get; }
+        public ModuleId ParentModuleId { get; }
+
+        /// <summary>
+        /// Gets the parent feature id.
+        /// </summary>
+        public FeatureId ParentFeatureId
+        {
+            get
+            {
+                return _parentFeatureIdThunk == null
+                    ? FeatureId.Empty
+                    : _parentFeatureIdThunk.Value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the source module id.
+        /// </summary>
+        public ModuleId SourceModuleId { get; }
 
         /// <summary>
         /// Gets the feature id value.

@@ -60,7 +60,7 @@ namespace Alium.Modules
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
             Assert.NotNull(descriptor);
 
-            var provider = (IModuleProvider)descriptor.ImplementationFactory(null);
+            var provider = (IModuleProvider)descriptor.ImplementationInstance;
             Assert.Equal(1, provider.Modules.Count);
             Assert.Contains(provider.Modules, m => m == module);
         }
@@ -93,7 +93,7 @@ namespace Alium.Modules
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IPartManager));
             Assert.NotNull(descriptor);
 
-            var manager = (IPartManager)descriptor.ImplementationFactory(null);
+            var manager = (IPartManager)descriptor.ImplementationInstance;
             Assert.Equal(1, manager.Parts.Count);
 
             var assemblyPart = (AssemblyPart)manager.Parts[0];
@@ -139,7 +139,7 @@ namespace Alium.Modules
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
             Assert.NotNull(descriptor);
 
-            var provider = (IModuleProvider)descriptor.ImplementationFactory(null);
+            var provider = (IModuleProvider)descriptor.ImplementationInstance;
             Assert.Contains(provider.Modules, m => m is CoreModule);
         }
 
@@ -170,7 +170,7 @@ namespace Alium.Modules
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IPartManager));
             Assert.NotNull(descriptor);
 
-            var manager = (IPartManager)descriptor.ImplementationFactory(null);
+            var manager = (IPartManager)descriptor.ImplementationInstance;
             
             Assert.Contains(manager.Parts, p => p.Name == "Alium.Core");
         }

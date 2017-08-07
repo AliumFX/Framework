@@ -14,6 +14,7 @@ namespace Alium.Core.WebSample
     using Alium.Modules;
     using Alium.Tasks;
     using Microsoft.Extensions.Logging;
+    using Alium.Features;
 
     public class Startup
     {
@@ -33,20 +34,40 @@ namespace Alium.Core.WebSample
 
             foreach (var module in moduleProvider.Modules)
             {
-                Console.WriteLine($"Module: {module.Id}\n");
+                Console.WriteLine($"Module: {module.Id}");
             }
 
             app.Run(async (context) =>
             {
+                var feature = context.RequestServices.GetRequiredService<IFeature<IAppService>>();
+                var feature2 = context.RequestServices.GetRequiredService<IFeature<IAppService, AppFeatureConfiguration>>();
+
+                if (feature.Enabled)
+                {
+                    feature.Service.DoAction();
+                }
+
+                if (feature2.Enabled)
+                {
+                    feature.Service.DoAction(feature2.Configuration);
+                }
+
                 await context.Response.WriteAsync("Hello World!");
             });
         }
     }
 
-    public class AppModule : ModuleBase, IServicesBuilder
+    public class AppModule : ModuleBase, IServicesBuilder, IFeaturesBuilder
     {
+        public static readonly ModuleId AppModuleId = new ModuleId("AppModule");
+
         public AppModule()
             : base(new ModuleId("AppModule"), "AppModule", "Application module", new[] { CoreInfo.CoreModuleId }) { }
+
+        public void BuildFeatures(ICollection<IFeature> features)
+        {
+            features.Add(new AppFeature());
+        }
 
         public void BuildServices(IServiceCollection services)
         {
@@ -60,6 +81,22 @@ namespace Alium.Core.WebSample
 
             logger.LogInformation("In module initialisation");
         }
+    }
+
+    public class AppFeature : FeatureBase, IServicesBuilder
+    {
+        public AppFeature()
+            : base(new FeatureId(AppModule.AppModuleId, "AppFeature"), "AppFeature", "Application feature", enabledByDefault: true) { }
+
+        public void BuildServices(IServiceCollection services)
+        {
+            services.AddTransient<IAppService, AppService>();
+        }
+    }
+
+    public class AppFeatureConfiguration
+    {
+        public string Message { get; set; }
     }
 
     public class AppModuleStartupTask : IStartupTask
@@ -95,4 +132,24 @@ namespace Alium.Core.WebSample
             return Task.CompletedTask;
         }
     }
+
+    public interface IAppService
+    {
+        void DoAction();
+
+        void DoAction(AppFeatureConfiguration config);
+    }
+
+    public class AppService : IAppService
+    {
+        public void DoAction()
+        {
+            Console.WriteLine("Hello World");
+        }
+        public void DoAction(AppFeatureConfiguration config)
+        {
+            Console.WriteLine(config.Message);
+        }
+}
+
 }

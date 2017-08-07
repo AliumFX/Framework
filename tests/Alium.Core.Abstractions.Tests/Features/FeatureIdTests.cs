@@ -28,10 +28,10 @@ namespace Alium.Features
             Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, string.Empty));
             Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, null));
             Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, string.Empty));
-            Assert.Throws<ArgumentException>(() => new FeatureId(FeatureId.Empty, null));
-            Assert.Throws<ArgumentException>(() => new FeatureId(FeatureId.Empty, string.Empty));
-            Assert.Throws<ArgumentException>(() => new FeatureId(new FeatureId(moduleId, "feature"), null));
-            Assert.Throws<ArgumentException>(() => new FeatureId(new FeatureId(moduleId, "feature"), string.Empty));
+            Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, FeatureId.Empty, null));
+            Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, FeatureId.Empty, string.Empty));
+            Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, new FeatureId(moduleId, "feature"), null));
+            Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, new FeatureId(moduleId, "feature"), string.Empty));
         }
 
         [Fact]
@@ -45,8 +45,10 @@ namespace Alium.Features
 
             // Asset
             Assert.True(value.HasValue);
-            Assert.True(value.ModuleId.HasValue);
-            Assert.True(value.ModuleId.Equals(moduleId));
+            Assert.True(value.ParentModuleId.HasValue);
+            Assert.True(value.ParentModuleId.Equals(moduleId));
+            Assert.True(value.SourceModuleId.HasValue);
+            Assert.True(value.SourceModuleId.Equals(moduleId));
             Assert.Equal("feature", value.LocalValue);
             Assert.Equal("module.feature", value.Value);
         }
@@ -59,12 +61,16 @@ namespace Alium.Features
             var featureId = new FeatureId(moduleId, "parentFeature");
 
             // Act
-            var value = new FeatureId(featureId, "feature");
+            var value = new FeatureId(moduleId, featureId, "feature");
 
             // Asset
             Assert.True(value.HasValue);
-            Assert.True(value.ModuleId.HasValue);
-            Assert.True(value.ModuleId.Equals(moduleId));
+            Assert.True(value.ParentModuleId.HasValue);
+            Assert.True(value.ParentModuleId.Equals(moduleId));
+            Assert.True(value.ParentModuleId.HasValue);
+            Assert.True(value.ParentModuleId.Equals(moduleId));
+            Assert.True(value.SourceModuleId.HasValue);
+            Assert.True(value.SourceModuleId.Equals(moduleId));
             Assert.Equal("feature", value.LocalValue);
             Assert.Equal("module.parentFeature.feature", value.Value);
         }
@@ -77,11 +83,12 @@ namespace Alium.Features
 
             // Act
             var featureAId = new FeatureId(moduleId, "featureA");
-            var featureBId = new FeatureId(featureAId, "featureB");
+            var featureBId = new FeatureId(moduleId, featureAId, "featureB");
 
             // Assert
             Assert.Equal("module.featureA", featureAId.Value);
             Assert.Equal("module.featureA.featureB", featureBId.Value);
+            Assert.Equal(featureAId, featureBId.ParentFeatureId);
         }
 
         [Fact]
@@ -201,6 +208,22 @@ namespace Alium.Features
 
             // Assert
             Assert.Equal("module.feature", value);
+        }
+
+        [Fact]
+        public void ParentMdoule_InheritedFromParentFeature()
+        {
+            // Arrange
+            var moduleId = new ModuleId("module");
+            var otherModuleId = new ModuleId("otherModule");
+            var featureId = new FeatureId(moduleId, "feature");
+            var otherFeatureId = new FeatureId(otherModuleId, featureId, "feature");
+
+            // Act
+
+            // Assert
+            Assert.Equal(moduleId, otherFeatureId.ParentModuleId);
+            Assert.Equal(otherModuleId, otherFeatureId.SourceModuleId);
         }
     }
 }

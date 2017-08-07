@@ -24,5 +24,10 @@ namespace Alium
         /// The core module name.
         /// </summary>
         public const string CoreModuleName = "Core";
+
+        /// <summary>
+        /// The features configuration file.
+        /// </summary>
+        public const string FeaturesConfigurationFile = "./config/features.json";
     }
 }
