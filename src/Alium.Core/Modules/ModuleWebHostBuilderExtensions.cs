@@ -3,15 +3,11 @@
 
 namespace Alium.Modules
 {
-    using System;
-    using System.Linq;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
-
-    using Alium.DependencyInjection;
+    
     using Alium.Infrastructure;
-    using Alium.Parts;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Provides extensions for the <see cref="IWebHostBuilder"/> type.
@@ -29,28 +25,13 @@ namespace Alium.Modules
             Ensure.IsNotNull(builder, nameof(builder));
             Ensure.IsNotNull(modules, nameof(modules));
 
-            // MA - Create the module provider.
-            var provider = new ModuleProvider(modules);
-
-            // MA - Create the part manager.
-            var partManager = new PartManager();
-            foreach (var assembly in provider.Modules.Select(m => m.GetType().Assembly).Distinct())
-            {
-                // MA - Add the module assemblies as parts.
-                partManager.Parts.Add(new AssemblyPart(assembly));
-            }
-
-            // MA - Add the module part feature provider.
-            partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
-
             // MA - Add our module provider and part manager to the application services.
             builder.ConfigureServices(services =>
             {
-                // Add the module provider and part manager.
-                EnsureModuleProviderAndPartManager(services, provider, partManager);
+                // MA - Create the framework initialiser
+                var init = FrameworkInitialiser.FromModules(modules, CreateFrameworkConfiguration());
 
-                // Add any module services.
-                services.AddModuleServices(provider);
+                init.AddServices(services);
             });
 
             return builder;
@@ -70,60 +51,26 @@ namespace Alium.Modules
             dependencyContext = dependencyContext ?? DependencyContext.Default;
             if (dependencyContext != null)
             {
-                // MA - Create the assembly provider
-                var assemblyProvider = new DependencyContextAssemblyProvider(dependencyContext);
-
-                // MA - Create the part manager.
-                var partManager = new PartManager();
-                foreach (var assembly in assemblyProvider.Assemblies)
-                {
-                    // MA - Add the discovered parts.
-                    partManager.Parts.Add(new AssemblyPart(assembly));
-                }
-
-                // MA - Add the module part feature provider.
-                partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
-
-                // MA - Create the module part feature and populate it.
-                var feature = new ModulePartFeature();
-                partManager.PopulateFeature(feature);
-
-                // MA - Enumerate available modules add create a module provider.
-                var modules = feature.ModuleTypes.Select(t => (IModule)Activator.CreateInstance(t));
-                var provider = new ModuleProvider(modules);
-
                 // MA - Add our module provider and part manager to the application services.
                 builder.ConfigureServices(services =>
                 {
-                    // Add the module provider and part manager.
-                    EnsureModuleProviderAndPartManager(services, provider, partManager);
+                    // MA - Create the framework initialiser
+                    var init = FrameworkInitialiser.FromDependencyContext(dependencyContext, CreateFrameworkConfiguration());
 
-                    // Add any module services.
-                    services.AddModuleServices(provider);
+                    init.AddServices(services);
                 });
             }
 
             return builder;
         }
 
-        private static void EnsureModuleProviderAndPartManager(
-            IServiceCollection services, 
-            IModuleProvider moduleProvider,
-            IPartManager partManager)
+        private static IConfiguration CreateFrameworkConfiguration()
         {
-            var providerDescriptor = services.SingleOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
-            if (providerDescriptor != null)
-            {
-                services.Remove(providerDescriptor);
-            }
-            services.Add(ServiceDescriptor.Singleton<IModuleProvider>(sp => moduleProvider));
+            var builder = new ConfigurationBuilder();
 
-            var managerDescriptor = services.SingleOrDefault(sd => sd.ServiceType == typeof(IPartManager));
-            if (managerDescriptor != null)
-            {
-                services.Remove(managerDescriptor);
-            }
-            services.Add(ServiceDescriptor.Singleton<IPartManager>(sp => partManager));
+            builder.AddJsonFile(CoreInfo.FeaturesConfigurationFile, optional: true);
+
+            return builder.Build();
         }
     }
 }

@@ -1,0 +1,8 @@
+﻿{
+  "Features": {
+    "AppModule.AppFeature": {
+      "Enabled": true,
+      "Message":  "Hello World"
+    }
+  }
+}
