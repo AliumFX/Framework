@@ -6,10 +6,12 @@ namespace Alium.Infrastructure
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
 
+    using Alium.Configuration;
     using Alium.DependencyInjection;
     using Alium.Features;
     using Alium.Modules;
@@ -71,6 +73,34 @@ namespace Alium.Infrastructure
 
             services.AddModuleServices(_moduleProvider);
             services.AddFeatureServices(_featureProvider, _featureStateProvider);
+        }
+
+        /// <summary>
+        /// Extends the application configuration.
+        /// </summary>
+        /// <param name="context">The web host builder context.</param>
+        /// <param name="builder">The configuration builder.</param>
+        public void ExtendConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+        {
+            Ensure.IsNotNull(context, nameof(context));
+            Ensure.IsNotNull(builder, nameof(builder));
+
+            foreach (var module in _moduleProvider.Modules)
+            {
+                if (module is IAppConfigurationExtender extender)
+                {
+                    extender.BuildConfiguration(context, builder);
+                }
+            }
+
+            foreach (var feature in _featureProvider.Features)
+            {
+                var state = _featureStateProvider.GetFeatureState(feature.Id);
+                if (state != null && state.Enabled && feature is IAppConfigurationExtender extender)
+                {
+                    extender.BuildConfiguration(context, builder);
+                }
+            }
         }
 
         /// <summary>
