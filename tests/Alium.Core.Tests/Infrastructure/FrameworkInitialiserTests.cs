@@ -5,11 +5,13 @@ namespace Alium.Infrastructure
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
     using Xunit;
 
+    using Alium.Configuration;
     using Alium.DependencyInjection;
     using Alium.Features;
     using Alium.Modules;
@@ -266,10 +268,49 @@ namespace Alium.Infrastructure
             Assert.Contains(services, sd => sd.ServiceType == typeof(IFeatureStateProvider) && sd.Lifetime == ServiceLifetime.Singleton);
         }
 
-        private class TestModule : ModuleBase, IFeaturesBuilder, IServicesBuilder
+        [Fact]
+        public void ExtendConfiguration_AddsModuleConfiguration()
+        {
+            // Arrange
+            var module = new TestModule();
+            var configuration = new ConfigurationBuilder().Build();
+            var init = FrameworkInitialiser.FromModules(new IModule[] { module }, configuration);
+            var builder = new ConfigurationBuilder();
+            var context = new WebHostBuilderContext();
+
+            // Act
+            init.ExtendConfiguration(context, builder);
+
+            // Assert
+            Assert.Contains(builder.Sources, cs => cs is ModuleConfigurationSource);
+        }
+
+        [Fact]
+        public void ExtendConfiguration_AddsFeatureConfiguration()
+        {
+            // Arrange
+            var module = new TestModule();
+            var configuration = new ConfigurationBuilder().Build();
+            var init = FrameworkInitialiser.FromModules(new IModule[] { module }, configuration);
+            var builder = new ConfigurationBuilder();
+            var context = new WebHostBuilderContext();
+
+            // Act
+            init.ExtendConfiguration(context, builder);
+
+            // Assert
+            Assert.Contains(builder.Sources, cs => cs is FeatureConfigurationSource);
+        }
+
+        private class TestModule : ModuleBase, IFeaturesBuilder, IServicesBuilder, IAppConfigurationExtender
         {
             public TestModule()
                 : base(new ModuleId("Test")) { }
+
+            public void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+            {
+                builder.Add(new ModuleConfigurationSource());
+            }
 
             public void BuildFeatures(ICollection<IFeature> features)
             {
@@ -282,10 +323,15 @@ namespace Alium.Infrastructure
             }
         }
 
-        private class TestFeature : FeatureBase, IServicesBuilder
+        private class TestFeature : FeatureBase, IServicesBuilder, IAppConfigurationExtender
         {
             public TestFeature()
                 : base(new FeatureId(new ModuleId("Test"), "Test"), enabledByDefault: true) { }
+
+            public void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+            {
+                builder.Add(new FeatureConfigurationSource());
+            }
 
             public void BuildServices(IServiceCollection services)
             {
@@ -301,6 +347,22 @@ namespace Alium.Infrastructure
         private class FeatureService
         {
 
+        }
+
+        private class ModuleConfigurationSource : IConfigurationSource
+        {
+            public IConfigurationProvider Build(IConfigurationBuilder builder)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        private class FeatureConfigurationSource : IConfigurationSource
+        {
+            public IConfigurationProvider Build(IConfigurationBuilder builder)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

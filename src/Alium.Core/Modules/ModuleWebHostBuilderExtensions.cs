@@ -24,13 +24,19 @@ namespace Alium.Modules
         {
             Ensure.IsNotNull(builder, nameof(builder));
             Ensure.IsNotNull(modules, nameof(modules));
+            
+            // MA - Create the framework initialiser
+            var init = FrameworkInitialiser.FromModules(modules, CreateFrameworkConfiguration());
 
-            // MA - Add our module provider and part manager to the application services.
+            builder.ConfigureAppConfiguration((ctx, bldr) =>
+            {
+                // MA - Extend the configuration with elements from module and features.
+                init.ExtendConfiguration(ctx, bldr);
+            });
+
             builder.ConfigureServices(services =>
             {
-                // MA - Create the framework initialiser
-                var init = FrameworkInitialiser.FromModules(modules, CreateFrameworkConfiguration());
-
+                // MA Add any module and feature services.
                 init.AddServices(services);
             });
 
@@ -51,12 +57,19 @@ namespace Alium.Modules
             dependencyContext = dependencyContext ?? DependencyContext.Default;
             if (dependencyContext != null)
             {
+                // MA - Create the framework initialiser
+                var init = FrameworkInitialiser.FromDependencyContext(dependencyContext, CreateFrameworkConfiguration());
+
+                builder.ConfigureAppConfiguration((ctx, bldr) =>
+                {
+                    // MA - Extend the configuration with elements from module and features.
+                    init.ExtendConfiguration(ctx, bldr);
+                });
+
                 // MA - Add our module provider and part manager to the application services.
                 builder.ConfigureServices(services =>
                 {
-                    // MA - Create the framework initialiser
-                    var init = FrameworkInitialiser.FromDependencyContext(dependencyContext, CreateFrameworkConfiguration());
-
+                    // MA Add any module and feature services.
                     init.AddServices(services);
                 });
             }

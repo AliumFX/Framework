@@ -6,15 +6,17 @@ namespace Alium
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
 
+    using Alium.Configuration;
     using Alium.DependencyInjection;
     using Alium.Features;
     using Alium.Modules;
     using Alium.Tasks;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Core module.
     /// </summary>
-    public class CoreModule : ModuleBase, IServicesBuilder
+    public class CoreModule : ModuleBase, IServicesBuilder, IAppConfigurationExtender
     {
         /// <summary>
         /// Initialises a new instance of <see cref="CoreModule"/>.
@@ -22,6 +24,15 @@ namespace Alium
         public CoreModule()
             : base(CoreInfo.CoreModuleId, CoreInfo.CoreModuleName, CoreInfo.CoreModuleDescription)
         { }
+
+        /// <inheritdoc />
+        public void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+        {
+            Ensure.IsNotNull(context, nameof(context));
+            Ensure.IsNotNull(builder, nameof(builder));
+
+            builder.AddJsonFile(CoreInfo.FeaturesConfigurationFile, optional: true);
+        }
 
         /// <inheritdoc />
         public void BuildServices(IServiceCollection services)
