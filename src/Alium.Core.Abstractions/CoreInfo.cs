@@ -29,5 +29,10 @@ namespace Alium
         /// The features configuration file.
         /// </summary>
         public const string FeaturesConfigurationFile = "./config/features.json";
+
+        /// <summary>
+        /// The flags configuration file.
+        /// </summary>
+        public const string FlagsConfigurationFile = "./config/flags.json";
     }
 }

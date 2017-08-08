@@ -4,14 +4,15 @@
 namespace Alium
 {
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     using Alium.Configuration;
     using Alium.DependencyInjection;
     using Alium.Features;
+    using Alium.Infrastructure;
     using Alium.Modules;
     using Alium.Tasks;
-    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Core module.
@@ -32,6 +33,7 @@ namespace Alium
             Ensure.IsNotNull(builder, nameof(builder));
 
             builder.AddJsonFile(CoreInfo.FeaturesConfigurationFile, optional: true);
+            builder.AddJsonFile(CoreInfo.FlagsConfigurationFile, optional: true);
         }
 
         /// <inheritdoc />
@@ -42,6 +44,8 @@ namespace Alium
             services.AddSingleton<IFeatureStateProvider, FeatureStateProvider>();
             services.AddTransient(typeof(IFeatureFactory<>), typeof(FeatureFactory<>));
             services.AddTransient(typeof(IFeature<,>), typeof(Feature<,>));
+
+            services.AddSingleton<IFlags, Flags>();
 
             services.AddSingleton<ITaskExecutor, TaskExecutor>();
             services.AddSingleton<IStartupFilter, TaskExecutorStartupFilter>();
