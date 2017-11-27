@@ -3,6 +3,7 @@
 
 namespace Alium
 {
+    using Alium.Features;
     using Alium.Modules;
 
     /// <summary>
@@ -34,5 +35,10 @@ namespace Alium
         /// The flags configuration file.
         /// </summary>
         public const string FlagsConfigurationFile = "./config/flags.json";
+
+        /// <summary>
+        /// The tenancy feature id.
+        /// </summary>
+        public static readonly FeatureId TenancyFeatureId = new FeatureId(CoreModuleId, "Tenancy");
     }
 }

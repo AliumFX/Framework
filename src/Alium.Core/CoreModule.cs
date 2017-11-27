@@ -13,6 +13,7 @@ namespace Alium
     using Alium.Infrastructure;
     using Alium.Modules;
     using Alium.Tasks;
+    using Alium.Tenancy;
 
     /// <summary>
     /// Core module.
@@ -52,6 +53,12 @@ namespace Alium
 
             services.AddSingleton<IStartupFilter, FeatureInitialiserStartupFilter>();
             services.AddSingleton<IStartupFilter, ModuleInitialiserStartupFilter>();
+
+            services.AddSingleton<ITenantResolver, TenantResolver>();
+            services.AddSingleton<IStartupFilter, TenantStartupFilter>();
+            services.AddScoped<TenantMiddleware>();
+
+            services.AddScoped<IWorkContext, WorkContext>();
         }
     }
 }

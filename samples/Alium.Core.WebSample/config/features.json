@@ -2,7 +2,30 @@
   "Features": {
     "AppModule.AppFeature": {
       "Enabled": true,
-      "Message":  "Hello World"
+      "Message": "Hello World"
+    },
+
+    "Core.Tenancy": {
+      "Enabled": true,
+      "Tenants": {
+        "Tenant01": {
+          "HostNames": [ "localhost:5000", "localhost:51184" ]
+        },
+        "Tenant02": {
+          "HostNames": [ "localhost:5001" ]
+        }
+      }
+    }
+  },
+
+  "Tenants": {
+    "Tenant01": {
+      "Features": {
+        "AppModule.AppFeature": {
+          "Enabled": true,
+          "Message": "Hello from Tenant01"
+        }
+      }
     }
   }
 }

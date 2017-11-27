@@ -3,14 +3,30 @@
 
 namespace Alium
 {
+    using System.Globalization;
+
+    using Alium.Tenancy;
+
     /// <summary>
     /// Defines the required contract for implementing a work context.
     /// </summary>
     public interface IWorkContext
     {
         /// <summary>
+        /// Gets the current culture.
+        /// </summary>
+        CultureInfo Culture { get; }
+
+        /// <summary>
         /// Gets the set of work context extensions.
         /// </summary>
         IWorkContextExtensionCollection Extensions { get; }
+
+        /// <summary>
+        /// Gets the current tenant id.
+        /// </summary>
+        TenantId TenantId { get; }
+
+
     }
 }

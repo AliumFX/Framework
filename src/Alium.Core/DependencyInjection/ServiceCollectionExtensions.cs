@@ -64,17 +64,13 @@ namespace Alium.DependencyInjection
             {
                 if (feature is IServicesBuilder builder)
                 {
-                    var state = featureStateProvider.GetFeatureState(feature.Id);
                     var featureServices = new ServiceCollection();
 
                     builder.BuildServices(featureServices);
 
                     foreach (var descriptor in featureServices)
                     {
-                        if (state.Enabled)
-                        {
-                            services.Add(descriptor);
-                        }
+                        services.Add(descriptor);
                         services.Add(CreateFeatureServiceDescriptor(descriptor, feature));
                     }
                 }
