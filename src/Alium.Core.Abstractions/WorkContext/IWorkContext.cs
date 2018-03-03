@@ -13,17 +13,22 @@ namespace Alium
     public interface IWorkContext
     {
         /// <summary>
-        /// Gets the current culture.
-        /// </summary>
-        CultureInfo Culture { get; }
-
-        /// <summary>
-        /// Gets the set of work context extensions.
+        /// Gets the set of work context extensions
         /// </summary>
         IWorkContextExtensionCollection Extensions { get; }
 
         /// <summary>
-        /// Gets the current tenant id.
+        /// Gets the formatting culture
+        /// </summary>
+        CultureInfo FormattingCulture { get; }
+
+        /// <summary>
+        /// Gets the resource culture
+        /// </summary>
+        CultureInfo ResourceCulture { get; }
+
+        /// <summary>
+        /// Gets the current tenant id
         /// </summary>
         TenantId TenantId { get; }
 

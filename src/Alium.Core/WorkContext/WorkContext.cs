@@ -36,10 +36,13 @@ namespace Alium
         }
 
         /// <inheritdoc />
-        public CultureInfo Culture => _cultureFeature.Culture;
+        public IWorkContextExtensionCollection Extensions => _extensions.Extensions;
 
         /// <inheritdoc />
-        public IWorkContextExtensionCollection Extensions => _extensions.Extensions;
+        public CultureInfo FormattingCulture => _cultureFeature.FormattingCulture;
+
+        /// <inheritdoc />
+        public CultureInfo ResourceCulture => _cultureFeature.ResourceCulture;
 
         /// <inheritdoc />
         public TenantId TenantId => _tenantFeature.TenantId;

@@ -7,8 +7,6 @@ namespace Alium.Tenancy
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
 
-    using Alium.Tenancy;
-
     /// <summary>
     /// Injects middleware to resolve the current tenant
     /// </summary>
