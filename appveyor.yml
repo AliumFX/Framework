@@ -10,7 +10,7 @@ skip_tags: true
 # Build Server Image
 image:
   - Visual Studio 2017
-  - Ubuntu
+  # - Ubuntu
 
 # Install Script
 install:
