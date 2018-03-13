@@ -8,14 +8,16 @@ version: '{build}'
 skip_tags: true
 
 # Build Server Image
-image: Visual Studio 2017 Preview
+image:
+  - Visual Studio 2017
+  - Ubuntu
 
 # Install Script
 install:
-  - cmd: git submodule init
-  - cmd: git submodule update
+  - git submodule init
+  - git submodule update
   - ps: $env:APPVEYOR_BUILD_NUMBER_PADDED = ([int]$env:appveyor_build_number).ToString("00000")
-  - cmd: dotnet --version
+  - dotnet --version
 
 # Build Script
 build_script:
