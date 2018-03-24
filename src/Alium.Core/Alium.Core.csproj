@@ -7,11 +7,11 @@
   <Import Project="../../build-template/build.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="$(NETCorePartsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="$(NETCorePartsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="$(NETCorePartsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="$(NETCorePartsVersion)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="$(NETCorePartsVersion)" />
   </ItemGroup>
 
   <ItemGroup>

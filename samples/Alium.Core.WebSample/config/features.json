@@ -2,7 +2,7 @@
   "Features": {
     "AppModule.AppFeature": {
       "Enabled": true,
-      "Message": "Hello World"
+      "Message": "Common configuration value"
     },
 
     "Core.Tenancy": {
@@ -23,7 +23,7 @@
       "Features": {
         "AppModule.AppFeature": {
           "Enabled": true,
-          "Message": "Hello from Tenant01"
+          "Message": "Configuration value for Tenant01"
         }
       }
     }

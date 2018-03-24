@@ -47,6 +47,8 @@ namespace Alium.Core.WebSample
 
             app.Run(async (context) =>
             {
+                Console.WriteLine($"Executing for {context.Request.Path}");
+
                 var feature1 = context.RequestServices.GetRequiredService<IFeature<IAppService>>();
                 var feature2 = context.RequestServices.GetRequiredService<IFeature<IAppService, AppFeatureConfiguration>>();
 
@@ -60,7 +62,8 @@ namespace Alium.Core.WebSample
                     feature2.Service.DoAction(feature2.Configuration);
                 }
 
-                await context.Response.WriteAsync("Hello World!");
+                var tenantService = context.RequestServices.GetRequiredService<ITenantService>();
+                tenantService.DoAction();
             });
         }
     }
@@ -98,10 +101,11 @@ namespace Alium.Core.WebSample
 
         public void BuildServices(IServiceCollection services)
         {
-            services.AddTransient<IAppService, AppService>();
+            services.AddTenantScoped<IAppService, AppService>();
 
             services.AddScoped<IStartupTask, AppFeatureStartupTask>();
             services.AddScoped<IShutdownTask, AppFeatureShutdownTask>();
+            services.AddScoped<ITenantService, TenantService>();
         }
 
         public override void Initialise(FeatureInitialisationContext context)
@@ -196,11 +200,31 @@ namespace Alium.Core.WebSample
     {
         public void DoAction()
         {
-            Console.WriteLine("Hello World");
+            Console.WriteLine("Service action");
         }
         public void DoAction(AppFeatureConfiguration config)
         {
             Console.WriteLine(config.Message);
+        }
+    }
+
+    public interface ITenantService
+    {
+        void DoAction();
+    }
+
+    public class TenantService : ITenantService
+    {
+        public TenantService(IWorkContext workContext)
+        {
+            WorkContext = workContext;
+        }
+
+        public IWorkContext WorkContext { get; }
+
+        public void DoAction()
+        {
+            Console.WriteLine($"Hello from {WorkContext.TenantId}");
         }
     }
 }

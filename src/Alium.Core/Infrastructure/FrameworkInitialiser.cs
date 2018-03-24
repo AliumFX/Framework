@@ -73,6 +73,8 @@ namespace Alium.Infrastructure
 
             services.AddModuleServices(_moduleProvider);
             services.AddFeatureServices(_featureProvider, _featureStateProvider);
+
+            services.AddSingleton<IServiceCollection>(services);
         }
 
         /// <summary>

@@ -84,7 +84,7 @@ namespace Alium.DependencyInjection
             var featureType = _featureType.MakeGenericType(descriptor.ServiceType);
             var factory = CreateObjectFactory(descriptor, feature);
 
-            return new ServiceDescriptor(featureType, factory, descriptor.Lifetime);
+            return new ServiceDescriptor(featureType, factory, ServiceLifetime.Transient);
         }
 
         private static Func<IServiceProvider, object> CreateObjectFactory(ServiceDescriptor descriptor, IFeature feature)

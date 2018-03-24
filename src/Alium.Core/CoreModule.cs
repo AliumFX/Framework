@@ -14,11 +14,12 @@ namespace Alium
     using Alium.Modules;
     using Alium.Tasks;
     using Alium.Tenancy;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Core module.
     /// </summary>
-    public class CoreModule : ModuleBase, IServicesBuilder, IAppConfigurationExtender
+    public class CoreModule : ModuleBase, IServicesBuilder, IFeaturesBuilder, IAppConfigurationExtender
     {
         /// <summary>
         /// Initialises a new instance of <see cref="CoreModule"/>.
@@ -38,6 +39,12 @@ namespace Alium
         }
 
         /// <inheritdoc />
+        public void BuildFeatures(ICollection<IFeature> features)
+        {
+            features.Add(new TenancyFeature());
+        }
+
+        /// <inheritdoc />
         public void BuildServices(IServiceCollection services)
         {
             Ensure.IsNotNull(services, nameof(services));
@@ -53,10 +60,6 @@ namespace Alium
 
             services.AddSingleton<IStartupFilter, FeatureInitialiserStartupFilter>();
             services.AddSingleton<IStartupFilter, ModuleInitialiserStartupFilter>();
-
-            services.AddSingleton<ITenantResolver, TenantResolver>();
-            services.AddSingleton<IStartupFilter, TenantStartupFilter>();
-            services.AddScoped<TenantMiddleware>();
 
             services.AddScoped<IWorkContext, WorkContext>();
         }
