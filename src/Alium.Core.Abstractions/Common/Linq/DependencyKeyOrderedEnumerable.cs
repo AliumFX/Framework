@@ -47,7 +47,6 @@ namespace Alium
         private class DependencyKeyOrderedEnumerator : IEnumerator<TElement>
         {
             private readonly Dictionary<TDependencyKey, TElement> _source;
-            private readonly Func<TElement, TDependencyKey> _keySelector;
             private readonly Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>> _dependentKeySelector;
 
             private readonly IEnumerator<TElement> _output;

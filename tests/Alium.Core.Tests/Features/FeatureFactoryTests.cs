@@ -20,11 +20,17 @@ namespace Alium.Features
         public void Constructor_ValidatesArguments()
         {
             // Arrange
+            var moduleId = new ModuleId("Test");
+            var featureId = new FeatureId(moduleId, "Test");
+            var config = new ConfigurationBuilder().Build();
+            var featureStateProvider = CreateFeatureStateProvider(
+                new FeatureState(featureId, config.GetSection("Features:Test.Test"), true));
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => new FeatureFactory<string>(null /* featureStateProvider */));
+            Assert.Throws<ArgumentNullException>(() => new FeatureFactory<string>(null /* featureStateProvider */, null /* workContext */));
+            Assert.Throws<ArgumentNullException>(() => new FeatureFactory<string>(featureStateProvider, null /* workContext */));
         }
 
         [Fact]
@@ -36,8 +42,9 @@ namespace Alium.Features
             var config = new ConfigurationBuilder().Build();
             var featureStateProvider = CreateFeatureStateProvider(
                 new FeatureState(featureId, config.GetSection("Features:Test.Test"), true));
+            var workContext = new WorkContext();
 
-            var factory = new FeatureFactory<string>(featureStateProvider);
+            var factory = new FeatureFactory<string>(featureStateProvider, workContext);
 
             // Act
             var feature = factory.CreateFeature(
@@ -65,8 +72,9 @@ namespace Alium.Features
                 .Build();
             var featureStateProvider = CreateFeatureStateProvider(
                 new FeatureState(featureId, config.GetSection("Features:Test.Test"), false));
+            var workContext = new WorkContext();
 
-            var factory = new FeatureFactory<string>(featureStateProvider);
+            var factory = new FeatureFactory<string>(featureStateProvider, workContext);
 
             // Act
             var feature = factory.CreateFeature(

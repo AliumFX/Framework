@@ -22,7 +22,12 @@ namespace Alium.Core.WebSample
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseDiscoveredModules()
+                .UseUrls("http://localhost:5000", "http://localhost:5001")
                 .UseStartup<Startup>()
+                .ConfigureLogging(lb =>
+                {
+                    lb.SetMinimumLevel(LogLevel.Trace);
+                })
                 .Build();
     }
 }

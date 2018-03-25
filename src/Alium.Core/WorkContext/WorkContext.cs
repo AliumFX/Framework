@@ -5,6 +5,8 @@ namespace Alium
 {
     using System.Globalization;
 
+    using Alium.Tenancy;
+
     /// <summary>
     /// Represents a context for performing work.
     /// </summary>
@@ -13,6 +15,7 @@ namespace Alium
         private WorkContextExtensionReferences<StandardExtensions> _extensions;
 
         private ICultureWorkContextExtension _cultureFeature => _extensions.Fetch(ref _extensions.Cache.Culture, e => new CultureWorkContextExtension());
+        private ITenantWorkContextExtension _tenantFeature => _extensions.Fetch(ref _extensions.Cache.Tenant, e => new TenantWorkContextExtension(TenantId.Default));
 
         /// <summary>
         /// Initialises a new instance of <see cref="WorkContext"/>
@@ -33,10 +36,16 @@ namespace Alium
         }
 
         /// <inheritdoc />
-        public CultureInfo Culure => _cultureFeature.Culture;
+        public IWorkContextExtensionCollection Extensions => _extensions.Extensions;
 
         /// <inheritdoc />
-        public IWorkContextExtensionCollection Extensions => _extensions.Extensions;
+        public CultureInfo FormattingCulture => _cultureFeature.FormattingCulture;
+
+        /// <inheritdoc />
+        public CultureInfo ResourceCulture => _cultureFeature.ResourceCulture;
+
+        /// <inheritdoc />
+        public TenantId TenantId => _tenantFeature.TenantId;
 
         /// <summary>
         /// A caching object for storing standard extension references.
@@ -47,6 +56,11 @@ namespace Alium
             /// The standard culture extension.
             /// </summary>
             public ICultureWorkContextExtension Culture;
+
+            /// <summary>
+            /// The standard tenant extension.
+            /// </summary>
+            public ITenantWorkContextExtension Tenant;
         }
     }
 }

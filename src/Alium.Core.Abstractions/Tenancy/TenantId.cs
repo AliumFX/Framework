@@ -1,27 +1,32 @@
 ﻿// Copyright (c) Alium FX. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Alium.Modules
+namespace Alium.Tenancy
 {
     using System;
     using System.Diagnostics;
 
     /// <summary>
-    /// Represents a module id.
+    /// Represents a tenant id.
     /// </summary>
-    [DebuggerDisplay("Module Id: {Value}")]
-    public struct ModuleId : IComparable<string>, IComparable<ModuleId>, IEquatable<string>, IEquatable<ModuleId>
+    [DebuggerDisplay("Tenant Id: {Value}")]
+    public struct TenantId : IComparable<string>, IComparable<TenantId>, IEquatable<string>, IEquatable<TenantId>
     {
         /// <summary>
-        /// Represents an empty module id.
+        /// Represents the defualt tenant id.
         /// </summary>
-        public static readonly ModuleId Empty = new ModuleId();
+        public static readonly TenantId Default = new TenantId("default");
 
         /// <summary>
-        /// Initialises a new instance of <see cref="ModuleId"/>.
+        /// Represents an empty tenant id.
         /// </summary>
-        /// <param name="value">The module id value.</param>
-        public ModuleId(string value)
+        public static readonly TenantId Empty = new TenantId();
+
+        /// <summary>
+        /// Initialises a new instance of <see cref="TenantId"/>.
+        /// </summary>
+        /// <param name="value">The tenant id value.</param>
+        public TenantId(string value)
         {
             HasValue = true;
             Value = Ensure.IsNotNullOrEmpty(value, nameof(value));
@@ -33,7 +38,7 @@ namespace Alium.Modules
         public bool HasValue { get; }
 
         /// <summary>
-        /// Gets the module id value.
+        /// Gets the tenant id value.
         /// </summary>
         public string Value { get; }
 
@@ -59,7 +64,7 @@ namespace Alium.Modules
         }
 
         /// <inheritdoc />
-        public int CompareTo(ModuleId other)
+        public int CompareTo(TenantId other)
         {
             if (other.HasValue)
             {
@@ -79,15 +84,15 @@ namespace Alium.Modules
             => CompareTo(other) == 0;
 
         /// <inheritdoc />
-        public bool Equals(ModuleId other)
+        public bool Equals(TenantId other)
             => CompareTo(other) == 0;
 
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is ModuleId c)
+            if (obj is TenantId t)
             {
-                return Equals(c);
+                return Equals(t);
             }
             if (obj is string s)
             {
@@ -106,17 +111,17 @@ namespace Alium.Modules
             => Value;
 
         /// <summary>
-        /// Converts from a <see cref="ModuleId"/> to a <see cref="string"/>
+        /// Converts from a <see cref="TenantId"/> to a <see cref="string"/>.
         /// </summary>
-        /// <param name="moduleId">The <see cref="ModuleId"/> value.</param>
-        public static explicit operator string(ModuleId moduleId)
-            => moduleId.Value;
+        /// <param name="tenantId">The <see cref="TenantId"/>.</param>
+        public static explicit operator string(TenantId tenantId)
+            => tenantId.Value;
 
         /// <summary>
-        /// Converts from a <see cref="string"/> to a <see cref="ModuleId"/>
+        /// Converts from a <see cref="string"/> to a <see cref="TenantId"/>.
         /// </summary>
         /// <param name="value">The <see cref="string"/> value.</param>
-        public static explicit operator ModuleId(string value)
-            => string.IsNullOrEmpty(value) ? Empty : new ModuleId(value);
+        public static explicit operator TenantId(string value)
+            => string.IsNullOrEmpty(value) ? Empty : new TenantId(value);
     }
 }

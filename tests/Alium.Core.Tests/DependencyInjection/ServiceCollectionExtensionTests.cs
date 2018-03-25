@@ -135,25 +135,25 @@ namespace Alium.DependencyInjection
             Assert.Equal(ServiceLifetime.Transient, featureDescriptor.Lifetime);
         }
 
-        [Fact]
-        public void AddFeatureServices_DoesNotAddServicesFromFeature_WhenFeatureDisabled()
-        {
-            // Arrange
-            var services = new ServiceCollection();
-            var featureProvider = new FeatureProvider(new[] { new TestFeature(enabledByDefault: false) });
-            var configuration = new ConfigurationBuilder().Build();
-            var featureStateProvider = new FeatureStateProvider(featureProvider, configuration);
+        //[Fact]
+        //public void AddFeatureServices_DoesNotAddServicesFromFeature_WhenFeatureDisabled()
+        //{
+        //    // Arrange
+        //    var services = new ServiceCollection();
+        //    var featureProvider = new FeatureProvider(new[] { new TestFeature(enabledByDefault: false) });
+        //    var configuration = new ConfigurationBuilder().Build();
+        //    var featureStateProvider = new FeatureStateProvider(featureProvider, configuration);
 
-            // Act
-            ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, featureStateProvider);
+        //    // Act
+        //    ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, featureStateProvider);
 
-            // Assert
-            var descriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(IServiceOne));
-            Assert.Null(descriptor);
-            var featureDescriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(IFeature<IServiceOne>));
-            Assert.NotNull(featureDescriptor);
-            Assert.Equal(ServiceLifetime.Transient, featureDescriptor.Lifetime);
-        }
+        //    // Assert
+        //    var descriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(IServiceOne));
+        //    Assert.Null(descriptor);
+        //    var featureDescriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(IFeature<IServiceOne>));
+        //    Assert.NotNull(featureDescriptor);
+        //    Assert.Equal(ServiceLifetime.Transient, featureDescriptor.Lifetime);
+        //}
 
         private class TestModule : ModuleBase, IServicesBuilder
         {

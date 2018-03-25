@@ -25,7 +25,7 @@ namespace Alium.Infrastructure
             _root = Ensure.IsNotNull(configuration, nameof(configuration)).GetSection("Flags");
         }
 
-        /// <inheritdoc /.
+        /// <inheritdoc />
         public TValue Value<TValue>(string flag, TValue @default = default(TValue))
         {
             Ensure.IsNotNullOrEmpty(flag, nameof(flag));
@@ -42,7 +42,7 @@ namespace Alium.Infrastructure
             });
         }
 
-        /// <inheritdoc /.
+        /// <inheritdoc />
         public string Value(string flag, string @default = null)
         {
             Ensure.IsNotNullOrEmpty(flag, nameof(flag));

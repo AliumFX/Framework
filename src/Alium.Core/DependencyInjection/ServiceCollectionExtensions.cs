@@ -64,17 +64,13 @@ namespace Alium.DependencyInjection
             {
                 if (feature is IServicesBuilder builder)
                 {
-                    var state = featureStateProvider.GetFeatureState(feature.Id);
                     var featureServices = new ServiceCollection();
 
                     builder.BuildServices(featureServices);
 
                     foreach (var descriptor in featureServices)
                     {
-                        if (state.Enabled)
-                        {
-                            services.Add(descriptor);
-                        }
+                        services.Add(descriptor);
                         services.Add(CreateFeatureServiceDescriptor(descriptor, feature));
                     }
                 }
@@ -88,7 +84,7 @@ namespace Alium.DependencyInjection
             var featureType = _featureType.MakeGenericType(descriptor.ServiceType);
             var factory = CreateObjectFactory(descriptor, feature);
 
-            return new ServiceDescriptor(featureType, factory, descriptor.Lifetime);
+            return new ServiceDescriptor(featureType, factory, ServiceLifetime.Transient);
         }
 
         private static Func<IServiceProvider, object> CreateObjectFactory(ServiceDescriptor descriptor, IFeature feature)

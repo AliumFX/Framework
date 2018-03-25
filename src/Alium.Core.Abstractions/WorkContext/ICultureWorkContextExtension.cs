@@ -11,8 +11,13 @@ namespace Alium
     public interface ICultureWorkContextExtension
     {
         /// <summary>
-        /// Gets the current culture.
+        /// Gets the formatting culture
         /// </summary>
-        CultureInfo Culture { get; }
+        CultureInfo FormattingCulture { get; }
+
+        /// <summary>
+        /// Gets the resource culture
+        /// </summary>
+        CultureInfo ResourceCulture { get; }
     }
 }

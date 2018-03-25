@@ -11,8 +11,31 @@ namespace Alium
     public class CultureWorkContextExtension : ICultureWorkContextExtension
     {
         /// <summary>
-        /// Gets the current culture.
+        /// Initialises a new instance of <see cref="CultureWorkContextExtension"/>
         /// </summary>
-        public CultureInfo Culture => CultureInfo.CurrentUICulture;
+        public CultureWorkContextExtension()
+            : this(CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture)
+        { }
+
+        /// <summary>
+        /// Initialises a new instance of <see cref="CultureWorkContextExtension"/>
+        /// </summary>
+        /// <param name="formattingCulture">The formatting culture</param>
+        /// <param name="resourceCulture">The resource culture</param>
+        public CultureWorkContextExtension(CultureInfo formattingCulture, CultureInfo resourceCulture)
+        {
+            FormattingCulture = Ensure.IsNotNull(formattingCulture, nameof(formattingCulture));
+            ResourceCulture = Ensure.IsNotNull(resourceCulture, nameof(resourceCulture));
+        }
+
+        /// <summary>
+        /// Gets the current formatting culture
+        /// </summary>
+        public CultureInfo FormattingCulture { get; }
+
+        /// <summary>
+        /// Gets or sets the resource culture
+        /// </summary>
+        public CultureInfo ResourceCulture { get; }
     }
 }

@@ -12,6 +12,20 @@ namespace Alium
     public class DefaultObjectComparerTests
     {
         [Fact]
+        public void Constructor_SetsProperties()
+        {
+            // Arrange
+            var person = new Person();
+            var comparer = new DefaultObjectComparer<Person>();
+
+            // Act
+
+            // Assert
+            Assert.NotEqual(0, comparer.HighValue);
+            Assert.NotEqual(0, comparer.LowValue);
+        }
+
+        [Fact]
         public void Equals_ReturnsTrue_ForSameInstance()
         {
             // Arrange
