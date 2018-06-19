@@ -4,6 +4,6 @@
         <VersionSuffix>alpha</VersionSuffix>
 
         <Product>Alium Framework</Product>
-        <RepositoryUrl>https://github.com/AliumFX/Framework</RepositoryUrl>
+        <ProjectUrl>https://github.com/AliumFX/Framework</ProjectUrl>
     </PropertyGroup>
 </Project>

@@ -13,4 +13,19 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(NETCorePartsVersion)" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="$(NETCorePartsVersion)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="CoreAbstractionsResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CoreAbstractionsResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="CoreAbstractionsResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CoreAbstractionsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

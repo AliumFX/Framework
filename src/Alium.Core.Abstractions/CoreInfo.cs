@@ -40,5 +40,10 @@ namespace Alium
         /// The tenancy feature id.
         /// </summary>
         public static readonly FeatureId TenancyFeatureId = new FeatureId(CoreModuleId, "Tenancy");
+
+        /// <summary>
+        /// The events feature id.
+        /// </summary>
+        public static readonly FeatureId EventsFeatureId = new FeatureId(CoreModuleId, "Events");
     }
 }

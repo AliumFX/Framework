@@ -9,6 +9,7 @@ namespace Alium
 
     using Alium.Configuration;
     using Alium.DependencyInjection;
+    using Alium.Events;
     using Alium.Features;
     using Alium.Infrastructure;
     using Alium.Modules;
@@ -41,6 +42,7 @@ namespace Alium
         /// <inheritdoc />
         public void BuildFeatures(ICollection<IFeature> features)
         {
+            features.Add(new EventsFeature());
             features.Add(new TenancyFeature());
         }
 
@@ -62,6 +64,12 @@ namespace Alium
             services.AddSingleton<IStartupFilter, ModuleInitialiserStartupFilter>();
 
             services.AddScoped<IWorkContext, WorkContext>();
+
+            #region Events
+            // MA - These are being registered here as features do not support open generics
+            services.AddScoped(typeof(IEventSubscriptionFactory<>), typeof(EventSubscriptionFactory<>));
+            services.AddScoped(typeof(IEventServices<,>), typeof(EventServices<,>));
+            #endregion
         }
     }
 }
