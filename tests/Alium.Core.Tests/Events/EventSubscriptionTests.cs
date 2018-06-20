@@ -1,0 +1,85 @@
+﻿// Copyright (c) Alium FX. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+namespace Alium.Events
+{
+    using System;
+    using System.Threading.Tasks;
+    using Moq;
+    using Xunit;
+
+    /// <summary>
+    /// Provides tests for the <see cref="EventSubscription{TPayload}"/> type
+    /// </summary>
+    public class EventSubscriptionTests
+    {
+        [Fact]
+        public void Constructor_ValidatesArguments()
+        {
+            // Arrange
+            var token = new SubscriptionToken(st => { });
+
+            // Act
+
+            // Assert
+            Assert.Throws<ArgumentNullException>(() => new EventSubscription<object>(
+                null /* token */,
+                null /* notification */));
+            Assert.Throws<ArgumentNullException>(() => new EventSubscription<object>(
+                token,
+                null /* notification */));
+        }
+
+        [Fact]
+        public void Constructor_AssignsValues()
+        {
+            // Arrange
+            var token = new SubscriptionToken(st => { });
+            NotificationDelegate<object> notification = c => Task.CompletedTask;
+            FilterDelegate<object> filter = c => Task.FromResult(true);
+
+            // Act
+            var subscription = new EventSubscription<object>(
+                token,
+                notification,
+                filter);
+
+            // Assert
+            Assert.Same(token, subscription.Token);
+            Assert.Same(notification, subscription.OnNotificationAsync);
+            Assert.Same(filter, subscription.OnFilterAsync);
+        }
+
+        [Fact]
+        public void Constructor_ProvidesDefaultFilter()
+        {
+            // Arrange
+            var token = new SubscriptionToken(st => { });
+            NotificationDelegate<object> notification = c => Task.CompletedTask;
+
+            // Act
+            var subscription = new EventSubscription<object>(
+                token,
+                notification);
+
+            // Assert
+            Assert.NotNull(subscription.OnFilterAsync);
+        }
+
+        [Fact]
+        public void OnNotification_ReturnsValueForLiveSubscriber()
+        {
+            // Arrange
+            var token = new SubscriptionToken(st => { });
+            NotificationDelegate<object> notification = c => Task.CompletedTask;
+
+            // Act
+            var subscription = new EventSubscription<object>(
+                token,
+                notification);
+
+            // Assert
+            Assert.NotNull(subscription.OnFilterAsync);
+        }
+    }
+}

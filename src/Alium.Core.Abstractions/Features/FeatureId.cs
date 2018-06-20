@@ -158,7 +158,7 @@ namespace Alium.Features
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj is ModuleId c)
+            if (obj is FeatureId c)
             {
                 return Equals(c);
             }
