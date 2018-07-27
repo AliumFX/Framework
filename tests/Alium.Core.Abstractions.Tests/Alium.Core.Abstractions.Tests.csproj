@@ -1,11 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../../build-template/build.targets" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <HostType>UnitTest</HostType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>Alium</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Alium.Core.Abstractions\Alium.Core.Abstractions.csproj" />

@@ -4,14 +4,12 @@
     <RootNamespace>Alium</RootNamespace>
   </PropertyGroup>
 
-  <Import Project="../../build-template/build.targets" />
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="$(NETCorePartsVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="$(NETCorePartsVersion)" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(NETCorePartsVersion)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(NETCorePartsVersion)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="$(NETCorePartsVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" />
   </ItemGroup>
 
   <ItemGroup>
