@@ -30,19 +30,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{6594
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alium.Core.WebSample", "samples\Alium.Core.WebSample\Alium.Core.WebSample.csproj", "{0313F9D4-B184-4AE2-8099-CBD3B4ACA84C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-template", "build-template", "{783E9F3F-2B6C-4308-B6E8-A651B7A6A7F3}"
-	ProjectSection(SolutionItems) = preProject
-		build-template\.gitignore = build-template\.gitignore
-		build-template\build.cake = build-template\build.cake
-		build-template\build.ps1 = build-template\build.ps1
-		build-template\build.sh = build-template\build.sh
-		build-template\build.targets = build-template\build.targets
-		build-template\Key.snk = build-template\Key.snk
-		build-template\LICENSE = build-template\LICENSE
-		build-template\packages.props = build-template\packages.props
-		build-template\README.md = build-template\README.md
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
