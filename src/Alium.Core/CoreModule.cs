@@ -3,6 +3,8 @@
 
 namespace Alium
 {
+    using System.Collections.Generic;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -15,7 +17,6 @@ namespace Alium
     using Alium.Modules;
     using Alium.Tasks;
     using Alium.Tenancy;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Core module.
@@ -32,7 +33,6 @@ namespace Alium
         /// <inheritdoc />
         public void BuildConfiguration(HostBuilderContext context, IConfigurationBuilder builder)
         {
-            Ensure.IsNotNull(context, nameof(context));
             Ensure.IsNotNull(builder, nameof(builder));
 
             builder.AddJsonFile(CoreInfo.FeaturesConfigurationFile, optional: true);
