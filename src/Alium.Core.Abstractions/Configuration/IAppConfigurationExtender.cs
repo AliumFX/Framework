@@ -3,8 +3,8 @@
 
 namespace Alium.Configuration
 {
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     /// Defines the required contract for implementing a configuration extender.
@@ -14,8 +14,8 @@ namespace Alium.Configuration
         /// <summary>
         /// Extends the configuration by utilising the given builder.
         /// </summary>
-        /// <param name="context">The web host builder context.</param>
+        /// <param name="context">The host builder context.</param>
         /// <param name="builder">The configuration builder.</param>
-        void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder);
+        void BuildConfiguration(HostBuilderContext context, IConfigurationBuilder builder);
     }
 }

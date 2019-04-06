@@ -19,11 +19,13 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentException>(() => new EventId(null));
             Assert.Throws<ArgumentException>(() => new EventId(string.Empty));
             Assert.Throws<ArgumentException>(() => new EventId(EventId.Empty, null));
             Assert.Throws<ArgumentException>(() => new EventId(new EventId("Test"), null));
             Assert.Throws<ArgumentException>(() => new EventId(new EventId("Test"), string.Empty));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -83,7 +85,7 @@ namespace Alium.Events
             var eventId = new EventId("event");
 
             // Act
-            int compare0 = eventId.CompareTo((string)null);
+            int compare0 = eventId.CompareTo((string?)null);
             int compare1 = eventId.CompareTo("event");
             int compare2 = eventId.CompareTo("zzzz");
             int compare3 = eventId.CompareTo("aaaa");
@@ -133,7 +135,7 @@ namespace Alium.Events
             var eventId = new EventId("event");
 
             // Act
-            bool equate0 = eventId.Equals((string)null);
+            bool equate0 = eventId.Equals((string?)null);
             bool equate1 = eventId.Equals("event");
             bool equate2 = eventId.Equals("aaaa");
 

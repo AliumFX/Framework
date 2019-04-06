@@ -26,8 +26,10 @@ namespace Alium.DependencyInjection
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddModuleServices(null /* services */, null /* moduleProvider */));
             Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddModuleServices(services, null /* moduleProvider */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -73,9 +75,11 @@ namespace Alium.DependencyInjection
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddFeatureServices(null /* services */, null /* featureProvider */, null /* featureStateProvider */));
             Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddFeatureServices(services, null /* featureProvider */, null /* featureStateProvider */));
             Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, null /* featureStateProvider */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]

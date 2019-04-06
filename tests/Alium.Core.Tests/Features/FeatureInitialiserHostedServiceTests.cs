@@ -6,6 +6,8 @@ namespace Alium.Features
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Moq;
     using Xunit;
@@ -13,9 +15,9 @@ namespace Alium.Features
     using Alium.Modules;
 
     /// <summary>
-    /// Provides tests for the <see cref="FeatureInitialiserStartupFilter"/> type.
+    /// Provides tests for the <see cref="FeatureInitialiserHostedService"/> type.
     /// </summary>
-    public class FeatureInitialiserStartupFilterTests
+    public class FeatureInitialiserHostedServiceTests
     {
         [Fact]
         public void Constructor_ValidatesArguments()
@@ -25,80 +27,63 @@ namespace Alium.Features
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() =>
-                new FeatureInitialiserStartupFilter(
+                new FeatureInitialiserHostedService(
                     null /* serviceProvider */,
                     null /* featureProvider */,
                     null /* featureStateProvider */));
             Assert.Throws<ArgumentNullException>(() =>
-                new FeatureInitialiserStartupFilter(
+                new FeatureInitialiserHostedService(
                     Mock.Of<IServiceProvider>(),
                     null /* featureProvider */,
                     null /* featureStateProvider */));
             Assert.Throws<ArgumentNullException>(() =>
-                new FeatureInitialiserStartupFilter(
+                new FeatureInitialiserHostedService(
                     Mock.Of<IServiceProvider>(),
                     Mock.Of<IFeatureProvider>(),
                     null /* featureStateProvider */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
-        public void Configure_ValidatesArguments()
+        public async Task StartAsync_ExecutesFeatureInitialisation_WhenFeatureEnabled()
         {
             // Arrange
-            var filter = new FeatureInitialiserStartupFilter(
-                Mock.Of<IServiceProvider>(),
-                Mock.Of<IFeatureProvider>(),
-                Mock.Of<IFeatureStateProvider>());
-
-            // Act
-
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => filter.Configure(null /* next */));
-        }
-
-        [Fact]
-        public void Configure_ExecutesFeatureInitialisation_WhenFeatureEnabled()
-        {
-            // Arrange
-            FeatureInitialisationContext capturedContext = null;
+            FeatureInitialisationContext? capturedContext = null;
 
             var featureId = new FeatureId(new ModuleId("Test"), "Test");
             var serviceProvider = Mock.Of<IServiceProvider>();
-            var filter = new FeatureInitialiserStartupFilter(
+            var service = new FeatureInitialiserHostedService(
                 serviceProvider,
                 CreateFeatureProvider(
                     CreateFeature(featureId, fic => capturedContext = fic)),
                 CreateFeatureStateProvider(featureId, true));
 
-            Action<IApplicationBuilder> configure = _ => { };
-
             // Act
-            filter.Configure(configure);
+            await service.StartAsync(CancellationToken.None);
 
             // Assert
             Assert.NotNull(capturedContext);
-            Assert.Same(serviceProvider, capturedContext.ApplicationServices);
+            Assert.Same(serviceProvider, capturedContext?.ApplicationServices);
         }
 
         [Fact]
-        public void Configure_SkipsFeatureInitialisation_WhenFeatureDisabled()
+        public async Task StartAsync_SkipsFeatureInitialisation_WhenFeatureDisabled()
         {
             // Arrange
-            FeatureInitialisationContext capturedContext = null;
+            FeatureInitialisationContext? capturedContext = null;
 
             var featureId = new FeatureId(new ModuleId("Test"), "Test");
             var serviceProvider = Mock.Of<IServiceProvider>();
-            var filter = new FeatureInitialiserStartupFilter(
+            var service = new FeatureInitialiserHostedService(
                 serviceProvider,
                 CreateFeatureProvider(
                     CreateFeature(featureId, fic => capturedContext = fic)),
                 CreateFeatureStateProvider(featureId, false));
 
-            Action<IApplicationBuilder> configure = _ => { };
-
             // Act
-            filter.Configure(configure);
+            await service.StartAsync(CancellationToken.None);
 
             // Assert
             Assert.Null(capturedContext);

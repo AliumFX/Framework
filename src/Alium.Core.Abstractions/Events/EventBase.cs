@@ -16,7 +16,7 @@ namespace Alium.Events
     public abstract class EventBase<TEvent, TPayload> : IEvent<TPayload>
         where TEvent : EventBase<TEvent, TPayload>
     {
-        private ConcurrentDictionary<SubscriptionToken, IEventSubscription<TPayload>> _subscriptions;
+        private ConcurrentDictionary<SubscriptionToken, IEventSubscription<TPayload>>? _subscriptions;
         private readonly IEventServices<TEvent, TPayload> _services;
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Alium.Events
             // MA - Process any directly added event subscribers
             if (_subscriptions != null)
             {
-                List<SubscriptionToken> unsubscribe = null;
+                List<SubscriptionToken>? unsubscribe = null;
 
                 foreach (var subscription in _subscriptions)
                 {
@@ -87,7 +87,7 @@ namespace Alium.Events
         }
 
         /// <inheritdoc />
-        public SubscriptionToken Subscribe(NotificationDelegate<TPayload> onNotificationAsync, FilterDelegate<TPayload> onFilterAsync = null)
+        public SubscriptionToken Subscribe(NotificationDelegate<TPayload> onNotificationAsync, FilterDelegate<TPayload>? onFilterAsync = null)
         {
             Ensure.IsNotNull(onNotificationAsync, nameof(onNotificationAsync));
 
@@ -106,7 +106,7 @@ namespace Alium.Events
         {
             Ensure.IsNotNull(subscriptionToken, nameof(subscriptionToken));
 
-            _subscriptions.TryRemove(subscriptionToken, out IEventSubscription<TPayload> value);
+            _subscriptions?.TryRemove(subscriptionToken, out IEventSubscription<TPayload> value);
         }
     }
 }

@@ -10,9 +10,9 @@ namespace Alium.Events
     /// Represents an event id
     /// </summary>
     [DebuggerDisplay("Event Id: {Value}")]
-    public struct EventId : IComparable<string>, IComparable<EventId>, IEquatable<string>, IEquatable<EventId>
+    public struct EventId : IComparable<string?>, IComparable<EventId>, IEquatable<string?>, IEquatable<EventId>
     {
-        private readonly Lazy<EventId> _parentEventIdThunk;
+        private readonly Lazy<EventId>? _parentEventIdThunk;
 
         /// <summary>
         /// Represents an empty event id
@@ -76,7 +76,7 @@ namespace Alium.Events
         public string Value { get; }
 
         /// <inheritdoc />
-        public int CompareTo(string other)
+        public int CompareTo(string? other)
         {
             if (HasValue)
             {
@@ -113,7 +113,7 @@ namespace Alium.Events
         }
 
         /// <inheritdoc />
-        public bool Equals(string other)
+        public bool Equals(string? other)
             => CompareTo(other) == 0;
 
         /// <inheritdoc />

@@ -14,7 +14,7 @@ namespace Alium
         /// <typeparam name="TExtension">The extension type.</typeparam>
         /// <param name="collection">The extension collection.</param>
         /// <returns>The extension instance.</returns>
-        public static TExtension GetExtension<TExtension>(this IWorkContextExtensionCollection collection)
+        public static TExtension? GetExtension<TExtension>(this IWorkContextExtensionCollection collection)
             where TExtension: class
         {
             Ensure.IsNotNull(collection, nameof(collection));

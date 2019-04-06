@@ -16,7 +16,7 @@ namespace Alium.Tenancy
         /// </summary>
         /// <param name="context">The HTTP context.</param>
         /// <returns>The service provider</returns>
-        public static IServiceProvider GetTenantServices(this HttpContext context)
+        public static IServiceProvider? GetTenantServices(this HttpContext context)
         {
             Ensure.IsNotNull(context, nameof(context));
 

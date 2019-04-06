@@ -9,18 +9,13 @@ namespace Alium
     public struct WorkContextExtensionReference<TExtension>
         where TExtension : class
     {
-        private TExtension _extension;
+        private TExtension? _extension;
         private int _revision;
-
-        /// <summary>
-        /// Represents a default work context extension reference.
-        /// </summary>
-        public static readonly WorkContextExtensionReference<TExtension> Default = new WorkContextExtensionReference<TExtension>();
 
         /// <summary>
         /// Gets the extension.
         /// </summary>
-        public TExtension Extension => _extension;
+        public TExtension? Extension => _extension;
 
         /// <summary>
         /// Gets the revision number.
@@ -43,7 +38,7 @@ namespace Alium
         /// </summary>
         /// <param name="extensions">The extension instance.</param>
         /// <returns>The extension instance.</returns>
-        public TExtension Fetch(IWorkContextExtensionCollection extensions)
+        public TExtension? Fetch(IWorkContextExtensionCollection extensions)
         {
             Ensure.IsNotNull(extensions, nameof(extensions));
 

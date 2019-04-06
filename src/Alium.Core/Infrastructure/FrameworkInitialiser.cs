@@ -6,10 +6,10 @@ namespace Alium.Infrastructure
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
+    using Microsoft.Extensions.Hosting;
 
     using Alium.Configuration;
     using Alium.DependencyInjection;
@@ -22,11 +22,11 @@ namespace Alium.Infrastructure
     /// </summary>
     public class FrameworkInitialiser
     {
-        private IFeatureProvider _featureProvider;
-        private IFeatureStateProvider _featureStateProvider;
-        private IModuleProvider _moduleProvider;
-        private IPartManager _partManager;
-        private IConfiguration _configuration;
+        private IFeatureProvider? _featureProvider = null;
+        private IFeatureStateProvider? _featureStateProvider = null;
+        private IModuleProvider? _moduleProvider = null;
+        private IPartManager? _partManager = null;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Initialises a new instance of <see cref="FrameworkInitialiser"/>.
@@ -39,22 +39,22 @@ namespace Alium.Infrastructure
         /// <summary>
         /// Gets the feature provider.
         /// </summary>
-        public IFeatureProvider FeatureProvider => _featureProvider;
+        public IFeatureProvider? FeatureProvider => _featureProvider;
 
         /// <summary>
         /// Gets the feature state provider.
         /// </summary>
-        public IFeatureStateProvider FeatureStateProvider => _featureStateProvider;
+        public IFeatureStateProvider? FeatureStateProvider => _featureStateProvider;
 
         /// <summary>
         /// Gets the module provider.
         /// </summary>
-        public IModuleProvider ModuleProvider => _moduleProvider;
+        public IModuleProvider? ModuleProvider => _moduleProvider;
 
         /// <summary>
         /// Gets the part manager.
         /// </summary>
-        public IPartManager PartManager => _partManager;
+        public IPartManager? PartManager => _partManager;
 
         /// <summary>
         /// Gets the configuration.
@@ -71,8 +71,14 @@ namespace Alium.Infrastructure
 
             services.AddSingleton(_partManager);
 
-            services.AddModuleServices(_moduleProvider);
-            services.AddFeatureServices(_featureProvider, _featureStateProvider);
+            if (_moduleProvider != null)
+            {
+                services.AddModuleServices(_moduleProvider);
+            }
+            if (_featureProvider != null && _featureStateProvider != null)
+            {
+                services.AddFeatureServices(_featureProvider, _featureStateProvider);
+            }
 
             services.AddSingleton<IServiceCollection>(services);
         }
@@ -82,25 +88,31 @@ namespace Alium.Infrastructure
         /// </summary>
         /// <param name="context">The web host builder context.</param>
         /// <param name="builder">The configuration builder.</param>
-        public void ExtendConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+        public void ExtendConfiguration(HostBuilderContext context, IConfigurationBuilder builder)
         {
             Ensure.IsNotNull(context, nameof(context));
             Ensure.IsNotNull(builder, nameof(builder));
 
-            foreach (var module in _moduleProvider.Modules)
+            if (_moduleProvider != null)
             {
-                if (module is IAppConfigurationExtender extender)
+                foreach (var module in _moduleProvider.Modules)
                 {
-                    extender.BuildConfiguration(context, builder);
+                    if (module is IAppConfigurationExtender extender)
+                    {
+                        extender.BuildConfiguration(context, builder);
+                    }
                 }
             }
 
-            foreach (var feature in _featureProvider.Features)
+            if (_featureProvider != null && _featureStateProvider != null)
             {
-                var state = _featureStateProvider.GetFeatureState(feature.Id);
-                if (state != null && state.Enabled && feature is IAppConfigurationExtender extender)
+                foreach (var feature in _featureProvider.Features)
                 {
-                    extender.BuildConfiguration(context, builder);
+                    var state = _featureStateProvider.GetFeatureState(feature.Id);
+                    if (state != null && state.Enabled && feature is IAppConfigurationExtender extender)
+                    {
+                        extender.BuildConfiguration(context, builder);
+                    }
                 }
             }
         }
@@ -115,9 +127,11 @@ namespace Alium.Infrastructure
         {
             Ensure.IsNotNull(modules, nameof(modules));
 
-            var init = new FrameworkInitialiser(configuration);
-            init._moduleProvider = new ModuleProvider(modules);
-            init._partManager = new PartManager();
+            var init = new FrameworkInitialiser(configuration)
+            {
+                _moduleProvider = new ModuleProvider(modules),
+                _partManager = new PartManager()
+            };
             init._partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
             
             foreach (var assembly in init._moduleProvider.Modules.Select(m => m.GetType().Assembly))
@@ -141,8 +155,10 @@ namespace Alium.Infrastructure
         {
             var assemblyProvider = new DependencyContextAssemblyProvider(context);
 
-            var init = new FrameworkInitialiser(configuration);
-            init._partManager = new PartManager();
+            var init = new FrameworkInitialiser(configuration)
+            {
+                _partManager = new PartManager()
+            };
             init._partManager.PartFeatureProviders.Add(new ModulePartFeatureProvider());
 
             foreach (var assembly in assemblyProvider.Assemblies)

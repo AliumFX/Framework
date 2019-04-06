@@ -10,11 +10,12 @@ namespace Alium.Features
     /// </summary>
     /// <typeparam name="TService">The service type.</typeparam>
     public interface IFeature<TService>
+        where TService : class
     {
         /// <summary>
         /// Gets the configuration.
         /// </summary>
-        IConfigurationSection Configuration { get; }
+        IConfigurationSection? Configuration { get; }
 
         /// <summary>
         /// Gets whether the feature is enabled.
@@ -34,7 +35,7 @@ namespace Alium.Features
         /// <summary>
         /// Gets the service.
         /// </summary>
-        TService Service { get; }
+        TService? Service { get; }
     }
 
     /// <summary>
@@ -43,11 +44,12 @@ namespace Alium.Features
     /// <typeparam name="TService">The service type.</typeparam>
     /// <typeparam name="TConfiguration">The configuration type.</typeparam>
     public interface IFeature<TService, TConfiguration> : IFeature<TService>
+        where TService : class
         where TConfiguration : class, new()
     {
         /// <summary>
         /// Gets the configuration.
         /// </summary>
-        new TConfiguration Configuration { get; }
+        new TConfiguration? Configuration { get; }
     }
 }

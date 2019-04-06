@@ -12,12 +12,12 @@ namespace Alium.Events
         /// <summary>
         /// Gets the filter delegate
         /// </summary>
-        FilterDelegate<TPayload> OnFilterAsync { get; }
+        FilterDelegate<TPayload>? OnFilterAsync { get; }
 
         /// <summary>
         /// Gets the notification delegate
         /// </summary>
-        NotificationDelegate<TPayload> OnNotificationAsync { get; }
+        NotificationDelegate<TPayload>? OnNotificationAsync { get; }
 
         /// <summary>
         /// Gets the subscription token

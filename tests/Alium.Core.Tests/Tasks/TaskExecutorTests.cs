@@ -24,8 +24,10 @@ namespace Alium.Tasks
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() =>
                 new TaskExecutor(null /* scopeFactory */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -95,7 +97,7 @@ namespace Alium.Tasks
         }
 
         private IServiceScopeFactory CreateServiceScopeFactory<TService>(
-            Action onCreateScope = null,
+            Action? onCreateScope = null,
             TService service = default(TService))
         {
             var mock = new Mock<IServiceScopeFactory>();

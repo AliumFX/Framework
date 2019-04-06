@@ -13,6 +13,7 @@ namespace Alium.Features
     /// </summary>
     /// <typeparam name="TService">The service type.</typeparam>
     public class FeatureFactory<TService> : IFeatureFactory<TService>
+        where TService : class
     {
         private readonly IFeatureStateProvider _featureStateProvider;
         private readonly IWorkContext _workContext;

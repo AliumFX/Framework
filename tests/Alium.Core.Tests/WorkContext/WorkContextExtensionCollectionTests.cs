@@ -17,13 +17,15 @@ namespace Alium
         {
             // Arrange
             var collection = new WorkContextExtensionCollection();
-            object extension = null;
+            object? extension = null;
 
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => extension = collection[null /* key */]);
             Assert.Throws<ArgumentNullException>(() => collection[null /* key */] = extension);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]

@@ -14,12 +14,12 @@ namespace Alium.Tenancy
         /// Initialises a new instance of <see cref="TenantServicesHttpFeature"/>
         /// </summary>
         /// <param name="services">The tenant service provider</param>
-        public TenantServicesHttpFeature(IServiceProvider services = null)
+        public TenantServicesHttpFeature(IServiceProvider? services = null)
         {
             TenantServices = services;
         }
 
         /// <inheritdoc />
-        public IServiceProvider TenantServices { get; }
+        public IServiceProvider? TenantServices { get; }
     }
 }

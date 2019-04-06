@@ -4,33 +4,32 @@
 namespace Alium.Modules
 {
     using System;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     /// Initialises modules.
     /// </summary>
-    public class ModuleInitialiserStartupFilter : IStartupFilter
+    public class ModuleInitialiserHostedService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IModuleProvider _moduleProvider;
 
         /// <summary>
-        /// Initialises a new instance of <see cref="ModuleInitialiserStartupFilter"/>.
+        /// Initialises a new instance of <see cref="ModuleInitialiserHostedService"/>.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="moduleProvider">The module provider.</param>
-        public ModuleInitialiserStartupFilter(IServiceProvider serviceProvider, IModuleProvider moduleProvider)
+        public ModuleInitialiserHostedService(IServiceProvider serviceProvider, IModuleProvider moduleProvider)
         {
             _serviceProvider = Ensure.IsNotNull(serviceProvider, nameof(serviceProvider));
             _moduleProvider = Ensure.IsNotNull(moduleProvider, nameof(moduleProvider));
         }
 
         /// <inheritdoc />
-        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            Ensure.IsNotNull(next, nameof(next));
-            
             var context = new ModuleInitialisationContext(_serviceProvider);
 
             foreach (var module in _moduleProvider.Modules)
@@ -38,7 +37,11 @@ namespace Alium.Modules
                 module.Initialise(context);
             }
 
-            return next;
+            return Task.CompletedTask;
         }
+
+        /// <inheritdoc />
+        public Task StopAsync(CancellationToken cancellationToken)
+            => Task.CompletedTask;
     }
 }

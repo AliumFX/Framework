@@ -26,7 +26,9 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => new TenantResolver(null /* featureStateProvider */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -39,7 +41,9 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await resolver.ResolveCurrentAsync(null /* httpContext */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -145,7 +149,7 @@ namespace Alium.Tenancy
             return configuration;
         }
 
-        private IFeatureStateProvider CreateFeatureStateProvider(FeatureState state = null, Action<TenantId> onBeginTenantScope = null)
+        private IFeatureStateProvider CreateFeatureStateProvider(FeatureState? state = null, Action<TenantId>? onBeginTenantScope = null)
         {
             var mock = new Mock<IFeatureStateProvider>();
 

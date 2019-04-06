@@ -18,14 +18,16 @@ namespace Alium
         {
             // Arrange
             var source = Enumerable.Empty<string>();
-            Func<string, string> keySelector = s => s;
+            string keySelector(string s) => s;
 
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => new DependencyKeyOrderedEnumerable<string, string>(null /* source */, null /* keySelector */, null /* dependentKeySelector */));
             Assert.Throws<ArgumentNullException>(() => new DependencyKeyOrderedEnumerable<string, string>(source, null /* keySelector */, null /* dependentKeySelector */));
             Assert.Throws<ArgumentNullException>(() => new DependencyKeyOrderedEnumerable<string, string>(source, keySelector, null /* dependentKeySelector */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -94,8 +96,13 @@ namespace Alium
 
         private class Item
         {
+            public Item()
+            {
+                Key = string.Empty;
+            }
+
             public string Key { get; set; }
-            public string[] Dependencies { get; set; }
+            public string[]? Dependencies { get; set; }
         }
     }
 }

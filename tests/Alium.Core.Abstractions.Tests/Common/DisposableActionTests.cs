@@ -19,8 +19,10 @@ namespace Alium
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => new Disposable(null /* action */));
             Assert.Throws<ArgumentNullException>(() => new GenericDisposable(null /* action */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -111,7 +113,7 @@ namespace Alium
         public void Generic_Dispose_FlowsCurrentInstanceToAction()
         {
             // Arrange
-            GenericDisposable captured = null;
+            GenericDisposable? captured = null;
             var disposable = new GenericDisposable(
                 d =>
                 {
@@ -127,14 +129,14 @@ namespace Alium
 
         public class Disposable : DisposableAction
         {
-            private readonly Action _onExplicitDispose;
-            private readonly Action _onImplicitDispose;
+            private readonly Action? _onExplicitDispose;
+            private readonly Action? _onImplicitDispose;
 
             public Disposable(
                 Action action,
                 bool allowOnImplicitDispose = false,
-                Action onExplicitDispose = null,
-                Action onImplicitdispose = null)
+                Action? onExplicitDispose = null,
+                Action? onImplicitdispose = null)
                 : base(action, allowOnImplicitDispose)
             {
                 _onExplicitDispose = onExplicitDispose;
@@ -158,14 +160,14 @@ namespace Alium
 
         public class GenericDisposable : DisposableAction<GenericDisposable>
         {
-            private readonly Action _onExplicitDispose;
-            private readonly Action _onImplicitDispose;
+            private readonly Action? _onExplicitDispose;
+            private readonly Action? _onImplicitDispose;
 
             public GenericDisposable(
                 Action<GenericDisposable> action, 
                 bool allowOnImplicitDispose = false,
-                Action onExplicitDispose = null,
-                Action onImplicitdispose = null)
+                Action? onExplicitDispose = null,
+                Action? onImplicitdispose = null)
                 : base(action, allowOnImplicitDispose)
             {
                 _onExplicitDispose = onExplicitDispose;

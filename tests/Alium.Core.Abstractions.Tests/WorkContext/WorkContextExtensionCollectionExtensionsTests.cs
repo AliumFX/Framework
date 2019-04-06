@@ -20,7 +20,9 @@ namespace Alium
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => WorkContextExtensionCollectionExtensions.GetExtension<object>(null /* collection */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -47,7 +49,9 @@ namespace Alium
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => WorkContextExtensionCollectionExtensions.SetExtension<object>(null /* collection */, null /* extension */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -55,7 +59,7 @@ namespace Alium
         {
             // Arrange
             var extension = new object();
-            object capturedExtension = null;
+            object? capturedExtension = null;
             var collection = CreateCollection<object>(onSet: f => capturedExtension = f);
 
             // Act
@@ -67,8 +71,8 @@ namespace Alium
         }
 
         private IWorkContextExtensionCollection CreateCollection<TExtension>(
-            TExtension extension = null,
-            Action<TExtension> onSet = null)
+            TExtension? extension = null,
+            Action<TExtension>? onSet = null)
             where TExtension : class
         {
             var mock = new Mock<IWorkContextExtensionCollection>();
@@ -81,7 +85,7 @@ namespace Alium
             if (onSet != null)
             {
                 mock.SetupSet(wcfc => wcfc[typeof(TExtension)] = It.IsAny<TExtension>())
-                    .Callback<Type, TExtension>((t, f) => onSet(f));
+                    .Callback<Type, TExtension>((t, f) => onSet?.DynamicInvoke(f));
             }
 
             return mock.Object;

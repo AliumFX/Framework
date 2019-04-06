@@ -25,12 +25,14 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => new TenantMiddleware(
                 null /* tenantResolver */,
                 null /* tenantServiceProviderResolver */));
             Assert.Throws<ArgumentNullException>(() => new TenantMiddleware(
                 tenantResolver,
                 null /* tenantServiceProviderResolver */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -43,12 +45,14 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await middleware.InvokeAsync(
                 null /* httpContext */,
                 null /* requestDelegate */));
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await middleware.InvokeAsync(
                 httpContext,
                 null /* requestDelegate */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -61,10 +65,10 @@ namespace Alium.Tenancy
                 tenantId: tenantId,
                 workContext: workContext);
             var httpContext = new DefaultHttpContext();
-            RequestDelegate next = (context) =>
+            Task next(HttpContext context)
             {
                 return Task.CompletedTask;
-            };
+            }
 
 
             // Act
@@ -84,10 +88,10 @@ namespace Alium.Tenancy
                 tenantId: tenantId,
                 workContext: workContext);
             var httpContext = new DefaultHttpContext();
-            RequestDelegate next = (context) =>
+            Task next(HttpContext context)
             {
                 return Task.CompletedTask;
-            };
+            }
 
 
             // Act
@@ -107,10 +111,10 @@ namespace Alium.Tenancy
                 tenantId: tenantId,
                 workContext: workContext);
             var httpContext = new DefaultHttpContext();
-            RequestDelegate next = (context) =>
+            Task next(HttpContext context)
             {
                 return Task.CompletedTask;
-            };
+            }
 
 
             // Act
@@ -134,13 +138,13 @@ namespace Alium.Tenancy
             var httpContext = new DefaultHttpContext();
             var requestServices = new ServiceCollection().BuildServiceProvider();
             httpContext.RequestServices = requestServices;
-            RequestDelegate next = (context) =>
+            Task next(HttpContext context)
             {
                 Assert.Same(httpContext, context);
                 Assert.NotSame(requestServices, context.RequestServices);
 
                 return Task.CompletedTask;
-            };
+            }
 
             // Act
             await middleware.InvokeAsync(httpContext, next);
@@ -164,14 +168,14 @@ namespace Alium.Tenancy
 
             var preMiddlewareServiceProvider = httpContext.GetTenantServices();
 
-            RequestDelegate next = (context) =>
+            Task next(HttpContext context)
             {
                 var duringMiddlewareServiceProvider = context.GetTenantServices();
 
                 Assert.Same(tenantServiceProvider, duringMiddlewareServiceProvider);
 
                 return Task.CompletedTask;
-            };
+            }
 
             // Act
             await middleware.InvokeAsync(httpContext, next);
@@ -185,9 +189,9 @@ namespace Alium.Tenancy
 
         private TenantMiddleware CreateMiddleware(
             TenantId? tenantId = null,
-            IServiceProvider tenantServiceProvider = null,
-            IServiceCollection tenantServices = null,
-            IWorkContext workContext = null)
+            IServiceProvider? tenantServiceProvider = null,
+            IServiceCollection? tenantServices = null,
+            IWorkContext? workContext = null)
         {
             if (tenantServiceProvider == null)
             {
@@ -197,7 +201,8 @@ namespace Alium.Tenancy
                 }
                 if (workContext != null)
                 {
-                    tenantServices.AddScoped<IWorkContext>(sp => workContext);
+                    var wc = workContext;
+                    tenantServices.AddScoped<IWorkContext>(sp => wc);
                 }
                 tenantServiceProvider = tenantServices.BuildServiceProvider();
             }
@@ -216,7 +221,7 @@ namespace Alium.Tenancy
             return mock.Object;
         }
 
-        private ITenantServiceProviderResolver CreateTenantServiceProviderResolver(IServiceProvider tenantServiceProvider = null)
+        private ITenantServiceProviderResolver CreateTenantServiceProviderResolver(IServiceProvider? tenantServiceProvider = null)
         {
             var mock = new Mock<ITenantServiceProviderResolver>();
             mock.Setup(m => m.GetTenantServiceProvider(It.IsAny<TenantId>()))

@@ -34,8 +34,8 @@ namespace Alium.Tenancy
             Ensure.IsNotNull(context, nameof(context));
             Ensure.IsNotNull(next, nameof(next));
 
-            IServiceScope scope = null;
-            IServiceProvider requestServices = null;
+            IServiceScope? scope = null;
+            IServiceProvider? requestServices = null;
 
             // MA - Resolve the current tenant.
             var tenantId = await _tenantResolver.ResolveCurrentAsync(context);

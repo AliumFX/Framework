@@ -21,7 +21,9 @@ namespace Alium.Infrastructure
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => new Flags(null /* configuration */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -29,7 +31,7 @@ namespace Alium.Infrastructure
         {
             // Arrange
             var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
+                .AddInMemoryCollection(new Dictionary<string, string?>
                     {
                         ["Flags:FlagKey"] = "Hello World"
                     }
@@ -38,7 +40,7 @@ namespace Alium.Infrastructure
             var flags = new Flags(configuration);
 
             // Act
-            string value = flags.Value("FlagKey");
+            string? value = flags.Value("FlagKey");
 
             // Assert
             Assert.Equal("Hello World", value);
@@ -49,7 +51,7 @@ namespace Alium.Infrastructure
         {
             // Arrange
             var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
+                .AddInMemoryCollection(new Dictionary<string, string?>
                     {
                         ["Flags:FlagKey"] = null
                     }
@@ -58,7 +60,7 @@ namespace Alium.Infrastructure
             var flags = new Flags(configuration);
 
             // Act
-            string value = flags.Value("OtherFlagKey", "Hello World");
+            string? value = flags.Value("OtherFlagKey", "Hello World");
 
             // Assert
             Assert.Equal("Hello World", value);
@@ -69,7 +71,7 @@ namespace Alium.Infrastructure
         {
             // Arrange
             var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
+                .AddInMemoryCollection(new Dictionary<string, string?>
                     {
                         ["Flags:FlagKey"] = "123"
                     }
@@ -89,7 +91,7 @@ namespace Alium.Infrastructure
         {
             // Arrange
             var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string>
+                .AddInMemoryCollection(new Dictionary<string, string?>
                     {
                         ["Flags:FlagKey"] = null
                     }

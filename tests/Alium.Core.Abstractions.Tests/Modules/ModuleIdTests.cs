@@ -19,7 +19,9 @@ namespace Alium.Modules
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentException>(() => new ModuleId(null));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentException>(() => new ModuleId(string.Empty));
         }
 
@@ -62,7 +64,7 @@ namespace Alium.Modules
             var id = new ModuleId("test");
 
             // Act
-            int compare0 = id.CompareTo((string) null);
+            int compare0 = id.CompareTo((string?) null);
             int compare1 = id.CompareTo("test");
             int compare2 = id.CompareTo("zzzz");
             int compare3 = id.CompareTo("aaaa");
@@ -112,7 +114,7 @@ namespace Alium.Modules
             var id = new ModuleId("test");
 
             // Act
-            bool equate0 = id.Equals((string)null);
+            bool equate0 = id.Equals((string?)null);
             bool equate1 = id.Equals("test");
             bool equate2 = id.Equals("aaaa");
 

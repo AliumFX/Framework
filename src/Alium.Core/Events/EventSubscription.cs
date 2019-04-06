@@ -24,7 +24,7 @@ namespace Alium.Events
         public EventSubscription(
             SubscriptionToken token,
             NotificationDelegate<TPayload> notification,
-            FilterDelegate<TPayload> filter = null)
+            FilterDelegate<TPayload>? filter = null)
         {
             Token = Ensure.IsNotNull(token, nameof(token));
             _notificationRef = new WeakReference<NotificationDelegate<TPayload>>(
@@ -35,7 +35,7 @@ namespace Alium.Events
         }
 
         /// <inheritdoc />
-        public FilterDelegate<TPayload> OnFilterAsync
+        public FilterDelegate<TPayload>? OnFilterAsync
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Alium.Events
         }
 
         /// <inheritdoc />
-        public NotificationDelegate<TPayload> OnNotificationAsync
+        public NotificationDelegate<TPayload>? OnNotificationAsync
         {
             get
             {

@@ -13,16 +13,16 @@ namespace Alium
     /// </summary>
     public class WorkContextExtensionCollection : IWorkContextExtensionCollection
     {
-        private static KeyComparer _comparer = new KeyComparer();
-        private readonly IWorkContextExtensionCollection _defaults;
-        private IDictionary<Type, object> _extensions;
+        private static readonly KeyComparer _comparer = new KeyComparer();
+        private readonly IWorkContextExtensionCollection? _defaults;
+        private IDictionary<Type, object>? _extensions;
         private volatile int _revision;
 
         /// <summary>
         /// Initialises a new instance of <see cref="WorkContextExtensionCollection"/>.
         /// </summary>
         /// <param name="defaults">[Optional] The set of default extensions/</param>
-        public WorkContextExtensionCollection(IWorkContextExtensionCollection defaults = null)
+        public WorkContextExtensionCollection(IWorkContextExtensionCollection? defaults = null)
         {
             _defaults = defaults;
         }
@@ -35,7 +35,7 @@ namespace Alium
         public bool IsReadOnly => false;
 
         /// <inheritdoc />
-        public object this[Type key]
+        public object? this[Type key]
         {
             get
             {

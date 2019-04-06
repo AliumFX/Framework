@@ -17,7 +17,7 @@ namespace Alium.Features
         /// <param name="name">[Optional] The feature name.</param>
         /// <param name="description">[Optional] The feature description.</param>
         /// <param name="enabledByDefault">[Optional] Default enabled state.</param>
-        protected FeatureBase(FeatureId id, string name = null, string description = null, bool enabledByDefault = false)
+        protected FeatureBase(FeatureId id, string? name = null, string? description = null, bool enabledByDefault = false)
         {
             if (id.Equals(FeatureId.Empty))
             {
@@ -31,7 +31,7 @@ namespace Alium.Features
         }
 
         /// <inheritdoc />
-        public string Description { get; }
+        public string? Description { get; }
 
         /// <inheritdoc />
         public bool EnabledByDefault { get; }
@@ -40,7 +40,7 @@ namespace Alium.Features
         public FeatureId Id { get; }
 
         /// <inheritdoc />
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <inheritdoc />
         public virtual void Initialise(FeatureInitialisationContext context)

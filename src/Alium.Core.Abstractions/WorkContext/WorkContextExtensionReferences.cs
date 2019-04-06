@@ -9,6 +9,7 @@ namespace Alium
     /// Provides a cached lookup of a work context extension.
     /// </summary>
     public struct WorkContextExtensionReferences<TCache>
+        where TCache : struct
     {
         /// <summary>
         /// Initialises a new instance of <see cref="WorkContextExtensionReferences{TCache}"/>.
@@ -17,7 +18,7 @@ namespace Alium
         public WorkContextExtensionReferences(IWorkContextExtensionCollection extensions)
         {
             Extensions = Ensure.IsNotNull(extensions, nameof(extensions));
-            Cache = default(TCache);
+            Cache = default;
             Revision = Extensions.Revision;
         }
 
@@ -51,18 +52,18 @@ namespace Alium
             if (Revision != Extensions.Revision)
             {
                 cleared = true;
-                Cache = default(TCache);
+                Cache = default;
                 Revision = Extensions.Revision;
             }
 
-            var extension = cached;
+            TExtension? extension = cached;
             if (extension == null || cleared)
             {
                 extension = Extensions.GetExtension<TExtension>();
                 if (extension == null)
                 {
                     extension = factory(state);
-                    Extensions.SetExtension<TExtension>(extension);
+                    Extensions.SetExtension(extension);
                     Revision = Extensions.Revision;
                 }
                 cached = extension;

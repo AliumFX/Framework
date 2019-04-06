@@ -3,9 +3,6 @@
 
 namespace Alium.Events
 {
-    using System;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Defines the required contract for implementing an event subscription factory
     /// </summary>
@@ -21,6 +18,6 @@ namespace Alium.Events
         IEventSubscription<TPayload> CreateEventSubscription(
             SubscriptionToken subscriptionToken,
             NotificationDelegate<TPayload> onNotificationAsync,
-            FilterDelegate<TPayload> onFilterAsync = null);
+            FilterDelegate<TPayload>? onFilterAsync = null);
     }
 }
