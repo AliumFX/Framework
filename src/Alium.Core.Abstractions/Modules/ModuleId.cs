@@ -10,7 +10,7 @@ namespace Alium.Modules
     /// Represents a module id.
     /// </summary>
     [DebuggerDisplay("Module Id: {Value}")]
-    public struct ModuleId : IComparable<string?>, IComparable<ModuleId>, IEquatable<string?>, IEquatable<ModuleId>
+    public readonly struct ModuleId : IComparable<string?>, IComparable<ModuleId>, IEquatable<string?>, IEquatable<ModuleId>
     {
         /// <summary>
         /// Represents an empty module id.

@@ -12,7 +12,7 @@ namespace Alium.Features
     /// Represents a feature id.
     /// </summary>
     [DebuggerDisplay("Feature Id: {Value}")]
-    public struct FeatureId : IComparable<string?>, IComparable<FeatureId>, IEquatable<string?>, IEquatable<FeatureId>
+    public readonly struct FeatureId : IComparable<string?>, IComparable<FeatureId>, IEquatable<string?>, IEquatable<FeatureId>
     {
         private readonly Lazy<FeatureId>? _parentFeatureIdThunk;
 

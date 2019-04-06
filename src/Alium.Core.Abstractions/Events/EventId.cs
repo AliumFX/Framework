@@ -10,7 +10,7 @@ namespace Alium.Events
     /// Represents an event id
     /// </summary>
     [DebuggerDisplay("Event Id: {Value}")]
-    public struct EventId : IComparable<string?>, IComparable<EventId>, IEquatable<string?>, IEquatable<EventId>
+    public readonly struct EventId : IComparable<string?>, IComparable<EventId>, IEquatable<string?>, IEquatable<EventId>
     {
         private readonly Lazy<EventId>? _parentEventIdThunk;
 

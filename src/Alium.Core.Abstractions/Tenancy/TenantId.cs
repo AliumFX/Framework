@@ -10,7 +10,7 @@ namespace Alium.Tenancy
     /// Represents a tenant id.
     /// </summary>
     [DebuggerDisplay("Tenant Id: {Value}")]
-    public struct TenantId : IComparable<string?>, IComparable<TenantId>, IEquatable<string?>, IEquatable<TenantId>
+    public readonly struct TenantId : IComparable<string?>, IComparable<TenantId>, IEquatable<string?>, IEquatable<TenantId>
     {
         /// <summary>
         /// Represents the defualt tenant id.
