@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26720.2
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DC3964A9-C266-4A8A-954D-44504A64EF8C}"
 EndProject
@@ -29,6 +29,20 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{659437A0-D554-462E-B7C8-937118DBC628}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alium.Core.WebSample", "samples\Alium.Core.WebSample\Alium.Core.WebSample.csproj", "{0313F9D4-B184-4AE2-8099-CBD3B4ACA84C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build-template", "build-template", "{C8A240AC-B7F5-4FF6-A582-B6B9EEEC20D0}"
+	ProjectSection(SolutionItems) = preProject
+		build-template\.gitignore = build-template\.gitignore
+		build-template\build.cake = build-template\build.cake
+		build-template\build.props = build-template\build.props
+		build-template\build.ps1 = build-template\build.ps1
+		build-template\build.sh = build-template\build.sh
+		build-template\build.targets = build-template\build.targets
+		build-template\dependencies.props = build-template\dependencies.props
+		build-template\LICENSE = build-template\LICENSE
+		build-template\packages.props = build-template\packages.props
+		build-template\README.md = build-template\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
