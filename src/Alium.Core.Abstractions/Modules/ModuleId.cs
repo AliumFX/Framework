@@ -10,7 +10,7 @@ namespace Alium.Modules
     /// Represents a module id.
     /// </summary>
     [DebuggerDisplay("Module Id: {Value}")]
-    public struct ModuleId : IComparable<string>, IComparable<ModuleId>, IEquatable<string>, IEquatable<ModuleId>
+    public struct ModuleId : IComparable<string?>, IComparable<ModuleId>, IEquatable<string?>, IEquatable<ModuleId>
     {
         /// <summary>
         /// Represents an empty module id.
@@ -38,7 +38,7 @@ namespace Alium.Modules
         public string Value { get; }
 
         /// <inheritdoc />
-        public int CompareTo(string other)
+        public int CompareTo(string? other)
         {
             if (HasValue)
             {
@@ -75,7 +75,7 @@ namespace Alium.Modules
         }
 
         /// <inheritdoc />
-        public bool Equals(string other)
+        public bool Equals(string? other)
             => CompareTo(other) == 0;
 
         /// <inheritdoc />

@@ -61,7 +61,7 @@ namespace Alium
         /// </remarks>
         /// <param name="objectName">[Optional] The object name</param>
         /// <param name="message">[Optional] The message to pass to the thrown exception</param>
-        protected void EnsureNotDisposed(string objectName = null, string message = null)
+        protected void EnsureNotDisposed(string? objectName = null, string? message = null)
         {
             if (Disposed)
             {

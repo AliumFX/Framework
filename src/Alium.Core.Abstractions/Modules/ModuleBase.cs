@@ -20,7 +20,7 @@ namespace Alium.Modules
         /// <param name="name">[Optional] The module name.</param>
         /// <param name="description">[Optional] The module description.</param>
         /// <param name="dependencies">[Optional] The set of dependencies for this module.</param>
-        protected ModuleBase(ModuleId id, string name = null, string description = null, IEnumerable<ModuleId> dependencies = null)
+        protected ModuleBase(ModuleId id, string? name = null, string? description = null, IEnumerable<ModuleId>? dependencies = null)
         {
             if (id.Equals(ModuleId.Empty))
             {
@@ -40,10 +40,10 @@ namespace Alium.Modules
         public ModuleId Id { get; }
 
         /// <inheritdoc />
-        public string Description { get; }
+        public string? Description { get; }
 
         /// <inheritdoc />
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <inheritdoc />
         public virtual void Initialise(ModuleInitialisationContext context) { }

@@ -3,9 +3,9 @@
 
 namespace Alium
 {
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
     using Alium.Configuration;
     using Alium.DependencyInjection;
@@ -30,7 +30,7 @@ namespace Alium
         { }
 
         /// <inheritdoc />
-        public void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+        public void BuildConfiguration(HostBuilderContext context, IConfigurationBuilder builder)
         {
             Ensure.IsNotNull(context, nameof(context));
             Ensure.IsNotNull(builder, nameof(builder));
@@ -57,11 +57,12 @@ namespace Alium
 
             services.AddSingleton<IFlags, Flags>();
 
-            services.AddSingleton<ITaskExecutor, TaskExecutor>();
-            services.AddSingleton<IStartupFilter, TaskExecutorStartupFilter>();
+            services.AddSingleton<IHostedService, ModuleInitialiserHostedService>();
+            services.AddSingleton<IHostedService, FeatureInitialiserHostedService>();
 
-            services.AddSingleton<IStartupFilter, FeatureInitialiserStartupFilter>();
-            services.AddSingleton<IStartupFilter, ModuleInitialiserStartupFilter>();
+            services.AddSingleton<ITaskExecutor, TaskExecutor>();
+            services.AddSingleton<IHostedService, TaskExecutorHostedService>();
+
 
             services.AddScoped<IWorkContext, WorkContext>();
 

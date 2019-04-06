@@ -11,23 +11,25 @@ using Microsoft.Extensions.Logging;
 namespace Alium.Core.WebSample
 {
     using Alium.Modules;
+    using Microsoft.Extensions.Hosting;
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            await BuildHost(args).RunAsync();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IHost BuildHost(string[] args) =>
+            Host.CreateDefaultBuilder()
                 .UseDiscoveredModules()
-                .UseUrls("http://localhost:5000", "http://localhost:5001")
-                .UseStartup<Startup>()
-                .ConfigureLogging(lb =>
-                {
-                    lb.SetMinimumLevel(LogLevel.Trace);
-                })
+                .ConfigureWebHostDefaults(whb => whb
+                    .UseUrls("http://localhost:5000", "http://localhost:50001")
+                    .UseStartup<Startup>()
+                )
+                .ConfigureLogging(lb => lb
+                    .SetMinimumLevel(LogLevel.Trace)
+                )
                 .Build();
     }
 }

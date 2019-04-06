@@ -4,25 +4,29 @@
 namespace Alium.Features
 {
     using System;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Hosting;
 
     /// <summary>
     /// Initialises feature.
     /// </summary>
-    public class FeatureInitialiserStartupFilter : IStartupFilter
+    public class FeatureInitialiserHostedService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IFeatureProvider _featureProvider;
         private readonly IFeatureStateProvider _featureStateProvider;
 
         /// <summary>
-        /// Initialises a new instance of <see cref="FeatureInitialiserStartupFilter"/>.
+        /// Initialises a new instance of <see cref="FeatureInitialiserHostedService"/>.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="featureProvider">The feature provider.</param>
         /// <param name="featureStateProvider">The feature state provider.</param>
-        public FeatureInitialiserStartupFilter(IServiceProvider serviceProvider, IFeatureProvider featureProvider, IFeatureStateProvider featureStateProvider)
+        public FeatureInitialiserHostedService(
+            IServiceProvider serviceProvider,
+            IFeatureProvider featureProvider,
+            IFeatureStateProvider featureStateProvider)
         {
             _serviceProvider = Ensure.IsNotNull(serviceProvider, nameof(serviceProvider));
             _featureProvider = Ensure.IsNotNull(featureProvider, nameof(featureProvider));
@@ -30,10 +34,8 @@ namespace Alium.Features
         }
 
         /// <inheritdoc />
-        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            Ensure.IsNotNull(next, nameof(next));
-
             var context = new FeatureInitialisationContext(_serviceProvider);
 
             foreach (var feature in _featureProvider.Features)
@@ -45,7 +47,11 @@ namespace Alium.Features
                 }
             }
 
-            return next;
+            return Task.CompletedTask;
         }
+
+        /// <inheritdoc />
+        public Task StopAsync(CancellationToken cancellationToken)
+            => Task.CompletedTask;
     }
 }

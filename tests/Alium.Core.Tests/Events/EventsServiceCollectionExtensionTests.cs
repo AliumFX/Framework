@@ -25,7 +25,9 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => EventsServiceCollectionExtensions.AddEventSubscriber<TestEvent, string, TestEventSubscriber>(null /* services */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -47,7 +49,9 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => EventsServiceCollectionExtensions.AddEvent<TestEvent, string>(null /* services */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -63,7 +67,7 @@ namespace Alium.Events
         private void RunTests(
             Action<IServiceCollection> config,
             Func<ServiceDescriptor, bool> predicate,
-            Action<IServiceCollection, ServiceDescriptor> asserts = null)
+            Action<IServiceCollection, ServiceDescriptor>? asserts = null)
         {
             // Arrange
             var services = new ServiceCollection();

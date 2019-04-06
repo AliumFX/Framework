@@ -23,6 +23,6 @@ namespace Alium.Infrastructure
         /// <param name="flag">The flag key.</param>
         /// <param name="default">[Optional] the default value.</param>
         /// <returns>The flag value.</returns>
-        string Value(string flag, string @default = null);
+        string? Value(string flag, string? @default = null);
     }
 }

@@ -39,7 +39,7 @@ namespace Alium.Events
         /// <returns>A subscription token which can be used to control how long the subscription lasts</returns>
         SubscriptionToken Subscribe(
             NotificationDelegate<TPayload> onNotificatonAsync,
-            FilterDelegate<TPayload> onFilterAsync = null);
+            FilterDelegate<TPayload>? onFilterAsync = null);
         
         /// <summary>
         /// Unsubscribes an attached subscriber with the given subscription token

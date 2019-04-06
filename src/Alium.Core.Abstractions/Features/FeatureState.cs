@@ -17,7 +17,7 @@ namespace Alium.Features
         /// <param name="featureId">The feature id.</param>
         /// <param name="configurationSection">The configuration section.</param>
         /// <param name="enabled">Enabled state of the feature.</param>
-        public FeatureState(FeatureId featureId, IConfigurationSection configurationSection, bool enabled)
+        public FeatureState(FeatureId featureId, IConfigurationSection? configurationSection, bool enabled)
         {
             if (!featureId.HasValue)
             {
@@ -32,7 +32,7 @@ namespace Alium.Features
         /// <summary>
         /// Gets the configuration section.
         /// </summary>
-        public IConfigurationSection ConfigurationSection { get; }
+        public IConfigurationSection? ConfigurationSection { get; }
 
         /// <summary>
         /// Gets whether the feature is enabled.

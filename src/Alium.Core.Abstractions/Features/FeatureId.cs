@@ -12,9 +12,9 @@ namespace Alium.Features
     /// Represents a feature id.
     /// </summary>
     [DebuggerDisplay("Feature Id: {Value}")]
-    public struct FeatureId : IComparable<string>, IComparable<FeatureId>, IEquatable<string>, IEquatable<FeatureId>
+    public struct FeatureId : IComparable<string?>, IComparable<FeatureId>, IEquatable<string?>, IEquatable<FeatureId>
     {
-        private readonly Lazy<FeatureId> _parentFeatureIdThunk;
+        private readonly Lazy<FeatureId>? _parentFeatureIdThunk;
 
         /// <summary>
         /// Represents an empty feature id.
@@ -111,7 +111,7 @@ namespace Alium.Features
         public string Value { get; }
 
         /// <inheritdoc />
-        public int CompareTo(string other)
+        public int CompareTo(string? other)
         {
             if (HasValue)
             {
@@ -148,7 +148,7 @@ namespace Alium.Features
         }
 
         /// <inheritdoc />
-        public bool Equals(string other)
+        public bool Equals(string? other)
             => CompareTo(other) == 0;
 
         /// <inheritdoc />

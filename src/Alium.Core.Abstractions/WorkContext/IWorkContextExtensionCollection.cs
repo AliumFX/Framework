@@ -26,6 +26,6 @@ namespace Alium
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        object this[Type key] { get; set; }
+        object? this[Type key] { get; set; }
     }
 }

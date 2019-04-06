@@ -20,6 +20,8 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             Assert.Throws<ArgumentNullException>(() => new TenantScopedServiceDescriptor(
                 null /* serviceType */,
                 (Type)null /* implemenationType */));
@@ -31,6 +33,8 @@ namespace Alium.Tenancy
             Assert.Throws<ArgumentNullException>(() => new TenantScopedServiceDescriptor(
                 typeof(Person),
                 (Func<IServiceProvider, object>)null /* factory */));
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
 
@@ -38,7 +42,9 @@ namespace Alium.Tenancy
         public void Constructor_SetsProperties()
         {
             // Arrange
+#pragma warning disable CS8603 // Possible null reference return.
             Func<IServiceProvider, object> factory = sp => null;
+#pragma warning restore CS8603 // Possible null reference return.
 
             // Act
             var descriptor1 = new TenantScopedServiceDescriptor(typeof(Person), typeof(Person));

@@ -13,6 +13,6 @@ namespace Alium.Tenancy
         /// <summary>
         /// Gets the tenant services
         /// </summary>
-        IServiceProvider TenantServices { get; }
+        IServiceProvider? TenantServices { get; }
     }
 }

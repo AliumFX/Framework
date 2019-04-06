@@ -13,7 +13,7 @@ namespace Alium.Features
         /// <summary>
         /// Gets the description of the feature.
         /// </summary>
-        string Description { get; }
+        string? Description { get; }
 
         /// <summary>
         /// Gets or sets wheter the feature is enabled by default.
@@ -28,7 +28,7 @@ namespace Alium.Features
         /// <summary>
         /// Gets the name of the feature.
         /// </summary>
-        string Name { get; }
+        string? Name { get; }
 
         /// <summary>
         /// Initialises the feature if the feature is enabled.

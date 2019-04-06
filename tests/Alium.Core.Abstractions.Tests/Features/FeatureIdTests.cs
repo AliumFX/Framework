@@ -22,6 +22,7 @@ namespace Alium.Features
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, null));
             Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, string.Empty));
             Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, null));
@@ -30,6 +31,7 @@ namespace Alium.Features
             Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, FeatureId.Empty, string.Empty));
             Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, new FeatureId(moduleId, "feature"), null));
             Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, new FeatureId(moduleId, "feature"), string.Empty));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -117,7 +119,7 @@ namespace Alium.Features
             var id = new FeatureId(moduleId, "feature");
 
             // Act
-            int compare0 = id.CompareTo((string) null);
+            int compare0 = id.CompareTo((string?) null);
             int compare1 = id.CompareTo("module.feature");
             int compare2 = id.CompareTo("module.zzzz");
             int compare3 = id.CompareTo("module.aaaa");
@@ -170,7 +172,7 @@ namespace Alium.Features
             var id = new FeatureId(moduleId, "feature");
 
             // Act
-            bool equate0 = id.Equals((string)null);
+            bool equate0 = id.Equals((string?)null);
             bool equate1 = id.Equals("module.feature");
             bool equate2 = id.Equals("module.aaaa");
 

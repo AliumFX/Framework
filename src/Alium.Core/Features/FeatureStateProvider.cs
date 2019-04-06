@@ -72,7 +72,7 @@ namespace Alium.Features
             private readonly IFeatureProvider _featureProvider;
             private readonly ConcurrentDictionary<FeatureId, FeatureState> _store = new ConcurrentDictionary<FeatureId, FeatureState>();
 
-            private FeatureStateProviderScope _rootScope;
+            private FeatureStateProviderScope? _rootScope;
 
             /// <summary>
             /// Initialises a new instance of <see cref="FeatureStateProviderScope"/>
@@ -80,7 +80,7 @@ namespace Alium.Features
             /// <param name="section">The configuration section.</param>
             /// <param name="featureProvider">The feature provider</param>
             /// <param name="rootScope">[Optional] The root scope.</param>
-            public FeatureStateProviderScope(IConfigurationSection section, IFeatureProvider featureProvider, FeatureStateProviderScope rootScope = null)
+            public FeatureStateProviderScope(IConfigurationSection section, IFeatureProvider featureProvider, FeatureStateProviderScope? rootScope = null)
             {
                 _section = Ensure.IsNotNull(section, nameof(section));
                 _featureProvider = Ensure.IsNotNull(featureProvider, nameof(featureProvider));

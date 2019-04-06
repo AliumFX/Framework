@@ -3,24 +3,24 @@
 
 namespace Alium.Modules
 {
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.DependencyModel;
-    
-    using Alium.Infrastructure;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyModel;
+    using Microsoft.Extensions.Hosting;
+
+    using Alium.Infrastructure;
 
     /// <summary>
-    /// Provides extensions for the <see cref="IWebHostBuilder"/> type.
+    /// Provides extensions for the <see cref="IHostBuilder"/> type.
     /// </summary>
-    public static class ModuleWebHostBuilderExtensions
+    public static class ModuleHostBuilderExtensions
     {
         /// <summary>
         /// Configures the application to use a specific set of modules.
         /// </summary>
-        /// <param name="builder">The web host builder.</param>
+        /// <param name="builder">The host builder.</param>
         /// <param name="modules">The set of modules.</param>
-        /// <returns>The web host builder.</returns>
-        public static IWebHostBuilder UseModules(this IWebHostBuilder builder, params IModule[] modules)
+        /// <returns>The host builder.</returns>
+        public static IHostBuilder UseModules(this IHostBuilder builder, params IModule[] modules)
         {
             Ensure.IsNotNull(builder, nameof(builder));
             Ensure.IsNotNull(modules, nameof(modules));
@@ -47,10 +47,10 @@ namespace Alium.Modules
         /// Configures the application to discover modules provided by a dependency context.
         /// If no dependency context is specified, the application will use the dependency context of the entry assembly.
         /// </summary>
-        /// <param name="builder">The web host builder.</param>
+        /// <param name="builder">The host builder.</param>
         /// <param name="dependencyContext">[Optional] The dependency context.</param>
-        /// <returns>The web host builder.</returns>
-        public static IWebHostBuilder UseDiscoveredModules(this IWebHostBuilder builder, DependencyContext dependencyContext = null)
+        /// <returns>The host builder.</returns>
+        public static IHostBuilder UseDiscoveredModules(this IHostBuilder builder, DependencyContext? dependencyContext = null)
         {
             Ensure.IsNotNull(builder, nameof(builder));
 

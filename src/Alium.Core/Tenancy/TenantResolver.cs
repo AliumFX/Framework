@@ -17,8 +17,8 @@ namespace Alium.Tenancy
     /// </summary>
     public class TenantResolver : ITenantResolver
     {
-        private readonly Lazy<TenantsConfiguration> _configThunk = null;
-        private readonly IFeatureStateProvider _featureStateProvider = null;
+        private readonly Lazy<TenantsConfiguration> _configThunk;
+        private readonly IFeatureStateProvider _featureStateProvider;
         private readonly FeatureState _tenancyFeatureState;
 
         /// <summary>
@@ -71,21 +71,23 @@ namespace Alium.Tenancy
             return Task.FromResult(TenantId.Empty);
         }
 
-        private TenantsConfiguration ResolveConfiguration(IConfigurationSection configuration)
+        private TenantsConfiguration ResolveConfiguration(IConfigurationSection? configuration)
         {
             var config = new TenantsConfiguration();
             var tenants = new List<TenantConfiguration>();
 
-            foreach (var section in configuration.GetSection("tenants").GetChildren())
+            if (configuration != null)
             {
-                string id = section.Key;
-                var tenant = new TenantConfiguration()
+                foreach (var section in configuration.GetSection("tenants").GetChildren())
                 {
-                    Id = id,
-                    HostNames = section.GetSection("hostnames").AsEnumerable().Skip(1).Select(p => p.Value).ToArray()
-                };
+                    string id = section.Key;
+                    var tenant = new TenantConfiguration(id)
+                    {
+                        HostNames = section.GetSection("hostnames").AsEnumerable().Skip(1).Select(p => p.Value).ToArray()
+                    };
 
-                tenants.Add(tenant);
+                    tenants.Add(tenant);
+                }
             }
 
             return new TenantsConfiguration
@@ -99,20 +101,29 @@ namespace Alium.Tenancy
             /// <summary>
             /// Gets or sets the set of tenants.
             /// </summary>
-            public TenantConfiguration[] Tenants { get; set; }
+            public TenantConfiguration[]? Tenants { get; set; }
         }
 
         private class TenantConfiguration
         {
             /// <summary>
+            /// Initialises a new instance of <see cref="TenantConfiguration"/>
+            /// </summary>
+            /// <param name="id">The tenant ID</param>
+            public TenantConfiguration(string id)
+            {
+                Id = Ensure.IsNotNullOrEmpty(id, nameof(id));
+            }
+
+            /// <summary>
             /// Gets or sets the tenant id.
             /// </summary>
-            public string Id { get; set; }
+            public string Id { get; }
 
             /// <summary>
             /// Gets or sets the tenant host names.
             /// </summary>
-            public string[] HostNames { get; set; }
+            public string[]? HostNames { get; set; }
         }
     }
 }

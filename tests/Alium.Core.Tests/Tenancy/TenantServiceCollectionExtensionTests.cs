@@ -75,16 +75,17 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(null /* services */, typeof(IService)));
-            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, (Type)null /* serviceType */));
+            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, (Type?)null /* serviceType */));
 
             Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(null /* services */, typeof(IService), typeof(Service)));
-            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, (Type)null /* serviceType */, typeof(Service)));
-            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, typeof(IService), (Type)null /* implementationType */));
+            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, (Type?)null /* serviceType */, typeof(Service)));
+            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, typeof(IService), (Type?)null /* implementationType */));
 
             Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(null /* services */, typeof(IService), sp => new Service()));
-            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, (Type)null /* serviceType */, sp => new Service()));
-            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, typeof(IService), (Func<IServiceProvider, object>)null /* implementationFactory */));
+            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, (Type?)null /* serviceType */, sp => new Service()));
+            Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped(services, typeof(IService), (Func<IServiceProvider, object>?)null /* implementationFactory */));
 
             Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped<Service>(null /* services */));
 
@@ -95,12 +96,13 @@ namespace Alium.Tenancy
 
             Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped<IService, Service>(null /* services */, sp => new Service()));
             Assert.Throws<ArgumentNullException>(() => TenantServiceCollectionExtensions.AddTenantScoped<IService, Service>(services, null /* implementationFactory */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         private void RunTests(
             Action<IServiceCollection> config,
             Func<TenantScopedServiceDescriptor, bool> predicate,
-            Action<IServiceCollection, TenantScopedServiceDescriptor> asserts = null)
+            Action<IServiceCollection, TenantScopedServiceDescriptor>? asserts = null)
         {
             // Arrange
             var services = new ServiceCollection();

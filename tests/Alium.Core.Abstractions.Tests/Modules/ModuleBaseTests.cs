@@ -18,7 +18,7 @@ namespace Alium.Modules
         public void Constructor_ValidatesParameters()
         {
             // Arrange
-            var mock = new Mock<ModuleBase>(MockBehavior.Loose, ModuleId.Empty, (string) null, (string) null, (IEnumerable<ModuleId>)null);
+            var mock = new Mock<ModuleBase>(MockBehavior.Loose, ModuleId.Empty, (string?) null, (string?) null, (IEnumerable<ModuleId>?) null);
 
             // Act
 
@@ -31,7 +31,7 @@ namespace Alium.Modules
         public void Constructor_SetsDependencies_WhenProvidedSetIsNull()
         {
             // Arrange
-            var mock = new Mock<ModuleBase>(MockBehavior.Loose, new ModuleId("Test"), (string) null, (string) null, (IEnumerable<ModuleId>) null);
+            var mock = new Mock<ModuleBase>(MockBehavior.Loose, new ModuleId("Test"), (string?) null, (string?) null, (IEnumerable<ModuleId>?) null);
             var module = mock.Object;
 
             // Act

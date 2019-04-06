@@ -10,7 +10,7 @@ namespace Alium.Tenancy
     /// Represents a tenant id.
     /// </summary>
     [DebuggerDisplay("Tenant Id: {Value}")]
-    public struct TenantId : IComparable<string>, IComparable<TenantId>, IEquatable<string>, IEquatable<TenantId>
+    public struct TenantId : IComparable<string?>, IComparable<TenantId>, IEquatable<string?>, IEquatable<TenantId>
     {
         /// <summary>
         /// Represents the defualt tenant id.
@@ -43,7 +43,7 @@ namespace Alium.Tenancy
         public string Value { get; }
 
         /// <inheritdoc />
-        public int CompareTo(string other)
+        public int CompareTo(string? other)
         {
             if (HasValue)
             {
@@ -80,7 +80,7 @@ namespace Alium.Tenancy
         }
 
         /// <inheritdoc />
-        public bool Equals(string other)
+        public bool Equals(string? other)
             => CompareTo(other) == 0;
 
         /// <inheritdoc />

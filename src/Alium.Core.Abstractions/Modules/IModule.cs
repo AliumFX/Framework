@@ -23,12 +23,12 @@ namespace Alium.Modules
         /// <summary>
         /// Gets the description of the module.
         /// </summary>
-        string Description { get; }
+        string? Description { get; }
 
         /// <summary>
         /// Gets the name of the module.
         /// </summary>
-        string Name { get; }
+        string? Name { get; }
 
         /// <summary>
         /// Initialises the module.

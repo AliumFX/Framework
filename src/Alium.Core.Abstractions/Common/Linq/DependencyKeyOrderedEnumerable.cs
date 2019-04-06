@@ -18,7 +18,7 @@ namespace Alium
     {
         private readonly IEnumerable<TElement> _source;
         private readonly Func<TElement, TDependencyKey> _keySelector;
-        private readonly Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>> _dependentKeySelector;
+        private readonly Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>?> _dependentKeySelector;
 
         /// <summary>
         /// Initialises a new instance of <see cref="DependencyKeyOrderedEnumerable{TElement, TDependencyKey}"/>.
@@ -29,7 +29,7 @@ namespace Alium
         public DependencyKeyOrderedEnumerable(
             IEnumerable<TElement> source,
             Func<TElement, TDependencyKey> keySelector,
-            Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>> dependentKeySelector)
+            Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>?> dependentKeySelector)
         {
             _source = Ensure.IsNotNull(source, nameof(source));
             _keySelector = Ensure.IsNotNull(keySelector, nameof(keySelector));
@@ -47,7 +47,7 @@ namespace Alium
         private class DependencyKeyOrderedEnumerator : IEnumerator<TElement>
         {
             private readonly Dictionary<TDependencyKey, TElement> _source;
-            private readonly Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>> _dependentKeySelector;
+            private readonly Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>?> _dependentKeySelector;
 
             private readonly IEnumerator<TElement> _output;
 
@@ -60,7 +60,7 @@ namespace Alium
             public DependencyKeyOrderedEnumerator(
                 IEnumerable<TElement> source,
                 Func<TElement, TDependencyKey> keySelector,
-                Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>> dependentKeySelector)
+                Func<TElement, TDependencyKey, IEnumerable<TDependencyKey>?> dependentKeySelector)
             {
                 Ensure.IsNotNull(source, nameof(source));
                 Ensure.IsNotNull(keySelector, nameof(keySelector));
@@ -126,7 +126,7 @@ namespace Alium
                 => _output.Current;
 
             /// <inheritdoc />
-            object IEnumerator.Current
+            object? IEnumerator.Current
                 => Current;
 
             /// <inheritdoc />

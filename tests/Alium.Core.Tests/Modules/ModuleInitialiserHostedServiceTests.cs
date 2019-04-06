@@ -6,14 +6,16 @@ namespace Alium.Modules
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Moq;
     using Xunit;
 
     /// <summary>
-    /// Provides tests for the <see cref="ModuleInitialiserStartupFilter"/> type.
+    /// Provides tests for the <see cref="ModuleInitialiserHostedService"/> type.
     /// </summary>
-    public class ModuleInitialiserStartupFilterTests
+    public class ModuleInitialiserHostedServiceTests
     {
         [Fact]
         public void Constructor_ValidatesArguments()
@@ -23,50 +25,36 @@ namespace Alium.Modules
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() =>
-                new ModuleInitialiserStartupFilter(
+                new ModuleInitialiserHostedService(
                     null /* serviceProvider */,
                     null /* moduleProvider */));
             Assert.Throws<ArgumentNullException>(() =>
-                new ModuleInitialiserStartupFilter(
+                new ModuleInitialiserHostedService(
                     Mock.Of<IServiceProvider>(),
                     null /* moduleProvider */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
-        public void Configure_ValidatesArguments()
+        public async Task StartAsync_ExecutesModuleInitialisation()
         {
             // Arrange
-            var filter = new ModuleInitialiserStartupFilter(
-                Mock.Of<IServiceProvider>(),
-                Mock.Of<IModuleProvider>());
-
-            // Act
-
-            // Assert
-            Assert.Throws<ArgumentNullException>(() => filter.Configure(null /* next */));
-        }
-
-        [Fact]
-        public void Configure_ExecutesModuleInitialisation()
-        {
-            // Arrange
-            ModuleInitialisationContext capturedContext = null;
+            ModuleInitialisationContext? capturedContext = null;
 
             var serviceProvider = Mock.Of<IServiceProvider>();
-            var filter = new ModuleInitialiserStartupFilter(
+            var service = new ModuleInitialiserHostedService(
                 serviceProvider,
                 CreateModuleProvider(
                     CreateModule(mic => capturedContext = mic)));
 
-            Action<IApplicationBuilder> configure = _ => { };
-
             // Act
-            filter.Configure(configure);
+            await service.StartAsync(CancellationToken.None);
 
             // Assert
             Assert.NotNull(capturedContext);
-            Assert.Same(serviceProvider, capturedContext.ApplicationServices);
+            Assert.Same(serviceProvider, capturedContext?.ApplicationServices);
         }
 
         private IModuleProvider CreateModuleProvider(IModule module)

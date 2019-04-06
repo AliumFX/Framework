@@ -58,7 +58,7 @@ namespace Alium
         {
             // Arrange
             bool @explicit = false;
-            WeakReference<Disposable> weak = null;
+            WeakReference<Disposable>? weak = null;
 
             Action act = () =>
             {
@@ -80,7 +80,7 @@ namespace Alium
         {
             // Arrange
             bool @implicit = false;
-            WeakReference<Disposable> weak = null;
+            WeakReference<Disposable>? weak = null;
 
             Action act = () =>
             {
@@ -114,10 +114,10 @@ namespace Alium
 
         class Disposable : DisposableBase
         {
-            private readonly Action _onExplicitDispose;
-            private readonly Action _onImplicitDispose;
+            private readonly Action? _onExplicitDispose;
+            private readonly Action? _onImplicitDispose;
 
-            public Disposable(Action onExplicitDispose = null, Action onImplicitDispose = null)
+            public Disposable(Action? onExplicitDispose = null, Action? onImplicitDispose = null)
             {
                 _onExplicitDispose = onExplicitDispose;
                 _onImplicitDispose = onImplicitDispose;

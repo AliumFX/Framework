@@ -15,7 +15,7 @@ namespace Alium
         public void Constructor_SetsProperties()
         {
             // Arrange
-            var person = new Person();
+            var person = new Person("Matthew", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
@@ -29,7 +29,7 @@ namespace Alium
         public void Equals_ReturnsTrue_ForSameInstance()
         {
             // Arrange
-            var person = new Person();
+            var person = new Person("Matthew", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
@@ -46,7 +46,9 @@ namespace Alium
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             bool equals = comparer.Equals(null, null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
 
             // Assert
             Assert.True(equals);
@@ -56,12 +58,14 @@ namespace Alium
         public void Equals_ReturnsFalse_ForNullInstance()
         {
             // Arrange
-            var person = new Person();
+            var person = new Person("Matthew", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             bool equals0 = comparer.Equals(person, null);
             bool equals1 = comparer.Equals(null, person);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
 
             // Assert
             Assert.False(equals0);
@@ -72,8 +76,8 @@ namespace Alium
         public void Equals_ReturnsTrue_WhenNoPropertySelectorsProvided()
         {
             // Arrange
-            var person0 = new Person();
-            var person1 = new Person();
+            var person0 = new Person("Matthew", "Abbott");
+            var person1 = new Person("Matt", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
@@ -87,22 +91,16 @@ namespace Alium
         public void Equals_UsesPropertySelectors()
         {
             // Arrange
-            var person0 = new Person()
+            var person0 = new Person("Matt", "Abbott")
             {
-                Forename = "Matt",
-                Surname = "Abbott",
                 DateOfBirth = new DateTime(1984, 3, 11)
             };
-            var person1 = new Person()
+            var person1 = new Person("Matt", "Abbott")
             {
-                Forename = "Matt",
-                Surname = "Abbott",
                 DateOfBirth = new DateTime(1984, 3, 11)
             };
-            var person2 = new Person()
+            var person2 = new Person("Matt", "Abbott2")
             {
-                Forename = "Matt",
-                Surname = "Abbott2",
                 DateOfBirth = new DateTime(1984, 3, 11)
             };
             var comparer0 = new DefaultObjectComparer<Person>
@@ -131,8 +129,8 @@ namespace Alium
         public void Compare_ReturnsZero_WhenNoPropertySelectorsProvided()
         {
             // Arrange
-            var person0 = new Person();
-            var person1 = new Person();
+            var person0 = new Person("Matthew", "Abbott");
+            var person1 = new Person("Matt", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
@@ -149,7 +147,9 @@ namespace Alium
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             var result = comparer.Compare(null, null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
 
             // Assert
             Assert.Equal(0, result);
@@ -159,7 +159,7 @@ namespace Alium
         public void Compare_ReturnsZero_ForSameInstance()
         {
             // Arrange
-            var person = new Person();
+            var person = new Person("Matthew", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
@@ -173,13 +173,15 @@ namespace Alium
         public void Compare_OrdersNullInstancesFirst()
         {
             // Arrange
-            var person = new Person();
+            var person = new Person("Matthew", "Abbott");
             // MA - Provide at least 1 property selector.
             var comparer = new DefaultObjectComparer<Person>(p => p.Forename);
 
             // Act
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             var result0 = comparer.Compare(null, person);
             var result1 = comparer.Compare(person, null);
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
 
             // Assert
             Assert.Equal(-1, result0);
@@ -190,22 +192,16 @@ namespace Alium
         public void Compare_OrdersUsingPropertySelectors()
         {
             // Arrange
-            var person0 = new Person
+            var person0 = new Person("Matt", "Abbott")
             {
-                Forename = "Matt",
-                Surname = "Abbott",
                 DateOfBirth = new DateTime(1984, 3, 11)
             };
-            var person1 = new Person()
+            var person1 = new Person("Abbott", "Matt")
             {
-                Forename = "Abbott",
-                Surname = "Matt",
                 DateOfBirth = new DateTime(1984, 11, 3)
             };
-            var person2 = new Person
+            var person2 = new Person("Matthew", "Abbott")
             {
-                Forename = "Matthew",
-                Surname = "Abbott",
                 DateOfBirth = new DateTime(1984, 3, 11)
             };
             var comparer0 = new DefaultObjectComparer<Person>(
@@ -234,8 +230,14 @@ namespace Alium
 
         private class Person
         {
-            public string Forename { get; set; }
-            public string Surname { get; set; }
+            public Person(string forename, string surname)
+            {
+                Forename = forename;
+                Surname = surname;
+            }
+
+            public string Forename { get; }
+            public string Surname { get; }
             public DateTime DateOfBirth { get; set; }
         }
     }

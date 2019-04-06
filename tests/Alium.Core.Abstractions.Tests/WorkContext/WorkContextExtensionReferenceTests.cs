@@ -17,7 +17,7 @@ namespace Alium
         {
             // Arrange
             object extension = new object();
-            object capturedExtension = null;
+            object? capturedExtension = null;
             var collection = CreateCollection<object>(
                 revision: 1, 
                 onSet: e => capturedExtension = e);
@@ -38,7 +38,7 @@ namespace Alium
         {
             // Arrange
             object extension = new object();
-            object capturedExtension = null;
+            object? capturedExtension = null;
             var collection = CreateCollection<object>(
                 revision: 1, 
                 onSet: e => capturedExtension = e);
@@ -111,10 +111,10 @@ namespace Alium
 
         private IWorkContextExtensionCollection CreateCollection<TExtension>(
             int? revision = null,
-            Func<int> onRevision = null,
-            TExtension extension = null,
-            Func<TExtension> onGet = null,
-            Action<TExtension> onSet = null)
+            Func<int>? onRevision = null,
+            TExtension? extension = null,
+            Func<TExtension>? onGet = null,
+            Action<TExtension>? onSet = null)
             where TExtension : class
         {
             var mock = new Mock<IWorkContextExtensionCollection>();
@@ -122,12 +122,20 @@ namespace Alium
             if (onRevision != null)
             {
                 mock.Setup(wcec => wcec.Revision)
-                    .Returns(() => onRevision());
+                    .Returns(() =>
+                    {
+                        if (onRevision != null)
+                        {
+                            return onRevision();
+                        }
+
+                        return revision.GetValueOrDefault(1);
+                    });
             }
             else if (revision != null)
             {
                 mock.Setup(wcec => wcec.Revision)
-                    .Returns(() => revision.Value);
+                    .Returns(() => revision.GetValueOrDefault(1));
             }
             else
             {
@@ -144,13 +152,20 @@ namespace Alium
             if (onGet != null)
             {
                 mock.SetupGet(wcfc => wcfc[It.IsAny<Type>()])
-                    .Returns(() => onGet());
+                    .Returns(() =>
+                    {
+                        if (onGet != null)
+                        {
+                            return onGet();
+                        }
+                        return default;
+                    });
             }
 
             if (onSet != null)
             {
                 mock.SetupSet(wcfc => wcfc[typeof(TExtension)] = It.IsAny<TExtension>())
-                    .Callback<Type, TExtension>((t, f) => onSet(f));
+                    .Callback<Type, TExtension>((t, f) => onSet?.Invoke(f));
             }
 
             return mock.Object;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,12 +20,14 @@ namespace Alium.Core.WebSample
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+#pragma warning disable IDE0060 // Remove unused parameter
         public void ConfigureServices(IServiceCollection services)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IModuleProvider moduleProvider, IFeatureProvider featureProvider, IFeatureStateProvider featureStateProvider)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, IModuleProvider moduleProvider, IFeatureProvider featureProvider, IFeatureStateProvider featureStateProvider)
         {
             if (env.IsDevelopment())
             {
@@ -45,7 +47,7 @@ namespace Alium.Core.WebSample
                 }
             }
 
-            app.Run(async (context) =>
+            app.Run((context) =>
             {
                 Console.WriteLine($"Executing for {context.Request.Path}");
 
@@ -54,16 +56,18 @@ namespace Alium.Core.WebSample
 
                 if (feature1.Enabled)
                 {
-                    feature1.Service.DoAction();
+                    feature1.Service?.DoAction();
                 }
 
                 if (feature2.Enabled)
                 {
-                    feature2.Service.DoAction(feature2.Configuration);
+                    feature2.Service?.DoAction(feature2.Configuration);
                 }
 
                 var tenantService = context.RequestServices.GetRequiredService<ITenantService>();
                 tenantService.DoAction();
+
+                return Task.CompletedTask;
             });
         }
     }
@@ -118,7 +122,7 @@ namespace Alium.Core.WebSample
 
     public class AppFeatureConfiguration
     {
-        public string Message { get; set; }
+        public string? Message { get; set; }
     }
 
     public class AppModuleStartupTask : IStartupTask
@@ -130,7 +134,7 @@ namespace Alium.Core.WebSample
             _logger = loggerFactory.CreateLogger<AppModuleStartupTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("In module startup task");
 
@@ -147,7 +151,7 @@ namespace Alium.Core.WebSample
             _logger = loggerFactory.CreateLogger<AppModuleStartupTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("In module shutdown task");
 
@@ -164,7 +168,7 @@ namespace Alium.Core.WebSample
             _logger = loggerFactory.CreateLogger<AppFeatureStartupTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("In feature startup task");
 
@@ -181,7 +185,7 @@ namespace Alium.Core.WebSample
             _logger = loggerFactory.CreateLogger<AppFeatureShutdownTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task ExecuteAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("In feature shutdown task");
 
@@ -193,7 +197,7 @@ namespace Alium.Core.WebSample
     {
         void DoAction();
 
-        void DoAction(AppFeatureConfiguration config);
+        void DoAction(AppFeatureConfiguration? config);
     }
 
     public class AppService : IAppService
@@ -202,9 +206,9 @@ namespace Alium.Core.WebSample
         {
             Console.WriteLine("Service action");
         }
-        public void DoAction(AppFeatureConfiguration config)
+        public void DoAction(AppFeatureConfiguration? config)
         {
-            Console.WriteLine(config.Message);
+            Console.WriteLine(config?.Message);
         }
     }
 

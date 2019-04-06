@@ -24,7 +24,9 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => new TestEvent(null /* services */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -37,14 +39,16 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await @event.PublishAsync(null /* context */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
         public async Task PublishAsync_NotifiesAttachedSubscribers_WithNoFilter()
         {
             // Arrange
-            EventContext<object> captured = null;
+            EventContext<object>? captured = null;
 
             var payload = new Object();
             var eventId = new EventId("Test");
@@ -64,15 +68,15 @@ namespace Alium.Events
             // Assert
             Assert.NotNull(captured);
             Assert.Same(context, captured);
-            Assert.Same(payload, captured.Payload);
-            Assert.Equal(eventId, captured.EventId);
+            Assert.Same(payload, captured?.Payload);
+            Assert.Equal(eventId, captured?.EventId);
         }
 
         [Fact]
         public async Task PublishAsync_NotifiesAttachedSubscribers_WithTrueFilter()
         {
             // Arrange
-            EventContext<object> captured = null;
+            EventContext<object>? captured = null;
 
             var payload1 = new Object();
             var eventId1 = new EventId("Test1");
@@ -103,15 +107,15 @@ namespace Alium.Events
             // Assert
             Assert.NotNull(captured);
             Assert.Same(context1, captured);
-            Assert.Same(payload1, captured.Payload);
-            Assert.Equal(eventId1, captured.EventId);
+            Assert.Same(payload1, captured?.Payload);
+            Assert.Equal(eventId1, captured?.EventId);
         }
 
         [Fact]
         public async Task PublishAsync_NotifiesDynamicSubscribers_WithNoFilter()
         {
             // Arrange
-            EventContext<object> captured = null;
+            EventContext<object>? captured = null;
 
             var payload = new Object();
             var eventId = new EventId("Test");
@@ -134,15 +138,15 @@ namespace Alium.Events
             // Assert
             Assert.NotNull(captured);
             Assert.Same(context, captured);
-            Assert.Same(payload, captured.Payload);
-            Assert.Equal(eventId, captured.EventId);
+            Assert.Same(payload, captured?.Payload);
+            Assert.Equal(eventId, captured?.EventId);
         }
 
         [Fact]
         public async Task PublishAsync_NotifiesDynamicSubscribers_WithTrueFilter()
         {
             // Arrange
-            EventContext<object> captured = null;
+            EventContext<object>? captured = null;
 
             var payload1 = new Object();
             var eventId1 = new EventId("Test1");
@@ -177,15 +181,15 @@ namespace Alium.Events
             // Assert
             Assert.NotNull(captured);
             Assert.Same(context1, captured);
-            Assert.Same(payload1, captured.Payload);
-            Assert.Equal(eventId1, captured.EventId);
+            Assert.Same(payload1, captured?.Payload);
+            Assert.Equal(eventId1, captured?.EventId);
         }
 
         [Fact]
         public async Task PublishAsync_RemovesDeadSubscriptions()
         {
             // Arrange
-            EventContext<object> captured = null;
+            EventContext<object>? captured = null;
 
             var payload = new Object();
             var eventId = new EventId("Test");
@@ -218,7 +222,9 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => @event.Subscribe(null /* onNotificationAsync */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -246,7 +252,9 @@ namespace Alium.Events
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => @event.Unsubscribe(null /* subscriptioknToken */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -286,9 +294,9 @@ namespace Alium.Events
 
 
         private IEventServices<TestEvent, object> CreateServices(
-            IEnumerable<IEventSubscriber<TestEvent, object>> subscribers = null,
-            Func<EventContext<object>, bool> onEventSubscriptionFilter = null,
-            Action<EventContext<object>> onEventSubscriptionNotification = null,
+            IEnumerable<IEventSubscriber<TestEvent, object>>? subscribers = null,
+            Func<EventContext<object>, bool>? onEventSubscriptionFilter = null,
+            Action<EventContext<object>>? onEventSubscriptionNotification = null,
             bool isAlive = true)
         {
             var mock = new Mock<IEventServices<TestEvent, object>>();
@@ -307,8 +315,8 @@ namespace Alium.Events
         }
 
         private IEventSubscriber<TestEvent, object> CreateSubscriber(
-            Func<EventContext<object>, bool> onFilter = null,
-            Action<EventContext<object>> onNotification = null)
+            Func<EventContext<object>, bool>? onFilter = null,
+            Action<EventContext<object>>? onNotification = null)
         {
             var mock = new Mock<IEventSubscriber<TestEvent, object>>();
 
@@ -337,8 +345,8 @@ namespace Alium.Events
         }
 
         private IEventSubscriptionFactory<object> CreateSubscriptionFactory(
-            Func<EventContext<object>, bool> onEventSubscriptionFilter = null,
-            Action<EventContext<object>> onEventSubscriptionNotification = null,
+            Func<EventContext<object>, bool>? onEventSubscriptionFilter = null,
+            Action<EventContext<object>>? onEventSubscriptionNotification = null,
             bool isAlive = true)
         {
             var mock = new Mock<IEventSubscriptionFactory<object>>();
@@ -350,11 +358,10 @@ namespace Alium.Events
                 .Returns<SubscriptionToken, NotificationDelegate<object>, FilterDelegate<object>>(
                     (t, n, f) =>
                     {
-                        return new TestEventSubscription
+                        return new TestEventSubscription(t)
                         {
                             OnFilterAsync = f,
-                            OnNotificationAsync = isAlive ? n : null,
-                            Token = t
+                            OnNotificationAsync = isAlive ? n : null
                         };
                     });
 
@@ -369,8 +376,13 @@ namespace Alium.Events
 
         public class TestEventSubscription : IEventSubscription<object>
         {
-            public FilterDelegate<object> OnFilterAsync { get; set; }
-            public NotificationDelegate<object> OnNotificationAsync { get; set; }
+            public TestEventSubscription(SubscriptionToken token)
+            {
+                Token = token;
+            }
+
+            public FilterDelegate<object>? OnFilterAsync { get; set; }
+            public NotificationDelegate<object>? OnNotificationAsync { get; set; }
             public SubscriptionToken Token { get; set; }
         }
     }

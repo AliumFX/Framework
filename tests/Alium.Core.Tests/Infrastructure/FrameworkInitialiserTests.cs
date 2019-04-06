@@ -5,10 +5,10 @@ namespace Alium.Infrastructure
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
+    using Microsoft.Extensions.Hosting;
     using Xunit;
 
     using Alium.Configuration;
@@ -30,8 +30,10 @@ namespace Alium.Infrastructure
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => FrameworkInitialiser.FromModules(null /* modules */, null /* configuration */));
             Assert.Throws<ArgumentNullException>(() => FrameworkInitialiser.FromModules(Array.Empty<IModule>(), null /* configuration */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -47,8 +49,8 @@ namespace Alium.Infrastructure
             // Assert
             Assert.NotNull(init);
             Assert.NotNull(init.PartManager);
-            Assert.Contains(init.PartManager.PartFeatureProviders, pfp => pfp is ModulePartFeatureProvider);
-            Assert.Contains(init.PartManager.Parts, p => p is AssemblyPart && ((AssemblyPart)p).Assembly == typeof(TestModule).Assembly);
+            Assert.Contains(init.PartManager?.PartFeatureProviders, pfp => pfp is ModulePartFeatureProvider);
+            Assert.Contains(init.PartManager?.Parts, p => p is AssemblyPart && ((AssemblyPart)p).Assembly == typeof(TestModule).Assembly);
         }
 
         [Fact]
@@ -64,7 +66,7 @@ namespace Alium.Infrastructure
             // Assert
             Assert.NotNull(init);
             Assert.NotNull(init.ModuleProvider);
-            Assert.Contains(init.ModuleProvider.Modules, m => m == module);
+            Assert.Contains(init.ModuleProvider?.Modules, m => m == module);
         }
 
         [Fact]
@@ -80,7 +82,7 @@ namespace Alium.Infrastructure
             // Assert
             Assert.NotNull(init);
             Assert.NotNull(init.FeatureProvider);
-            Assert.Contains(init.FeatureProvider.Features, f => f is TestFeature);
+            Assert.Contains(init.FeatureProvider?.Features, f => f is TestFeature);
         }
 
         [Fact]
@@ -106,8 +108,10 @@ namespace Alium.Infrastructure
             // Act
 
             // Assert
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>(() => FrameworkInitialiser.FromModules(null /* modules */, null /* configuration */));
             Assert.Throws<ArgumentNullException>(() => FrameworkInitialiser.FromModules(Array.Empty<IModule>(), null /* configuration */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
@@ -123,8 +127,8 @@ namespace Alium.Infrastructure
             // Assert
             Assert.NotNull(init);
             Assert.NotNull(init.PartManager);
-            Assert.Contains(init.PartManager.PartFeatureProviders, pfp => pfp is ModulePartFeatureProvider);
-            Assert.Contains(init.PartManager.Parts, p => p is AssemblyPart && ((AssemblyPart)p).Assembly == typeof(TestModule).Assembly);
+            Assert.Contains(init.PartManager?.PartFeatureProviders, pfp => pfp is ModulePartFeatureProvider);
+            Assert.Contains(init.PartManager?.Parts, p => p is AssemblyPart && ((AssemblyPart)p).Assembly == typeof(TestModule).Assembly);
         }
 
         [Fact]
@@ -276,7 +280,7 @@ namespace Alium.Infrastructure
             var configuration = new ConfigurationBuilder().Build();
             var init = FrameworkInitialiser.FromModules(new IModule[] { module }, configuration);
             var builder = new ConfigurationBuilder();
-            var context = new WebHostBuilderContext();
+            var context = new HostBuilderContext(new Dictionary<object, object>());
 
             // Act
             init.ExtendConfiguration(context, builder);
@@ -293,7 +297,7 @@ namespace Alium.Infrastructure
             var configuration = new ConfigurationBuilder().Build();
             var init = FrameworkInitialiser.FromModules(new IModule[] { module }, configuration);
             var builder = new ConfigurationBuilder();
-            var context = new WebHostBuilderContext();
+            var context = new HostBuilderContext(new Dictionary<object, object>());
 
             // Act
             init.ExtendConfiguration(context, builder);
@@ -307,7 +311,7 @@ namespace Alium.Infrastructure
             public TestModule()
                 : base(new ModuleId("Test")) { }
 
-            public void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+            public void BuildConfiguration(HostBuilderContext context, IConfigurationBuilder builder)
             {
                 builder.Add(new ModuleConfigurationSource());
             }
@@ -328,7 +332,7 @@ namespace Alium.Infrastructure
             public TestFeature()
                 : base(new FeatureId(new ModuleId("Test"), "Test"), enabledByDefault: true) { }
 
-            public void BuildConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
+            public void BuildConfiguration(HostBuilderContext context, IConfigurationBuilder builder)
             {
                 builder.Add(new FeatureConfigurationSource());
             }

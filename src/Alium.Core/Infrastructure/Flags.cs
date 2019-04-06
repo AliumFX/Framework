@@ -12,8 +12,8 @@ namespace Alium.Infrastructure
     /// </summary>
     public class Flags : IFlags
     {
-        private readonly ConcurrentDictionary<string, string> _stringFlags = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        private readonly ConcurrentDictionary<string, object> _convertedFlags = new ConcurrentDictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, string?> _stringFlags = new ConcurrentDictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, object?> _convertedFlags = new ConcurrentDictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
         private readonly IConfigurationSection _root;
 
         /// <summary>
@@ -26,10 +26,13 @@ namespace Alium.Infrastructure
         }
 
         /// <inheritdoc />
-        public TValue Value<TValue>(string flag, TValue @default = default(TValue))
+        public TValue Value<TValue>(string flag, TValue @default = default)
         {
             Ensure.IsNotNullOrEmpty(flag, nameof(flag));
 
+            // MA - The value operation returns any type, which means we can't express the nullability of the return types here
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8603 // Possible null reference return.
             return (TValue)_convertedFlags.GetOrAdd(flag, f =>
             {
                 var section = _root.GetSection(flag);
@@ -40,10 +43,12 @@ namespace Alium.Infrastructure
 
                 return (TValue)Convert.ChangeType(section.Value, typeof(TValue));
             });
+#pragma warning restore CS8603 // Possible null reference return.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
         }
 
         /// <inheritdoc />
-        public string Value(string flag, string @default = null)
+        public string? Value(string flag, string? @default = null)
         {
             Ensure.IsNotNullOrEmpty(flag, nameof(flag));
 

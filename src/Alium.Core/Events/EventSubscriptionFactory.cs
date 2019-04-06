@@ -13,7 +13,7 @@ namespace Alium.Events
         public IEventSubscription<TPayload> CreateEventSubscription(
             SubscriptionToken subscriptionToken, 
             NotificationDelegate<TPayload> onNotificationAsync, 
-            FilterDelegate<TPayload> onFilterAsync = null)
+            FilterDelegate<TPayload>? onFilterAsync = null)
             => new EventSubscription<TPayload>(subscriptionToken, onNotificationAsync, onFilterAsync);
     }
 }

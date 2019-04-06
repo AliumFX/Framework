@@ -5,40 +5,43 @@ namespace Alium.Modules
 {
     using System;
     using System.Linq;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyModel;
+    using Microsoft.Extensions.Hosting;
     using Xunit;
 
     using Alium.Parts;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Provides tests for the <see cref="ModuleWebHostBuilderExtensions"/> type.
+    /// Provides tests for the <see cref="ModuleHostBuilderExtensions"/> type.
     /// </summary>
-    public class ModuleWebHostBuilderExtensionsTests
+    public class ModuleHostBuilderExtensionsTests
     {
         [Fact]
         public void UseModules_ValidatesArguments()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => ModuleWebHostBuilderExtensions.UseModules(null /* builder */, (IModule[])null /* modules */));
-            Assert.Throws<ArgumentNullException>(() => ModuleWebHostBuilderExtensions.UseModules(builder, (IModule[])null /* modules */));
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => ModuleHostBuilderExtensions.UseModules(null /* builder */, null /* modules */));
+            Assert.Throws<ArgumentNullException>(() => ModuleHostBuilderExtensions.UseModules(builder, null /* modules */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
         public void UseModules_AddsModuleProvider_ToServiceCollection()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseModules(builder);
+            ModuleHostBuilderExtensions.UseModules(builder);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
@@ -49,12 +52,12 @@ namespace Alium.Modules
         public void UseModules_AddsModuleProvider_ToServiceCollection_WithProvidedModules()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
             var module = new TestModule();
 
 
             // Act
-            ModuleWebHostBuilderExtensions.UseModules(builder, module);
+            ModuleHostBuilderExtensions.UseModules(builder, module);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
@@ -69,10 +72,10 @@ namespace Alium.Modules
         public void UseModules_AddsPartManager_ToServiceCollection()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseModules(builder);
+            ModuleHostBuilderExtensions.UseModules(builder);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IPartManager));
@@ -83,11 +86,11 @@ namespace Alium.Modules
         public void UseModules_AddsPartManager_ToServiceCollection_WithProvidedModuleAssemblyParts()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
             var module = new TestModule();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseModules(builder, module);
+            ModuleHostBuilderExtensions.UseModules(builder, module);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IPartManager));
@@ -104,22 +107,24 @@ namespace Alium.Modules
         public void UseDiscoveredModules_ValidatesArguments()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
 
             // Assert
-            Assert.Throws<ArgumentNullException>(() => ModuleWebHostBuilderExtensions.UseDiscoveredModules(null /* builder */));
+#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => ModuleHostBuilderExtensions.UseDiscoveredModules(null /* builder */));
+#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]
         public void UseDiscoveredModules_AddsModuleProvider_ToServiceCollection()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseDiscoveredModules(builder);
+            ModuleHostBuilderExtensions.UseDiscoveredModules(builder);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
@@ -130,10 +135,10 @@ namespace Alium.Modules
         public void UseDiscoveredModules_AddsModuleProvider_ToServiceCollection_WithDiscoveredModules()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseDiscoveredModules(builder);
+            ModuleHostBuilderExtensions.UseDiscoveredModules(builder);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IModuleProvider));
@@ -147,10 +152,10 @@ namespace Alium.Modules
         public void UseDiscoveredModules_AddsPartManager_ToServiceCollection()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseDiscoveredModules(builder);
+            ModuleHostBuilderExtensions.UseDiscoveredModules(builder);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IPartManager));
@@ -161,10 +166,10 @@ namespace Alium.Modules
         public void UseDiscoveredModules_AddsPartManager_ToServiceCollection_WithDiscoveredModuleAssemblyParts()
         {
             // Arrange
-            var builder = new TestWebHostBuilder();
+            var builder = new TestHostBuilder();
 
             // Act
-            ModuleWebHostBuilderExtensions.UseDiscoveredModules(builder);
+            ModuleHostBuilderExtensions.UseDiscoveredModules(builder);
 
             // Assert
             var descriptor = builder.Services.FirstOrDefault(sd => sd.ServiceType == typeof(IPartManager));
@@ -175,37 +180,52 @@ namespace Alium.Modules
             Assert.Contains(manager.Parts, p => p.Name == "Alium.Core");
         }
 
-        private class TestWebHostBuilder : IWebHostBuilder
+        private class TestHostBuilder : IHostBuilder
         {
             public IServiceCollection Services = new ServiceCollection();
+            public HostBuilderContext Context = new HostBuilderContext(new Dictionary<object, object>());
 
-            public IWebHost Build()
+            public IDictionary<object, object> Properties { get; } = new Dictionary<object, object>();
+
+            public IHost Build()
             {
                 throw new NotImplementedException();
             }
 
-            public IWebHostBuilder ConfigureAppConfiguration(Action<WebHostBuilderContext, IConfigurationBuilder> configureDelegate)
+            public IHostBuilder ConfigureAppConfiguration(Action<HostBuilderContext, IConfigurationBuilder> configureDelegate)
             {
                 return this;
             }
 
-            public IWebHostBuilder ConfigureServices(Action<IServiceCollection> configureServices)
+            public IHostBuilder ConfigureContainer<TContainerBuilder>(Action<HostBuilderContext, TContainerBuilder> configureDelegate)
+            {
+                return this;
+            }
+
+            public IHostBuilder ConfigureHostConfiguration(Action<IConfigurationBuilder> configureDelegate)
+            {
+                return this;
+            }
+
+            public IHostBuilder ConfigureServices(Action<IServiceCollection> configureServices)
             {
                 configureServices(Services);
                 return this;
             }
 
-            public IWebHostBuilder ConfigureServices(Action<WebHostBuilderContext, IServiceCollection> configureServices)
+            public IHostBuilder ConfigureServices(Action<HostBuilderContext, IServiceCollection> configureServices)
             {
+                configureServices(Context, Services);
                 return this;
             }
 
-            public string GetSetting(string key)
-            {
-                throw new NotImplementedException();
-            }
+            public string? GetSetting(string key) => default;
 
-            public IWebHostBuilder UseSetting(string key, string value)
+            public IHostBuilder UseServiceProviderFactory<TContainerBuilder>(IServiceProviderFactory<TContainerBuilder> factory) => this;
+
+            public IHostBuilder UseServiceProviderFactory<TContainerBuilder>(Func<HostBuilderContext, IServiceProviderFactory<TContainerBuilder>> factory) => this;
+
+            public IHostBuilder UseSetting(string key, string value)
             {
                 return this;
             }

@@ -17,7 +17,7 @@ namespace Alium.Features
         public void Constructor_ValidatesParameters()
         {
             // Arrange
-            var mock = new Mock<FeatureBase>(MockBehavior.Loose, FeatureId.Empty, (string)null, (string)null, false);
+            var mock = new Mock<FeatureBase>(MockBehavior.Loose, FeatureId.Empty, (string?)null, (string?)null, false);
 
             // Act
 

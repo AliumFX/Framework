@@ -10,6 +10,7 @@ namespace Alium.Features
     /// </summary>
     /// <typeparam name="TService">The service type.</typeparam>
     public interface IFeatureFactory<TService>
+        where TService : class
     {
         /// <summary>
         /// Creates the feature with given feature id.
