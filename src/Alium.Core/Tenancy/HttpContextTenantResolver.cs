@@ -15,18 +15,18 @@ namespace Alium.Tenancy
     /// <summary>
     /// Provides services to resolve the current tenant.
     /// </summary>
-    public class TenantResolver : ITenantResolver
+    public class HttpContextTenantResolver : ITenantResolver<HttpContext>
     {
         private readonly Lazy<TenantsConfiguration> _configThunk;
         private readonly IFeatureStateProvider _featureStateProvider;
         private readonly FeatureState _tenancyFeatureState;
 
         /// <summary>
-        /// Initialises a new instance of <see cref="TenantResolver"/>.
+        /// Initialises a new instance of <see cref="HttpContextTenantResolver"/>.
         /// </summary>
         /// <param name="featureStateProvider">The feature state provider.</param>
         /// <param name="configuration">The configuration.</param>
-        public TenantResolver(IFeatureStateProvider featureStateProvider)
+        public HttpContextTenantResolver(IFeatureStateProvider featureStateProvider)
         {
             _featureStateProvider = Ensure.IsNotNull(featureStateProvider, nameof(featureStateProvider));
 
@@ -35,9 +35,9 @@ namespace Alium.Tenancy
         }
 
         /// <inheritdoc />
-        public Task<TenantId> ResolveCurrentAsync(HttpContext httpContext)
+        public Task<TenantId> ResolveCurrentAsync(HttpContext context)
         {
-            Ensure.IsNotNull(httpContext, nameof(httpContext));
+            Ensure.IsNotNull(context, nameof(context));
 
             // MA - Get the tenancy feature state.
             if (!_tenancyFeatureState.Enabled)
@@ -55,7 +55,7 @@ namespace Alium.Tenancy
             }
 
             // MA - Resolve against a matching host name.
-            string hostname = httpContext.Request.Host.ToString();
+            string hostname = context.Request.Host.ToString();
             var tenantConfig = config.Tenants.FirstOrDefault(t => t.HostNames != null && t.HostNames.Contains(hostname, StringComparer.OrdinalIgnoreCase));
             if (tenantConfig != null)
             {

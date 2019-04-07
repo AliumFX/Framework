@@ -4,18 +4,17 @@
 namespace Alium.Tenancy
 {
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Resolves the current tenant.
     /// </summary>
-    public interface ITenantResolver
+    public interface ITenantResolver<TContext>
     {
         /// <summary>
         /// Resolves the current tenant id.
         /// </summary>
-        /// <param name="httpContext">The current HTTP context.</param>
+        /// <param name="context">The target context.</param>
         /// <returns>The resolved tenant id.</returns>
-        Task<TenantId> ResolveCurrentAsync(HttpContext httpContext);
+        Task<TenantId> ResolveCurrentAsync(TContext context);
     }
 }

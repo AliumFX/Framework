@@ -4,6 +4,7 @@
 namespace Alium.Tenancy
 {
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Hosting;
 
     using Alium.DependencyInjection;
@@ -25,7 +26,7 @@ namespace Alium.Tenancy
         public void BuildServices(IServiceCollection services)
         {
             services.AddSingleton<TenantServiceCollectionFactory>();
-            services.AddSingleton<ITenantResolver, TenantResolver>();
+            services.AddSingleton<ITenantResolver<HttpContext>, HttpContextTenantResolver>();
             services.AddSingleton<ITenantServiceProviderResolver, TenantServiceProviderResolver>();
             services.AddSingleton<IStartupFilter, TenantStartupFilter>();
             services.AddScoped<TenantMiddleware>();

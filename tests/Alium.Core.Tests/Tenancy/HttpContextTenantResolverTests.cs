@@ -14,9 +14,9 @@ namespace Alium.Tenancy
     using Alium.Features;
         
     /// <summary>
-    /// Provides tests for the <see cref="TenantResolver"/> type.
+    /// Provides tests for the <see cref="HttpContextTenantResolver"/> type.
     /// </summary>
-    public class TenantResolverTests
+    public class HttpContextTenantResolverTests
     {
         [Fact]
         public void Constructor_ValidatesArguments()
@@ -27,7 +27,7 @@ namespace Alium.Tenancy
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new TenantResolver(null /* featureStateProvider */));
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new HttpContextTenantResolver(null /* featureStateProvider */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
@@ -36,7 +36,7 @@ namespace Alium.Tenancy
         {
             // Arrange
             var featureStateProvider = CreateFeatureStateProvider();
-            var resolver = new TenantResolver(featureStateProvider);
+            var resolver = new HttpContextTenantResolver(featureStateProvider);
 
             // Act
 
@@ -57,7 +57,7 @@ namespace Alium.Tenancy
             var featureStateProvider = CreateFeatureStateProvider(
                 state: new FeatureState(CoreInfo.TenancyFeatureId, configuration.GetSection("Features:Core.Tenancy"), false));
             var httpContext = CreateHttpContext(new HostString("localhost:5000"));
-            var resolver = new TenantResolver(featureStateProvider);
+            var resolver = new HttpContextTenantResolver(featureStateProvider);
 
             // Act
             var tenantId = await resolver.ResolveCurrentAsync(httpContext);
@@ -79,7 +79,7 @@ namespace Alium.Tenancy
             var featureStateProvider = CreateFeatureStateProvider(
                 state: new FeatureState(CoreInfo.TenancyFeatureId, configuration.GetSection("Features:Core.Tenancy"), true));
             var httpContext = CreateHttpContext(new HostString("localhost:5000"));
-            var resolver = new TenantResolver(featureStateProvider);
+            var resolver = new HttpContextTenantResolver(featureStateProvider);
 
             // Act
             var tenantId = await resolver.ResolveCurrentAsync(httpContext);
@@ -102,7 +102,7 @@ namespace Alium.Tenancy
                 state: new FeatureState(CoreInfo.TenancyFeatureId, configuration.GetSection("Features:Core.Tenancy"), true),
                 onBeginTenantScope: t => matchedTenantId = t);
             var httpContext = CreateHttpContext(new HostString("localhost:5000"));
-            var resolver = new TenantResolver(featureStateProvider);
+            var resolver = new HttpContextTenantResolver(featureStateProvider);
 
             // Act
             var tenantId = await resolver.ResolveCurrentAsync(httpContext);
@@ -123,7 +123,7 @@ namespace Alium.Tenancy
             var featureStateProvider = CreateFeatureStateProvider(
                 state: new FeatureState(CoreInfo.TenancyFeatureId, configuration.GetSection("Features:Core.Tenancy"), true));
             var httpContext = CreateHttpContext(new HostString("localhost:5001"));
-            var resolver = new TenantResolver(featureStateProvider);
+            var resolver = new HttpContextTenantResolver(featureStateProvider);
 
             // Act
             var tenantId = await resolver.ResolveCurrentAsync(httpContext);

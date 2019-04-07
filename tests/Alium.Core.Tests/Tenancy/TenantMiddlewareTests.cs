@@ -19,7 +19,7 @@ namespace Alium.Tenancy
         public void Constructor_ValidatesArguments()
         {
             // Arrange
-            var tenantResolver = Mock.Of<ITenantResolver>();
+            var tenantResolver = Mock.Of<ITenantResolver<HttpContext>>();
             var tenantServiceProviderResolver = Mock.Of<ITenantServiceProviderResolver>();
 
             // Act
@@ -213,9 +213,9 @@ namespace Alium.Tenancy
                 CreateTenantServiceProviderResolver(tenantServiceProvider));
         }
 
-        private ITenantResolver CreateTenantResolver(TenantId? tenantId = null)
+        private ITenantResolver<HttpContext> CreateTenantResolver(TenantId? tenantId = null)
         {
-            var mock = new Mock<ITenantResolver>();
+            var mock = new Mock<ITenantResolver<HttpContext>>();
             mock.Setup(m => m.ResolveCurrentAsync(It.IsAny<HttpContext>()))
                 .Returns(() => Task.FromResult(tenantId.GetValueOrDefault(TenantId.Default)));
 

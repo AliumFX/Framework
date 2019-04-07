@@ -13,7 +13,7 @@ namespace Alium.Tenancy
     /// </summary>
     public class TenantMiddleware : IMiddleware
     {
-        private readonly ITenantResolver _tenantResolver;
+        private readonly ITenantResolver<HttpContext> _tenantResolver;
         private readonly ITenantServiceProviderResolver _tenantServiceProviderResolver;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Alium.Tenancy
         /// <param name="tenantResolver">The tenant resolver</param>
         /// <param name="workContext">The work context</param>
         /// <param name="tenantServiceProviderResolver">The tenant service provider resolver</param>
-        public TenantMiddleware(ITenantResolver tenantResolver, ITenantServiceProviderResolver tenantServiceProviderResolver)
+        public TenantMiddleware(ITenantResolver<HttpContext> tenantResolver, ITenantServiceProviderResolver tenantServiceProviderResolver)
         {
             _tenantResolver = Ensure.IsNotNull(tenantResolver, nameof(tenantResolver));
             _tenantServiceProviderResolver = Ensure.IsNotNull(tenantServiceProviderResolver, nameof(tenantServiceProviderResolver));
