@@ -26,13 +26,14 @@ namespace Alium.Infrastructure
         public void FromModules_ValidatesArguments()
         {
             // Arrange
+            var configuration = new ConfigurationBuilder().Build();
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => FrameworkInitialiser.FromModules(null /* modules */, null /* configuration */));
-            Assert.Throws<ArgumentNullException>(() => FrameworkInitialiser.FromModules(Array.Empty<IModule>(), null /* configuration */));
+            Assert.Throws<ArgumentNullException>("modules", () => FrameworkInitialiser.FromModules(null /* modules */, configuration));
+            Assert.Throws<ArgumentNullException>("configuration", () => FrameworkInitialiser.FromModules(Array.Empty<IModule>(), null /* configuration */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

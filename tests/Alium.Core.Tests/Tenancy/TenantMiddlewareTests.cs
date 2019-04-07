@@ -26,10 +26,10 @@ namespace Alium.Tenancy
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new TenantMiddleware(
+            Assert.Throws<ArgumentNullException>("tenantResolver", () => new TenantMiddleware(
                 null /* tenantResolver */,
-                null /* tenantServiceProviderResolver */));
-            Assert.Throws<ArgumentNullException>(() => new TenantMiddleware(
+                tenantServiceProviderResolver));
+            Assert.Throws<ArgumentNullException>("tenantServiceProviderResolver", () => new TenantMiddleware(
                 tenantResolver,
                 null /* tenantServiceProviderResolver */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
@@ -41,17 +41,18 @@ namespace Alium.Tenancy
             // Arrange
             var middleware = CreateMiddleware();
             var httpContext = new DefaultHttpContext();
+            Task next(HttpContext context) => Task.CompletedTask;
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await middleware.InvokeAsync(
+            await Assert.ThrowsAsync<ArgumentNullException>("context", async () => await middleware.InvokeAsync(
                 null /* httpContext */,
-                null /* requestDelegate */));
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await middleware.InvokeAsync(
+                next));
+            await Assert.ThrowsAsync<ArgumentNullException>("next", async () => await middleware.InvokeAsync(
                 httpContext,
-                null /* requestDelegate */));
+                null /* next */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

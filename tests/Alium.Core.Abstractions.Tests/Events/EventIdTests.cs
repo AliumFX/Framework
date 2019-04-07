@@ -20,11 +20,11 @@ namespace Alium.Events
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentException>(() => new EventId(null));
-            Assert.Throws<ArgumentException>(() => new EventId(string.Empty));
-            Assert.Throws<ArgumentException>(() => new EventId(EventId.Empty, null));
-            Assert.Throws<ArgumentException>(() => new EventId(new EventId("Test"), null));
-            Assert.Throws<ArgumentException>(() => new EventId(new EventId("Test"), string.Empty));
+            Assert.Throws<ArgumentException>("value", () => new EventId(null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new EventId(string.Empty /* value */));
+            Assert.Throws<ArgumentException>("value", () => new EventId(EventId.Empty, null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new EventId(new EventId("Test"), null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new EventId(new EventId("Test"), string.Empty /* value */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

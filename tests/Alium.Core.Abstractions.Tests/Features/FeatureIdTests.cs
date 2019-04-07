@@ -17,20 +17,24 @@ namespace Alium.Features
         public void Constructor_ValidatesArguments()
         {
             // Arrange
+            string value = "submodule";
             var moduleId = new ModuleId("module");
+            var featureId = new FeatureId(moduleId, "feature");
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, null));
-            Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, string.Empty));
-            Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, null));
-            Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, string.Empty));
-            Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, FeatureId.Empty, null));
-            Assert.Throws<ArgumentException>(() => new FeatureId(ModuleId.Empty, FeatureId.Empty, string.Empty));
-            Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, new FeatureId(moduleId, "feature"), null));
-            Assert.Throws<ArgumentException>(() => new FeatureId(moduleId, new FeatureId(moduleId, "feature"), string.Empty));
+            Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, value));
+            Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, value));
+            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, string.Empty /* value */));
+            Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, FeatureId.Empty, value));
+            Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, FeatureId.Empty, value));
+            Assert.Throws<ArgumentException>("parentFeatureId", () => new FeatureId(moduleId, FeatureId.Empty, value));
+            Assert.Throws<ArgumentException>("parentFeatureId", () => new FeatureId(moduleId, FeatureId.Empty, value));
+            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, featureId, null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, featureId, string.Empty /* value */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

@@ -25,7 +25,7 @@ namespace Alium.Events
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new TestEvent(null /* services */));
+            Assert.Throws<ArgumentNullException>("services", () => new TestEvent(null /* services */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
@@ -40,7 +40,7 @@ namespace Alium.Events
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await @event.PublishAsync(null /* context */));
+            await Assert.ThrowsAsync<ArgumentNullException>("context", async () => await @event.PublishAsync(null /* context */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
@@ -333,10 +333,7 @@ namespace Alium.Events
             mock.Setup(m => m.NotificationAsync(It.IsAny<EventContext<object>>()))
                 .Returns<EventContext<object>>(c =>
                 {
-                    if (onNotification != null)
-                    {
-                        onNotification(c);
-                    }
+                    onNotification?.Invoke(c);
 
                     return Task.CompletedTask;
                 });

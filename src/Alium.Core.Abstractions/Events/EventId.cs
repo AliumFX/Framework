@@ -41,7 +41,7 @@ namespace Alium.Events
         {
             if (parentEventId.Equals(EventId.Empty))
             {
-                throw new ArgumentException("The parent event id cannot be EventId.Empty");
+                throw new ArgumentException("The parent event id cannot be EventId.Empty", "value");
             }
 
 

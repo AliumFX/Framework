@@ -21,7 +21,7 @@ namespace Alium.Tenancy
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new TenantServiceProviderResolver(null /* serviceCollectionFactory */));
+            Assert.Throws<ArgumentNullException>("serviceCollectionFactory", () => new TenantServiceProviderResolver(null /* serviceCollectionFactory */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

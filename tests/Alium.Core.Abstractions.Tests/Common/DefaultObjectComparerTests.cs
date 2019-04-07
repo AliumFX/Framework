@@ -15,7 +15,6 @@ namespace Alium
         public void Constructor_SetsProperties()
         {
             // Arrange
-            var person = new Person("Matthew", "Abbott");
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act

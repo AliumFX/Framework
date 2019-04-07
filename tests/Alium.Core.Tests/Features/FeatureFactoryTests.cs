@@ -25,13 +25,14 @@ namespace Alium.Features
             var config = new ConfigurationBuilder().Build();
             var featureStateProvider = CreateFeatureStateProvider(
                 new FeatureState(featureId, config.GetSection("Features:Test.Test"), true));
+            var workContext = new WorkContext();
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new FeatureFactory<string>(null /* featureStateProvider */, null /* workContext */));
-            Assert.Throws<ArgumentNullException>(() => new FeatureFactory<string>(featureStateProvider, null /* workContext */));
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new FeatureFactory<string>(null /* featureStateProvider */, workContext));
+            Assert.Throws<ArgumentNullException>("workContext", () => new FeatureFactory<string>(featureStateProvider, null /* workContext */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

@@ -33,7 +33,7 @@ namespace Alium
         {
             if (string.IsNullOrEmpty(argument))
             {
-                throw new ArgumentException($"The parameter '{0}' cannot be null or an empty string.");
+                throw new ArgumentException($"The parameter '{parameterName}' cannot be null or an empty string.", parameterName);
             }
 
             return argument;

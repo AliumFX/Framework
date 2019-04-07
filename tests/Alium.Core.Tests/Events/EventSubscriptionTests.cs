@@ -18,15 +18,16 @@ namespace Alium.Events
         {
             // Arrange
             var token = new SubscriptionToken(st => { });
+            Task notification(EventContext<object> context) => Task.CompletedTask;
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new EventSubscription<object>(
+            Assert.Throws<ArgumentNullException>("token", () => new EventSubscription<object>(
                 null /* token */,
-                null /* notification */));
-            Assert.Throws<ArgumentNullException>(() => new EventSubscription<object>(
+                notification));
+            Assert.Throws<ArgumentNullException>("notification", () => new EventSubscription<object>(
                 token,
                 null /* notification */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.

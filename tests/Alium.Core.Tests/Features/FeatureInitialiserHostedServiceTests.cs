@@ -23,25 +23,29 @@ namespace Alium.Features
         public void Constructor_ValidatesArguments()
         {
             // Arrange
+            var featureId = new FeatureId(new ModuleId("Test"), "Test");
+            var serviceProvider = Mock.Of<IServiceProvider>();
+            var featureProvider = CreateFeatureProvider(CreateFeature(featureId, fic => { }));
+            var featureStateProvider = CreateFeatureStateProvider(featureId, true);
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>("serviceProvider", () =>
                 new FeatureInitialiserHostedService(
                     null /* serviceProvider */,
+                    featureProvider,
+                    featureStateProvider));
+            Assert.Throws<ArgumentNullException>("featureProvider", () =>
+                new FeatureInitialiserHostedService(
+                    serviceProvider,
                     null /* featureProvider */,
-                    null /* featureStateProvider */));
-            Assert.Throws<ArgumentNullException>(() =>
+                    featureStateProvider));
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () =>
                 new FeatureInitialiserHostedService(
                     Mock.Of<IServiceProvider>(),
-                    null /* featureProvider */,
-                    null /* featureStateProvider */));
-            Assert.Throws<ArgumentNullException>(() =>
-                new FeatureInitialiserHostedService(
-                    Mock.Of<IServiceProvider>(),
-                    Mock.Of<IFeatureProvider>(),
+                    featureProvider,
                     null /* featureStateProvider */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }

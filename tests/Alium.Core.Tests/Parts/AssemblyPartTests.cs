@@ -24,7 +24,7 @@ namespace Alium.Parts
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new AssemblyPart(null /* assembly */));
+            Assert.Throws<ArgumentNullException>("assembly", () => new AssemblyPart(null /* assembly */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

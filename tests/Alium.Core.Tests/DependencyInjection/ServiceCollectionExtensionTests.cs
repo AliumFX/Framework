@@ -21,14 +21,16 @@ namespace Alium.DependencyInjection
         public void AddModuleServices_ValidatesArguments()
         {
             // Arrange
+            var module = new TestModule();
+            var moduleProvider = new ModuleProvider(new[] { module });
             var services = new ServiceCollection();
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddModuleServices(null /* services */, null /* moduleProvider */));
-            Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddModuleServices(services, null /* moduleProvider */));
+            Assert.Throws<ArgumentNullException>("services", () => ServiceCollectionExtensions.AddModuleServices(null /* services */, moduleProvider));
+            Assert.Throws<ArgumentNullException>("moduleProvider", () => ServiceCollectionExtensions.AddModuleServices(services, null /* moduleProvider */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
@@ -71,14 +73,16 @@ namespace Alium.DependencyInjection
             // Arrange
             var services = new ServiceCollection();
             var featureProvider = new FeatureProvider(new[] { new TestFeature() });
+            var configuration = new ConfigurationBuilder().Build();
+            var featureStateProvider = new FeatureStateProvider(featureProvider, configuration);
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddFeatureServices(null /* services */, null /* featureProvider */, null /* featureStateProvider */));
-            Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddFeatureServices(services, null /* featureProvider */, null /* featureStateProvider */));
-            Assert.Throws<ArgumentNullException>(() => ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, null /* featureStateProvider */));
+            Assert.Throws<ArgumentNullException>("services", () => ServiceCollectionExtensions.AddFeatureServices(null /* services */, featureProvider, featureStateProvider));
+            Assert.Throws<ArgumentNullException>("featureProvider", () => ServiceCollectionExtensions.AddFeatureServices(services, null /* featureProvider */, featureStateProvider));
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () => ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, null /* featureStateProvider */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
@@ -138,26 +142,6 @@ namespace Alium.DependencyInjection
             Assert.NotNull(featureDescriptor);
             Assert.Equal(ServiceLifetime.Transient, featureDescriptor.Lifetime);
         }
-
-        //[Fact]
-        //public void AddFeatureServices_DoesNotAddServicesFromFeature_WhenFeatureDisabled()
-        //{
-        //    // Arrange
-        //    var services = new ServiceCollection();
-        //    var featureProvider = new FeatureProvider(new[] { new TestFeature(enabledByDefault: false) });
-        //    var configuration = new ConfigurationBuilder().Build();
-        //    var featureStateProvider = new FeatureStateProvider(featureProvider, configuration);
-
-        //    // Act
-        //    ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, featureStateProvider);
-
-        //    // Assert
-        //    var descriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(IServiceOne));
-        //    Assert.Null(descriptor);
-        //    var featureDescriptor = services.FirstOrDefault(sd => sd.ServiceType == typeof(IFeature<IServiceOne>));
-        //    Assert.NotNull(featureDescriptor);
-        //    Assert.Equal(ServiceLifetime.Transient, featureDescriptor.Lifetime);
-        //}
 
         private class TestModule : ModuleBase, IServicesBuilder
         {

@@ -18,15 +18,25 @@ namespace Alium
         {
             // Arrange
             var source = Enumerable.Empty<string>();
-            string keySelector(string s) => s;
+            string keySelector(string element) => element;
+            IEnumerable<string> dependentKeySelector(string element, string dependencyKey) => Enumerable.Empty<string>();
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new DependencyKeyOrderedEnumerable<string, string>(null /* source */, null /* keySelector */, null /* dependentKeySelector */));
-            Assert.Throws<ArgumentNullException>(() => new DependencyKeyOrderedEnumerable<string, string>(source, null /* keySelector */, null /* dependentKeySelector */));
-            Assert.Throws<ArgumentNullException>(() => new DependencyKeyOrderedEnumerable<string, string>(source, keySelector, null /* dependentKeySelector */));
+            Assert.Throws<ArgumentNullException>("source", () => new DependencyKeyOrderedEnumerable<string, string>(
+                null /* source */, 
+                keySelector, 
+                dependentKeySelector));
+            Assert.Throws<ArgumentNullException>("keySelector", () => new DependencyKeyOrderedEnumerable<string, string>(
+                source,
+                null /* keySelector */,
+                dependentKeySelector));
+            Assert.Throws<ArgumentNullException>("dependentKeySelector", () => new DependencyKeyOrderedEnumerable<string, string>(
+                source,
+                keySelector,
+                null /* dependentKeySelector */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

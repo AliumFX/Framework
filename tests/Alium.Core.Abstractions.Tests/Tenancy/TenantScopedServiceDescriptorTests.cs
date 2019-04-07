@@ -16,22 +16,23 @@ namespace Alium.Tenancy
         public void Constructor_ValidatesArguments()
         {
             // Arrange
+            var personType = typeof(Person);
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-            Assert.Throws<ArgumentNullException>(() => new TenantScopedServiceDescriptor(
+            Assert.Throws<ArgumentNullException>("serviceType", () => new TenantScopedServiceDescriptor(
                 null /* serviceType */,
-                (Type)null /* implemenationType */));
+                personType));
 
-            Assert.Throws<ArgumentNullException>(() => new TenantScopedServiceDescriptor(
-                typeof(Person),
+            Assert.Throws<ArgumentNullException>("implementationType", () => new TenantScopedServiceDescriptor(
+                personType,
                 (Type)null /* implementationType */));
 
-            Assert.Throws<ArgumentNullException>(() => new TenantScopedServiceDescriptor(
-                typeof(Person),
+            Assert.Throws<ArgumentNullException>("factory", () => new TenantScopedServiceDescriptor(
+                personType,
                 (Func<IServiceProvider, object>)null /* factory */));
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.

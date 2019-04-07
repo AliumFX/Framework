@@ -21,14 +21,15 @@ namespace Alium.Modules
         {
             // Arrange
             var provider = new ModulePartFeatureProvider();
+            var feature = new ModulePartFeature();
             var parts = Enumerable.Empty<IPart>();
 
             // Act
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => provider.PopulateFeature(null /* parts */, null /* feature */));
-            Assert.Throws<ArgumentNullException>(() => provider.PopulateFeature(parts, null /* feature */));
+            Assert.Throws<ArgumentNullException>("parts", () => provider.PopulateFeature(null /* parts */, feature));
+            Assert.Throws<ArgumentNullException>("feature", () => provider.PopulateFeature(parts, null /* feature */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

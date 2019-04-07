@@ -21,7 +21,7 @@ namespace Alium.Modules
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new ModuleProvider(null /* modules */));
+            Assert.Throws<ArgumentNullException>("modules", () => new ModuleProvider(null /* modules */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 

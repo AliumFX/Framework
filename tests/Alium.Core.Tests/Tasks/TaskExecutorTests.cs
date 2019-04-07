@@ -25,7 +25,7 @@ namespace Alium.Tasks
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>("scopeFactory", () =>
                 new TaskExecutor(null /* scopeFactory */));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }

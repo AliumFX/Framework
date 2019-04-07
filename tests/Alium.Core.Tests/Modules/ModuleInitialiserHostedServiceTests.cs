@@ -26,11 +26,11 @@ namespace Alium.Modules
 
             // Assert
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<ArgumentNullException>("serviceProvider", () =>
                 new ModuleInitialiserHostedService(
                     null /* serviceProvider */,
-                    null /* moduleProvider */));
-            Assert.Throws<ArgumentNullException>(() =>
+                    Mock.Of<IModuleProvider>()));
+            Assert.Throws<ArgumentNullException>("moduleProvider", () =>
                 new ModuleInitialiserHostedService(
                     Mock.Of<IServiceProvider>(),
                     null /* moduleProvider */));
