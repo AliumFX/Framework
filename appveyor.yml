@@ -9,7 +9,7 @@ skip_tags: true
 
 # Build Server Image
 image:
-  - Visual Studio 2017
+  - Visual Studio 2019 Preview
   # - Ubuntu
 
 # Install Script
