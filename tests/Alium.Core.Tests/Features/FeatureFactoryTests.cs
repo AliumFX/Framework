@@ -106,7 +106,9 @@ namespace Alium.Features
             var mock = new Mock<IServiceProvider>();
 
             mock.Setup(sp => sp.GetService(It.IsAny<Type>()))
+#pragma warning disable CS8604 // Possible null reference argument.
                 .Returns(service);
+#pragma warning restore CS8604 // Possible null reference argument.
 
             return mock.Object;
         } 

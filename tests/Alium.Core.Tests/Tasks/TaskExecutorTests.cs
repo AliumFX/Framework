@@ -131,7 +131,9 @@ namespace Alium.Tasks
             mock.Setup(sp => sp.GetService(It.Is<Type>(t => t == typeof(IEnumerable<TService>))))
                 .Returns(() =>
                 {
+#pragma warning disable CS8653 // A default expression introduces a null value when 'TService' is a non-nullable reference type.
                     if (Equals(default(TService), service))
+#pragma warning restore CS8653 // A default expression introduces a null value when 'TService' is a non-nullable reference type.
                     {
                         return Array.Empty<TService>();
                     }
