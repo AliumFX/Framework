@@ -13,8 +13,8 @@ image:
   # - Ubuntu
 
 cache:
-  - .dotnetsdk
-  - node_modules
+  - .dotnetsdk -> global.json
+  - node_modules -> package.json
   - '%LocalAppData%\NuGet\Cache'
   - '%LocalAppData%\NuGet\v3-cache'
 
