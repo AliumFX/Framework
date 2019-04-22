@@ -32,7 +32,7 @@ steps:
   inputs:
     filePath: '.\install.ps1'
     pwsh: true
-  displayName: Install .NET Core
+  displayName: Build Alium Framework
 
 - task: PublishTestResults@2
   inputs:
