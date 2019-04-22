@@ -19,6 +19,9 @@ variables:
   buildConfiguration: 'Release'
   
 steps:
+- script: git submodule init
+- script: git submodule update
+
 - task: PowerShell@2
   inputs:
     filePath: '.\install.ps1'
