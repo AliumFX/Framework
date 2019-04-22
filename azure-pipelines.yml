@@ -1,11 +1,17 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
-- develop
-
+  branches:
+    include:
+    - master
+    - features/*
+  paths:
+    exclude:
+    - .editorconfig
+    - LICENSE
+    - README.md
+    - appveyor.yml
+    - .travis.yml
+    - .circleci/config.yml
+    
 pool:
   vmImage: 'vs2017-win2016'
 
@@ -13,12 +19,18 @@ variables:
   buildConfiguration: 'Release'
   
 steps:
-- powershell: .\install.ps1
-  workingDirectory: .
-  displayName: Install .NET core
-- powershell: .\build.ps1
-  workingDirectory: .
-  displayName: Build Framework
+- task: PowerShell@2
+  inputs:
+    filePath: '.\install.ps1'
+    pwsh: true
+  displayName: Install .NET Core
+
+- task: PowerShell@2
+  inputs:
+    filePath: '.\install.ps1'
+    pwsh: true
+  displayName: Install .NET Core
+
 - task: PublishTestResults@2
   inputs:
     testRunner: VSTest
