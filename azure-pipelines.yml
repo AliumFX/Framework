@@ -24,13 +24,13 @@ steps:
 
 - task: PowerShell@2
   inputs:
-    filePath: '.\install.ps1'
+    filePath: 'install.ps1'
     pwsh: true
   displayName: Install .NET Core
 
 - task: PowerShell@2
   inputs:
-    filePath: '.\install.ps1'
+    filePath: 'build.ps1'
     pwsh: true
   displayName: Build Alium Framework
 
