@@ -1,42 +1,41 @@
 trigger:
   branches:
     include:
-    - develop
-    - master
-    - features/*
+      - develop
+      - master
+      - features/*
   paths:
     exclude:
-    - .editorconfig
-    - LICENSE
-    - README.md
-    - appveyor.yml
-    - .travis.yml
-    - .circleci/config.yml
-    
+      - .editorconfig
+      - LICENSE
+      - README.md
+      - appveyor.yml
+      - .travis.yml
+      - .circleci/config.yml
+
 pool:
   vmImage: 'vs2017-win2016'
 
 variables:
   buildConfiguration: 'Release'
-  
+
 steps:
-- script: git submodule init
-- script: git submodule update
+  - script: git submodule init
+  - script: git submodule update
 
-- task: PowerShell@2
-  inputs:
-    filePath: 'install.ps1'
-    pwsh: true
-  displayName: Install .NET Core
+  - task: PowerShell@2
+    inputs:
+      filePath: 'install.ps1'
+      pwsh: true
+    displayName: Install .NET Core
 
-- task: PowerShell@2
-  inputs:
-    filePath: 'build.ps1'
-    pwsh: true
-  displayName: Build Alium Framework
+  - task: PowerShell@2
+    inputs:
+      filePath: 'build.ps1'
+      pwsh: true
+    displayName: Build Alium Framework
 
-- task: PublishTestResults@2
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: 'build/testResults/**/*.xml'
-
+  - task: PublishTestResults@2
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: 'build/test-results/**/*.xml'
