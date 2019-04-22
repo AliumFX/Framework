@@ -2,7 +2,10 @@
 
 The core framework that allows the building of an AliumFX-based application. `Alium.Core` is used by apps themselves (targeting `netcoreappx.y` or `netxyz`. `Alium.Core.Abstractions` provides shared types that can be consumed by libraries (targeting `netstandardx.y`) without strongly coupling implementations to those libraries.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/8s9rqyb21ipalssv?svg=true)](https://ci.appveyor.com/project/AliumFX/framework) [![Build status](https://dev.azure.com/aliumfx/AliumFx%20-%20Framework/_apis/build/status/AliumFx%20-%20Framework-CI)](https://dev.azure.com/aliumfx/AliumFx%20-%20Framework/_build/latest?definitionId=1)
+|Branch|AppVeyor|Azure Pipelines|
+|-|-|-|
+|`develop`|[![Build status](https://ci.appveyor.com/api/projects/status/8s9rqyb21ipalssv?svg=true)](https://ci.appveyor.com/project/AliumFX/framework/branch/develop)|[![Build Status](https://dev.azure.com/me0128/Alium%20FX/_apis/build/status/AliumFX.Framework?branchName=develop)](https://dev.azure.com/me0128/Alium%20FX/_build/latest?definitionId=1&branchName=develop)|
+|`master`|[![Build status](https://ci.appveyor.com/api/projects/status/8s9rqyb21ipalssv/branch/master?svg=true)](https://ci.appveyor.com/project/AliumFX/framework/branch/master)|[![Build Status](https://dev.azure.com/me0128/Alium%20FX/_apis/build/status/AliumFX.Framework?branchName=master)](https://dev.azure.com/me0128/Alium%20FX/_build/latest?definitionId=1&branchName=master)|
 
 [![Build history](https://buildstats.info/appveyor/chart/aliumfx/framework?includeBuildsFromPullRequest=true)](https://buildstats.info/appveyor/chart/aliumfx/framework?includeBuildsFromPullRequest=true)
 
