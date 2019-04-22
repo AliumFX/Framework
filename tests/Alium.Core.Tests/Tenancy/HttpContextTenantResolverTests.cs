@@ -154,7 +154,9 @@ namespace Alium.Tenancy
             var mock = new Mock<IFeatureStateProvider>();
 
             mock.Setup(fsp => fsp.GetFeatureState(It.IsAny<FeatureId>()))
+#pragma warning disable CS8604 // Possible null reference argument.
                 .Returns(state);
+#pragma warning restore CS8604 // Possible null reference argument.
 
             mock.Setup(fsp => fsp.BeginTenantScope(It.IsAny<TenantId>()))
                 .Callback(onBeginTenantScope ?? (t => { }));

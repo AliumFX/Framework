@@ -12,11 +12,18 @@ image:
   - Visual Studio 2019 Preview
   # - Ubuntu
 
+cache:
+  - .dotnetsdk -> global.json
+  - node_modules -> package.json
+  - '%LocalAppData%\NuGet\Cache'
+  - '%LocalAppData%\NuGet\v3-cache'
+
 # Install Script
 install:
   - git submodule init
   - git submodule update
   - ps: $env:APPVEYOR_BUILD_NUMBER_PADDED = ([int]$env:appveyor_build_number).ToString("00000")
+  - ps: . .\install.ps1
   - dotnet --version
 
 # Build Script
@@ -31,13 +38,13 @@ artifacts:
   - path: 'build\*.nupkg'
 
 # Deploy
-deploy: 
+deploy:
   - provider: NuGet
     server: https://www.myget.org/F/aliumfx/api/v2/package
     symbol_server: https://www.myget.org/F/aliumfx/symbols/api/v2/package
     api_key:
       secure: 8BRAlgURo0mIptDMIPCGEaxift9MAA3R0CisisiR6aIFZDk2Ol/2cyyQFPCWJeCg
-    
+
   - provider: GitHub
     artifact: /.*\.nupkg/
     draft: false
