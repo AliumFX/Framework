@@ -1,60 +1,57 @@
 ﻿// Copyright (c) Alium FX. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Alium.Security
+namespace Alium.Administration
 {
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Globalization;
     using Newtonsoft.Json;
 
     using Alium.Data;
-    using System.Globalization;
 
     /// <summary>
     /// Represents the ID of a user
     /// </summary>
-    [DebuggerDisplay("{DebuggerToString(),nq}"), JsonConverter(typeof(UserIdJsonConverter)), TypeConverter(typeof(UserIdTypeConverter))]
-    public readonly struct UserId : IComparable<UserId>, IEquatable<UserId>, IValueStruct<int>
+    [DebuggerDisplay("{DebuggerToString(),nq}"), JsonConverter(typeof(AdministrationUserIdJsonConverter)), TypeConverter(typeof(AdministrationUserIdTypeConverter))]
+    public readonly struct AdministrationUserId : IComparable<AdministrationUserId>, IEquatable<AdministrationUserId>, IValueStruct<int>
     {
         /// <summary>
         /// Represents an empty user ID
         /// </summary>
-        public static readonly UserId Empty = new UserId();
+        public static readonly AdministrationUserId Empty = new AdministrationUserId();
 
         /// <summary>
         /// Represents the ID of the system
         /// </summary>
-        public static readonly UserId System = new UserId(value: 0);
-
-        private readonly int _value;
-        private readonly bool _hasValue;
+        public static readonly AdministrationUserId System = new AdministrationUserId(value: 0);
 
         /// <summary>
-        /// Initialises a new instance of <see cref="UserId" />
+        /// Initialises a new instance of <see cref="AdministrationUserId" />
         /// </summary>
         /// <param name="value">The ID value</param>
-        public UserId(int value)
+        public AdministrationUserId(int value)
         {
-            _value = value;
-            _hasValue = true;
+            Value = value;
+            HasValue = true;
         }
 
         /// <summary>
         /// Gets whether the ID has value
         /// </summary>
-        public bool HasValue => _hasValue;
+        public bool HasValue { get; }
 
         /// <summary>
         /// Gets the value
         /// </summary>
-        public int Value => _value;
+        public int Value { get; }
 
         /// <inheritdoc />
-        public int CompareTo(UserId other) => Value.CompareTo(other.Value);
+        public int CompareTo(AdministrationUserId other) => Value.CompareTo(other.Value);
 
         /// <inheritdoc />
-        public bool Equals(UserId other) => (HasValue && other.HasValue && Value.Equals(other.Value)) || (!HasValue && !other.HasValue);
+        public bool Equals(AdministrationUserId other) => (HasValue && other.HasValue && Value.Equals(other.Value)) || (!HasValue && !other.HasValue);
 
         /// <inheritdoc />
         public override bool Equals(object obj)
@@ -64,7 +61,7 @@ namespace Alium.Security
                 return false;
             }
 
-            return obj is UserId other && Equals(other);
+            return obj is AdministrationUserId other && Equals(other);
         }
 
         /// <inheritdoc />
@@ -87,15 +84,15 @@ namespace Alium.Security
         ///     All other values will return Empty
         /// </remarks>
         /// <param name="value">The value object</param>
-        /// <returns>The <see cref="UserId"/> value</returns>
-        public static UserId FromProviderValue(object? value)
+        /// <returns>The <see cref="AdministrationUserId"/> value</returns>
+        public static AdministrationUserId FromProviderValue(object? value)
         {
             if (value is int intValue)
             {
-                return new UserId(intValue);
+                return new AdministrationUserId(intValue);
             }
 
-            if (value is string stringValue && TryParse(stringValue, out UserId id))
+            if (value is string stringValue && TryParse(stringValue, out var id))
             {
                 return id;
             }
@@ -104,15 +101,15 @@ namespace Alium.Security
         }
 
         /// <summary>
-        /// Attempts to parse the given value to extract a <see cref="UserId"/>, throwing an exception of the input value
+        /// Attempts to parse the given value to extract a <see cref="AdministrationUserId"/>, throwing an exception of the input value
         /// was not in the correct format
         /// </summary>
         /// <param name="value">The input value</param>
-        /// <param name="id">[Out] The parsed <see cref="UserId"/></param>
+        /// <param name="id">[Out] The parsed <see cref="AdministrationUserId"/></param>
         /// <returns>True if the value could be parsed, otherwise false</returns>
-        public static UserId Parse(string value)
+        public static AdministrationUserId Parse(string value)
         {
-            if (TryParse(value, out UserId id))
+            if (TryParse(value, out AdministrationUserId id))
             {
                 return id;
             }
@@ -121,16 +118,16 @@ namespace Alium.Security
         }
 
         /// <summary>
-        /// Attempts to parse the given value to extract a <see cref="UserId"/>
+        /// Attempts to parse the given value to extract a <see cref="AdministrationUserId"/>
         /// </summary>
         /// <param name="value">The input value</param>
-        /// <param name="id">[Out] The parsed <see cref="UserId"/></param>
+        /// <param name="id">[Out] The parsed <see cref="AdministrationUserId"/></param>
         /// <returns>True if the value could be parsed, otherwise false</returns>
-        public static bool TryParse(string value, out UserId id)
+        public static bool TryParse(string value, out AdministrationUserId id)
         {
             if (int.TryParse(value, out int intValue))
             {
-                id = new UserId(intValue);
+                id = new AdministrationUserId(intValue);
                 return true;
             }
 
@@ -144,7 +141,7 @@ namespace Alium.Security
         /// <param name="left">The left operand</param>
         /// <param name="right">The right operand</param>
         /// <returns>True if the values are equal, otherwise false</returns>
-        public static bool operator ==(UserId left, UserId right) => left.Equals(right);
+        public static bool operator ==(AdministrationUserId left, AdministrationUserId right) => left.Equals(right);
 
         /// <summary>
         /// Determines if the two given values are not equal
@@ -152,15 +149,15 @@ namespace Alium.Security
         /// <param name="left">The left operand</param>
         /// <param name="right">The right operand</param>
         /// <returns>True if the values are not equal, otherwise false</returns>
-        public static bool operator !=(UserId left, UserId right) => !left.Equals(right);
+        public static bool operator !=(AdministrationUserId left, AdministrationUserId right) => !left.Equals(right);
 
         /// <summary>
         /// Handles custom conversion during JSON.NET serialisation
         /// </summary>
-        public class UserIdJsonConverter : JsonConverter
+        public class AdministrationUserIdJsonConverter : JsonConverter
         {
             /// <inheritdoc />
-            public override bool CanConvert(Type objectType) => objectType == typeof(UserId);
+            public override bool CanConvert(Type objectType) => objectType == typeof(AdministrationUserId);
 
             /// <inheritdoc />
             public override object? ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -171,13 +168,13 @@ namespace Alium.Security
                     return Empty;
                 }
 
-                return new UserId(id.Value);
+                return new AdministrationUserId(id.Value);
             }
 
             /// <inheritdoc />
             public override void WriteJson(JsonWriter writer, object source, JsonSerializer serializer)
             {
-                if (source is UserId value)
+                if (source is AdministrationUserId value)
                 {
                     if (value.HasValue)
                     {
@@ -191,9 +188,9 @@ namespace Alium.Security
         }
 
         /// <summary>
-        /// Handles custom conversion from an <see cref="int"/> to a <see cref="UserId"/>
+        /// Handles custom conversion from an <see cref="int"/> to a <see cref="AdministrationUserId"/>
         /// </summary>
-        public class UserIdTypeConverter : TypeConverter
+        public class AdministrationUserIdTypeConverter : TypeConverter
         {
             /// <inheritdoc />
             public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
@@ -204,7 +201,7 @@ namespace Alium.Security
             {
                 if (value is int intValue)
                 {
-                    return new UserId(intValue);
+                    return new AdministrationUserId(intValue);
                 }
 
                 return Empty;

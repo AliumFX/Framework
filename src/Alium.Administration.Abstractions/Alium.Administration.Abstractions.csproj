@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>Alium.Administration</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Alium.Data.Abstractions\Alium.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\Alium.Membership.Abstractions\Alium.Membership.Abstractions.csproj" />
+  </ItemGroup>
+</Project>
