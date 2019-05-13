@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="Microsoft.AspNetCore.App" />-->
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Alium.Core.Abstractions\Alium.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Alium.Core\Alium.Core.csproj" />
   </ItemGroup>

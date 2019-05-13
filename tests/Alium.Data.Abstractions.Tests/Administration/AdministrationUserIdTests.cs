@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Alium FX. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Alium.Security
+namespace Alium.Administration
 {
     using System;
     using System.IO;
@@ -9,17 +9,17 @@ namespace Alium.Security
     using Xunit;
 
     /// <summary>
-    /// Provides tests for the <see cref="UserId"/>
+    /// Provides tests for the <see cref="AdministrationUserId"/>
     /// </summary>
-    public class UserIdTests
+    public class AdministrationUserIdTests
     {
         [Fact]
         public void Constructor_SetsValues()
         {
             // Arrange
-            var empty = new UserId();
-            var system = new UserId(0);
-            var user = new UserId(1);
+            var empty = new AdministrationUserId();
+            var system = new AdministrationUserId(0);
+            var user = new AdministrationUserId(1);
 
             // Act
 
@@ -38,9 +38,9 @@ namespace Alium.Security
         public void CompareTo_ComparesValue()
         {
             // Arrange
-            var user1 = new UserId(1);
-            var user2 = new UserId(2);
-            var user3 = new UserId(3);
+            var user1 = new AdministrationUserId(1);
+            var user2 = new AdministrationUserId(2);
+            var user3 = new AdministrationUserId(3);
 
             // Act
             int user1BeforeUser2 = user1.CompareTo(user2);
@@ -57,8 +57,8 @@ namespace Alium.Security
         public void Equals_ReturnsTrue_IfBothHaveSameValue()
         {
             // Arrange
-            var user1 = new UserId(1);
-            var user1Other = new UserId(1);
+            var user1 = new AdministrationUserId(1);
+            var user1Other = new AdministrationUserId(1);
 
             // Act
             bool equals = user1.Equals(user1Other);
@@ -71,7 +71,7 @@ namespace Alium.Security
         public void Equals_ReturnsTrue_IfSameInstance()
         {
             // Arrange
-            var user1 = new UserId(1);
+            var user1 = new AdministrationUserId(1);
 
             // Act
             bool equals = user1.Equals(user1);
@@ -86,7 +86,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            bool equals = UserId.Empty.Equals(UserId.Empty);
+            bool equals = AdministrationUserId.Empty.Equals(AdministrationUserId.Empty);
 
             // Assert
             Assert.True(equals);
@@ -99,8 +99,8 @@ namespace Alium.Security
         public void Equals_ReturnFalse_ForDifferentValues(int? leftValue, int? rightValue)
         {
             // Arrange
-            var left = leftValue.HasValue ? new UserId(leftValue.Value) : UserId.Empty;
-            var right = rightValue.HasValue ? new UserId(rightValue.Value) : UserId.Empty;
+            var left = leftValue.HasValue ? new AdministrationUserId(leftValue.Value) : AdministrationUserId.Empty;
+            var right = rightValue.HasValue ? new AdministrationUserId(rightValue.Value) : AdministrationUserId.Empty;
 
             // Act
             bool equals = left.Equals(right);
@@ -114,7 +114,7 @@ namespace Alium.Security
         {
             // Arrange
             int value = 10;
-            var id = new UserId(value);
+            var id = new AdministrationUserId(value);
 
             // Act
             int valueHashCode = value.GetHashCode();
@@ -128,7 +128,7 @@ namespace Alium.Security
         public void ToString_ReturnsString_OfValue()
         {
             // Arrange
-            var id = new UserId(1);
+            var id = new AdministrationUserId(1);
 
             // Act
             string value = id.ToString();
@@ -141,7 +141,7 @@ namespace Alium.Security
         public void ToString_ReturnsEmptyString_ForEmpty()
         {
             // Arrange
-            var empty = UserId.Empty;
+            var empty = AdministrationUserId.Empty;
 
             // Act
             string value = empty.ToString();
@@ -156,7 +156,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            var id = UserId.FromProviderValue(10);
+            var id = AdministrationUserId.FromProviderValue(10);
 
             // Assert
             Assert.True(id.HasValue);
@@ -170,7 +170,7 @@ namespace Alium.Security
             int? value = 10;
 
             // Act
-            var id = UserId.FromProviderValue(value);
+            var id = AdministrationUserId.FromProviderValue(value);
 
             // Assert
             Assert.True(id.HasValue);
@@ -184,7 +184,7 @@ namespace Alium.Security
             int? value = null;
 
             // Act
-            var id = UserId.FromProviderValue(value);
+            var id = AdministrationUserId.FromProviderValue(value);
 
             // Assert
             Assert.False(id.HasValue);
@@ -196,7 +196,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            var id = UserId.FromProviderValue(Convert.DBNull);
+            var id = AdministrationUserId.FromProviderValue(Convert.DBNull);
 
             // Assert
             Assert.False(id.HasValue);
@@ -208,7 +208,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            var id = UserId.FromProviderValue(null);
+            var id = AdministrationUserId.FromProviderValue(null);
 
             // Assert
             Assert.False(id.HasValue);
@@ -222,7 +222,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            bool success = UserId.TryParse(value, out UserId id);
+            bool success = AdministrationUserId.TryParse(value, out AdministrationUserId id);
 
             // Assert
             Assert.True(success);
@@ -240,7 +240,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            bool success = UserId.TryParse(value, out UserId id);
+            bool success = AdministrationUserId.TryParse(value, out AdministrationUserId id);
 
             // Assert
             Assert.False(success);
@@ -255,7 +255,7 @@ namespace Alium.Security
             // Arrange
 
             // Act
-            var id = UserId.Parse(value);
+            var id = AdministrationUserId.Parse(value);
 
             // Assert
             Assert.True(id.HasValue);
@@ -274,15 +274,15 @@ namespace Alium.Security
             // Act
 
             // Assert
-            Assert.Throws<FormatException>(() => UserId.Parse(value));
+            Assert.Throws<FormatException>(() => AdministrationUserId.Parse(value));
         }
 
         [Fact]
         public void EqualsOperator_ReturnsTrue_IfBothHaveSameValue()
         {
             // Arrange
-            var user1 = new UserId(1);
-            var user1Other = new UserId(1);
+            var user1 = new AdministrationUserId(1);
+            var user1Other = new AdministrationUserId(1);
 
             // Act
             bool equals = user1 == user1Other;
@@ -295,7 +295,7 @@ namespace Alium.Security
         public void EqualsOperator_ReturnsTrue_IfSameInstance()
         {
             // Arrange
-            var user1 = new UserId(1);
+            var user1 = new AdministrationUserId(1);
 
             // Act
 #pragma warning disable CS1718 // Comparison made to same variable
@@ -313,7 +313,7 @@ namespace Alium.Security
 
             // Act
 #pragma warning disable CS1718 // Comparison made to same variable
-            bool equals = UserId.Empty == UserId.Empty;
+            bool equals = AdministrationUserId.Empty == AdministrationUserId.Empty;
 #pragma warning restore CS1718 // Comparison made to same variable
 
             // Assert
@@ -324,8 +324,8 @@ namespace Alium.Security
         public void EqualsOperator_ReturnsFalse_ForDifferentValue()
         {
             // Arrange
-            var user1 = new UserId(1);
-            var user2 = new UserId(2);
+            var user1 = new AdministrationUserId(1);
+            var user2 = new AdministrationUserId(2);
 
 
             // Act
@@ -339,8 +339,8 @@ namespace Alium.Security
         public void NotEqualsOperator_ReturnsFalse_IfBothHaveSameValue()
         {
             // Arrange
-            var user1 = new UserId(1);
-            var user1Other = new UserId(1);
+            var user1 = new AdministrationUserId(1);
+            var user1Other = new AdministrationUserId(1);
 
             // Act
             bool equals = user1 != user1Other;
@@ -353,7 +353,7 @@ namespace Alium.Security
         public void NotEqualsOperator_ReturnsFalse_IfSameInstance()
         {
             // Arrange
-            var user1 = new UserId(1);
+            var user1 = new AdministrationUserId(1);
 
             // Act
 #pragma warning disable CS1718 // Comparison made to same variable
@@ -371,7 +371,7 @@ namespace Alium.Security
 
             // Act
 #pragma warning disable CS1718 // Comparison made to same variable
-            bool equals = UserId.Empty != UserId.Empty;
+            bool equals = AdministrationUserId.Empty != AdministrationUserId.Empty;
 #pragma warning restore CS1718 // Comparison made to same variable
 
             // Assert
@@ -382,8 +382,8 @@ namespace Alium.Security
         public void NotEqualsOperator_ReturnsTrue_ForDifferentValue()
         {
             // Arrange
-            var user1 = new UserId(1);
-            var user2 = new UserId(2);
+            var user1 = new AdministrationUserId(1);
+            var user2 = new AdministrationUserId(2);
 
 
             // Act
@@ -399,18 +399,18 @@ namespace Alium.Security
             // Arrange
             var serialiser = new JsonSerializer();
             var reader = CreateJsonReader("10");
-            var converter = new UserId.UserIdJsonConverter();
+            var converter = new AdministrationUserId.AdministrationUserIdJsonConverter();
 
             // Act
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            var result = converter.ReadJson(reader, typeof(UserId), null, serialiser);
+            var result = converter.ReadJson(reader, typeof(AdministrationUserId), null, serialiser);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<UserId>(result);
+            Assert.IsType<AdministrationUserId>(result);
 
-            var id = (UserId)result;
+            var id = (AdministrationUserId)result;
             Assert.True(id.HasValue);
             Assert.Equal(10, id.Value);
         }

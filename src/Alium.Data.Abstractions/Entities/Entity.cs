@@ -5,20 +5,27 @@ namespace Alium.Data
 {
     using System;
 
-    using Alium.Security;
+    using Alium.Administration;
 
     /// <summary>
     /// Provides a default implementation of an entity using an <see cref="int" /> primary key
     /// </summary>
-    public abstract class Entity : Entity<int>
+    public abstract class Entity : Entity<int>, IEntity
     {
     }
+
+    /// Provides a default implementation of an entity using a custom primary key type
+    /// </summary>
+    public abstract class Entity<TPrimaryKey> : Entity<TPrimaryKey, AdministrationUserId>, IEntity<TPrimaryKey>
+        where TPrimaryKey : struct
+    { }
 
     /// <summary>
     /// Provides a default implementation of an entity using a custom primary key type
     /// </summary>
-    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey>
+    public abstract class Entity<TPrimaryKey, TUserId> : IEntity<TPrimaryKey, TUserId>
         where TPrimaryKey : struct
+        where TUserId: struct
     {
         /// <summary>
         /// Gets or sets the date/time (with offset to UTC) the entity was created
@@ -28,7 +35,7 @@ namespace Alium.Data
         /// <summary>
         /// Gets or sets the ID of the user that created the entity
         /// </summary>
-        public UserId CreatedUserId { get; set; }
+        public TUserId CreatedUserId { get; set; }
 
         /// <summary>
         /// Gets or sets whether the entity is enabled
@@ -63,6 +70,6 @@ namespace Alium.Data
         /// <summary>
         /// Gets or sets the ID of the user that created the entity
         /// </summary>
-        public UserId? UpdatedUserId { get; set; }
+        public TUserId? UpdatedUserId { get; set; }
     }
 }
