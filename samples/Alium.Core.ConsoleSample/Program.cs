@@ -1,12 +1,10 @@
-﻿namespace Alium.Core.WebSample
+﻿namespace Alium.Core.ConsoleSample
 {
     using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -15,60 +13,19 @@
     using Alium.Tasks;
     using Alium.Features;
 
-    public class Startup
+    public class Program
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-#pragma warning disable IDE0060 // Remove unused parameter
-        public void ConfigureServices(IServiceCollection services)
-#pragma warning restore IDE0060 // Remove unused parameter
+        public static async Task Main(string[] args)
         {
+            await new HostBuilder()
+                   .UseDiscoveredModules()
+                   .ConfigureLogging(lb =>
+                   {
+                       lb.SetMinimumLevel(LogLevel.Trace);
+                   })
+                   .RunConsoleAsync();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env, IModuleProvider moduleProvider, IFeatureProvider featureProvider, IFeatureStateProvider featureStateProvider)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            foreach (var module in moduleProvider.Modules)
-            {
-                Console.WriteLine($"Module: {module.Id}");
-            }
-
-            foreach (var feature in featureProvider.Features)
-            {
-                if ((featureStateProvider.GetFeatureState(feature.Id)?.Enabled).GetValueOrDefault(false))
-                {
-                    Console.WriteLine($"Feature: {feature.Id}");
-                }
-            }
-
-            app.Run((context) =>
-            {
-                Console.WriteLine($"Executing for {context.Request.Path}");
-
-                var feature1 = context.RequestServices.GetRequiredService<IFeature<IAppService>>();
-                var feature2 = context.RequestServices.GetRequiredService<IFeature<IAppService, AppFeatureConfiguration>>();
-
-                if (feature1.Enabled)
-                {
-                    feature1.Service?.DoAction();
-                }
-
-                if (feature2.Enabled)
-                {
-                    feature2.Service?.DoAction(feature2.Configuration);
-                }
-
-                var tenantService = context.RequestServices.GetRequiredService<ITenantService>();
-                tenantService.DoAction();
-
-                return Task.CompletedTask;
-            });
-        }
     }
 
     public class AppModule : ModuleBase, IServicesBuilder, IFeaturesBuilder
@@ -121,7 +78,7 @@
 
     public class AppFeatureConfiguration
     {
-        public string? Message { get; set; }
+        public string Message { get; set; }
     }
 
     public class AppModuleStartupTask : IStartupTask
@@ -133,7 +90,7 @@
             _logger = loggerFactory.CreateLogger<AppModuleStartupTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default)
+        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             _logger.LogInformation("In module startup task");
 
@@ -150,7 +107,7 @@
             _logger = loggerFactory.CreateLogger<AppModuleStartupTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default)
+        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             _logger.LogInformation("In module shutdown task");
 
@@ -167,7 +124,7 @@
             _logger = loggerFactory.CreateLogger<AppFeatureStartupTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default)
+        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             _logger.LogInformation("In feature startup task");
 
@@ -184,7 +141,7 @@
             _logger = loggerFactory.CreateLogger<AppFeatureShutdownTask>();
         }
 
-        public Task ExecuteAsync(CancellationToken cancellationToken = default)
+        public Task ExecuteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             _logger.LogInformation("In feature shutdown task");
 
@@ -196,7 +153,7 @@
     {
         void DoAction();
 
-        void DoAction(AppFeatureConfiguration? config);
+        void DoAction(AppFeatureConfiguration config);
     }
 
     public class AppService : IAppService
@@ -205,9 +162,9 @@
         {
             Console.WriteLine("Service action");
         }
-        public void DoAction(AppFeatureConfiguration? config)
+        public void DoAction(AppFeatureConfiguration config)
         {
-            Console.WriteLine(config?.Message);
+            Console.WriteLine(config.Message);
         }
     }
 

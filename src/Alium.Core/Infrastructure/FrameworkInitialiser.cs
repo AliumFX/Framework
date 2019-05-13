@@ -86,11 +86,9 @@ namespace Alium.Infrastructure
         /// <summary>
         /// Extends the application configuration.
         /// </summary>
-        /// <param name="context">The web host builder context.</param>
         /// <param name="builder">The configuration builder.</param>
         public void ExtendConfiguration(HostBuilderContext context, IConfigurationBuilder builder)
         {
-            Ensure.IsNotNull(context, nameof(context));
             Ensure.IsNotNull(builder, nameof(builder));
 
             if (_moduleProvider != null)
