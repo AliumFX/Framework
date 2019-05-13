@@ -284,7 +284,7 @@ namespace Alium.Infrastructure
             var context = new HostBuilderContext(new Dictionary<object, object>());
 
             // Act
-            init.ExtendConfiguration(builder);
+            init.ExtendConfiguration(context, builder);
 
             // Assert
             Assert.Contains(builder.Sources, cs => cs is ModuleConfigurationSource);
@@ -301,7 +301,7 @@ namespace Alium.Infrastructure
             var context = new HostBuilderContext(new Dictionary<object, object>());
 
             // Act
-            init.ExtendConfiguration(builder);
+            init.ExtendConfiguration(context, builder);
 
             // Assert
             Assert.Contains(builder.Sources, cs => cs is FeatureConfigurationSource);

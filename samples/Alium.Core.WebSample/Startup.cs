@@ -14,6 +14,7 @@
     using Alium.Modules;
     using Alium.Tasks;
     using Alium.Features;
+    using Microsoft.Extensions.Hosting;
 
     public class Startup
     {

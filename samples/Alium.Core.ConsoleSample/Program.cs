@@ -78,7 +78,7 @@
 
     public class AppFeatureConfiguration
     {
-        public string Message { get; set; }
+        public string Message { get; set; } = default!;
     }
 
     public class AppModuleStartupTask : IStartupTask

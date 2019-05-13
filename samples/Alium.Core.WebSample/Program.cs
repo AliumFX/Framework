@@ -17,7 +17,7 @@ namespace Alium.Core.WebSample
     {
         public static async Task Main(string[] args)
         {
-            await BuildWebHost(args).RunAsync();
+            await BuildHost(args).RunAsync();
         }
 
         public static IHost BuildHost(string[] args) =>
