@@ -410,7 +410,9 @@ namespace Alium.Administration
             Assert.NotNull(result);
             Assert.IsType<AdministrationUserId>(result);
 
+#pragma warning disable CS8605 // Unboxing a possibly null value.
             var id = (AdministrationUserId)result;
+#pragma warning restore CS8605 // Unboxing a possibly null value.
             Assert.True(id.HasValue);
             Assert.Equal(10, id.Value);
         }
