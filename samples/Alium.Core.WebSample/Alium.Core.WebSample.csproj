@@ -12,6 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Alium.Core.Abstractions\Alium.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Alium.Core\Alium.Core.csproj" />
+    <ProjectReference Include="..\..\src\Alium.Web.Abstractions\Alium.Web.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Alium.Web\Alium.Web.csproj" />
   </ItemGroup>
 
 </Project>

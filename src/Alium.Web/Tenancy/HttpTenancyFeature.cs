@@ -4,27 +4,30 @@
 namespace Alium.Tenancy
 {
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Hosting;
 
     using Alium.DependencyInjection;
     using Alium.Features;
 
     /// <summary>
-    /// Describes the multi-tenancy feature.
+    /// Describes multi-tenancy for web applications.
     /// </summary>
-    public class TenancyFeature : FeatureBase, IServicesBuilder
+    public class HttpTenancyFeature : FeatureBase, IServicesBuilder
     {
         /// <summary>
-        /// Initialises a new instance of <see cref="TenancyFeature"/>
+        /// Initialises a new instance of <see cref="HttpTenancyFeature"/>
         /// </summary>
-        public TenancyFeature()
+        public HttpTenancyFeature()
             : base(CoreInfo.TenancyFeatureId, "Tenancy", "Provides services for support multi-tenant applications", false)
         { }
 
         /// <inheritdoc />
         public void BuildServices(IServiceCollection services)
         {
-            services.AddSingleton<TenantServiceCollectionFactory>();
-            services.AddSingleton<ITenantServiceProviderResolver, TenantServiceProviderResolver>();
+            services.AddSingleton<ITenantResolver<HttpContext>, HttpContextTenantResolver>();
+            services.AddSingleton<IStartupFilter, TenantStartupFilter>();
+            services.AddScoped<TenantMiddleware>();
         }
     }
 }

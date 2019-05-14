@@ -17,15 +17,15 @@
     {
         public static async Task Main(string[] args)
         {
-            await new HostBuilder()
-                   .UseDiscoveredModules()
-                   .ConfigureLogging(lb =>
-                   {
-                       lb.SetMinimumLevel(LogLevel.Trace);
-                   })
-                   .RunConsoleAsync();
+            await BuildHost(args).RunConsoleAsync();
         }
 
+        public static IHostBuilder BuildHost(string[] args) =>
+            Host.CreateDefaultBuilder()
+                .UseDiscoveredModules()
+                .ConfigureLogging(lb => lb
+                    .SetMinimumLevel(LogLevel.Trace)
+                );
     }
 
     public class AppModule : ModuleBase, IServicesBuilder, IFeaturesBuilder

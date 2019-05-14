@@ -15,15 +15,14 @@ namespace Alium.Data.ConsoleSample
     {
         public static async Task Main(string[] args)
         {
-            await BuildHost(args).RunAsync();
+            await BuildHost(args).RunConsoleAsync();
         }
 
-        public static IHost BuildHost(string[] args) =>
+        public static IHostBuilder BuildHost(string[] args) =>
             Host.CreateDefaultBuilder()
                 .UseDiscoveredModules()
                 .ConfigureLogging(lb => lb
                     .SetMinimumLevel(LogLevel.Trace)
-                )
-                .Build();
+                );
     }
 }
