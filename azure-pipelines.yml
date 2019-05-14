@@ -1,23 +1,11 @@
 trigger:
   branches:
     include:
-<<<<<<< HEAD
-    - develop
-    - master
-    - features/*
-  paths:
-    exclude:
-    - .editorconfig
-    - LICENSE
-    - README.md
-    - appveyor.yml
-    - .travis.yml
-    - .circleci/config.yml
-    
-=======
       - develop
       - master
-      - features/*
+      - feature/*
+      - bugfix/*
+      - hotfix/*
   paths:
     exclude:
       - .editorconfig
@@ -27,36 +15,20 @@ trigger:
       - .travis.yml
       - .circleci/config.yml
 
->>>>>>> develop
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-16.04'
+    mac:
+      imageName: 'macos-10.13'
+    windows:
+      imageName: 'vs2017-win2016'
+
 pool:
-  vmImage: 'vs2017-win2016'
+  vmImage: $(imageName)
 
 variables:
   buildConfiguration: 'Release'
-<<<<<<< HEAD
-  
-steps:
-- script: git submodule init
-- script: git submodule update
-
-- task: PowerShell@2
-  inputs:
-    filePath: 'install.ps1'
-    pwsh: true
-  displayName: Install .NET Core
-
-- task: PowerShell@2
-  inputs:
-    filePath: 'build.ps1'
-    pwsh: true
-  displayName: Build Alium Framework
-
-- task: PublishTestResults@2
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: 'build/testResults/**/*.xml'
-
-=======
 
 steps:
   - script: git submodule init
@@ -78,4 +50,3 @@ steps:
     inputs:
       testRunner: VSTest
       testResultsFiles: 'build/test-results/**/*.xml'
->>>>>>> develop
