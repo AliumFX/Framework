@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup Label=".NET Core">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
@@ -19,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Alium.Administration.Abstractions\Alium.Administration.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Alium.Core.Abstractions\Alium.Core.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Alium.Core\Alium.Core.csproj" />
     <ProjectReference Include="..\..\src\Alium.Data.Abstractions\Alium.Data.Abstractions.csproj" />

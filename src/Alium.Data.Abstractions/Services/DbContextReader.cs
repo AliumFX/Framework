@@ -8,6 +8,8 @@ namespace Alium.Data
 
     using Microsoft.EntityFrameworkCore;
 
+    using Alium.Administration;
+
     /// <summary>
     /// Provides an implementation of a reader, backed by a <see cref="DbContext"/>
     /// </summary>
@@ -15,7 +17,7 @@ namespace Alium.Data
     /// <typeparam name="TEntity">The record type</typeparam>
     public abstract class DbContextReader<TContext, TEntity> : DbContextReader<TContext, TEntity, int>, IReader<TEntity>
         where TContext : DbContext
-        where TEntity : class, IEntity<int>
+        where TEntity : class, IEntity<int, AdministrationUserId>
     {
         /// <summary>
         /// Initialises a new instance of <see cref="DbContextReader{TContext, TEntity, TPrimaryKey}"/>
@@ -31,10 +33,30 @@ namespace Alium.Data
     /// <typeparam name="TContext">The context type</typeparam>
     /// <typeparam name="TEntity">The record type</typeparam>
     /// <typeparam name="TPrimaryKey">The primary key type</typeparam>
-    public abstract class DbContextReader<TContext, TEntity, TPrimaryKey> : IReader<TEntity, TPrimaryKey>
+    public abstract class DbContextReader<TContext, TEntity, TPrimaryKey> : DbContextReader<TContext, TEntity, TPrimaryKey, AdministrationUserId>, IReader<TEntity, TPrimaryKey>
         where TContext : DbContext
-        where TEntity : class, IEntity<TPrimaryKey>
+        where TEntity : class, IEntity<TPrimaryKey, AdministrationUserId>
         where TPrimaryKey : struct
+    {
+        /// <summary>
+        /// Initialises a new instance of <see cref="DbContextReader{TContext, TEntity, TPrimaryKey}"/>
+        /// </summary>
+        /// <param name="context">The context instance</param>
+        protected DbContextReader(TContext context)
+            : base(context) { }
+    }
+
+    /// <summary>
+    /// Provides an implementation of a reader, backed by a <see cref="DbContext"/>
+    /// </summary>
+    /// <typeparam name="TContext">The context type</typeparam>
+    /// <typeparam name="TEntity">The record type</typeparam>
+    /// <typeparam name="TPrimaryKey">The primary key type</typeparam>
+    public abstract class DbContextReader<TContext, TEntity, TPrimaryKey, TUserId> : IReader<TEntity, TPrimaryKey>
+        where TContext : DbContext
+        where TEntity : class, IEntity<TPrimaryKey, TUserId>
+        where TPrimaryKey : struct
+        where TUserId : struct
     {
         /// <summary>
         /// Initialises a new instance of <see cref="DbContextReader{TContext, TEntity, TPrimaryKey}"/>
