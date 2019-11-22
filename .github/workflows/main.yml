@@ -1,0 +1,21 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macOS-latest]
+    steps:
+      - name: Get the sources
+        uses: actions/checkout@v1
+        with:
+          ref: develop
+          submodules: true
+      - name: Run the build script
+        uses: ecampidoglio/cake-action@master
+        with:
+          target: Default
+          script-path: build-template/build.cake
