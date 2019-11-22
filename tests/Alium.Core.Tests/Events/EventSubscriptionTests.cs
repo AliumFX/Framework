@@ -23,14 +23,12 @@ namespace Alium.Events
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>("token", () => new EventSubscription<object>(
-                null /* token */,
+                null! /* token */,
                 notification));
             Assert.Throws<ArgumentNullException>("notification", () => new EventSubscription<object>(
                 token,
-                null /* notification */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                null! /* notification */));
         }
 
         [Fact]

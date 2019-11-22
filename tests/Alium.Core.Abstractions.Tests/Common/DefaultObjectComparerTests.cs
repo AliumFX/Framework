@@ -45,9 +45,9 @@ namespace Alium
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            bool equals = comparer.Equals(null, null);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
+            bool equals = comparer.Equals(null!, null!);
+
 
             // Assert
             Assert.True(equals);
@@ -61,10 +61,10 @@ namespace Alium
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            bool equals0 = comparer.Equals(person, null);
-            bool equals1 = comparer.Equals(null, person);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
+            bool equals0 = comparer.Equals(person, null!);
+            bool equals1 = comparer.Equals(null!, person);
+
 
             // Assert
             Assert.False(equals0);
@@ -146,9 +146,9 @@ namespace Alium
             var comparer = new DefaultObjectComparer<Person>();
 
             // Act
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            var result = comparer.Compare(null, null);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
+            var result = comparer.Compare(null!, null!);
+
 
             // Assert
             Assert.Equal(0, result);
@@ -177,10 +177,10 @@ namespace Alium
             var comparer = new DefaultObjectComparer<Person>(p => p.Forename);
 
             // Act
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            var result0 = comparer.Compare(null, person);
-            var result1 = comparer.Compare(person, null);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
+            var result0 = comparer.Compare(null!, person);
+            var result1 = comparer.Compare(person, null!);
+
 
             // Assert
             Assert.Equal(-1, result0);

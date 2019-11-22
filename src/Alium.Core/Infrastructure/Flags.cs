@@ -31,9 +31,6 @@ namespace Alium.Infrastructure
             Ensure.IsNotNullOrEmpty(flag, nameof(flag));
 
             // MA - The value operation returns any type, which means we can't express the nullability of the return types here
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8601 // Possible null reference assignment.
-#pragma warning disable CS8603 // Possible null reference return.
             return (TValue)_convertedFlags.GetOrAdd(flag, f =>
             {
                 var section = _root.GetSection(flag);
@@ -43,10 +40,7 @@ namespace Alium.Infrastructure
                 }
 
                 return (TValue)Convert.ChangeType(section.Value, typeof(TValue));
-            });
-#pragma warning restore CS8603 // Possible null reference return.
-#pragma warning restore CS8601 // Possible null reference assignment.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            })!;
         }
 
         /// <inheritdoc />

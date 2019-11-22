@@ -30,10 +30,8 @@ namespace Alium.Features
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new FeatureFactory<string>(null /* featureStateProvider */, workContext));
-            Assert.Throws<ArgumentNullException>("workContext", () => new FeatureFactory<string>(featureStateProvider, null /* workContext */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new FeatureFactory<string>(null! /* featureStateProvider */, workContext));
+            Assert.Throws<ArgumentNullException>("workContext", () => new FeatureFactory<string>(featureStateProvider, null! /* workContext */));
         }
 
         [Fact]
@@ -106,9 +104,7 @@ namespace Alium.Features
             var mock = new Mock<IServiceProvider>();
 
             mock.Setup(sp => sp.GetService(It.IsAny<Type>()))
-#pragma warning disable CS8604 // Possible null reference argument.
-                .Returns(service);
-#pragma warning restore CS8604 // Possible null reference argument.
+                .Returns(service!);
 
             return mock.Object;
         } 

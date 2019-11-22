@@ -26,7 +26,7 @@ namespace Alium.Modules
             var tie = Assert.Throws<TargetInvocationException>(() => mock.Object); // MA - Catch TIE because of Moq.
             Assert.IsType<ArgumentException>(tie.InnerException);
 
-            var aex = (ArgumentException)tie.InnerException;
+            var aex = (ArgumentException)tie.InnerException!;
             Assert.Equal("id", aex.ParamName);
         }
 

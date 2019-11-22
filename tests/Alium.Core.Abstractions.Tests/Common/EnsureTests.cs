@@ -19,11 +19,7 @@ namespace Alium
             // Act
 
             // Assert
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentException>(() => Ensure.IsNotNullOrEmpty((string) null, ""));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            Assert.Throws<ArgumentException>(() => Ensure.IsNotNullOrEmpty((string)null!, ""));
             Assert.Throws<ArgumentException>(() => Ensure.IsNotNullOrEmpty(string.Empty, ""));
         }
 

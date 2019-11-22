@@ -160,7 +160,7 @@ namespace Alium.Administration
             public override bool CanConvert(Type objectType) => objectType == typeof(AdministrationUserId);
 
             /// <inheritdoc />
-            public override object? ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
             {
                 int? id = serializer.Deserialize<int?>(reader);
                 if (!id.HasValue)
@@ -172,7 +172,7 @@ namespace Alium.Administration
             }
 
             /// <inheritdoc />
-            public override void WriteJson(JsonWriter writer, object source, JsonSerializer serializer)
+            public override void WriteJson(JsonWriter writer, object? source, JsonSerializer serializer)
             {
                 if (source is AdministrationUserId value)
                 {

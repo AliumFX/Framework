@@ -25,14 +25,12 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>("tenantResolver", () => new TenantMiddleware(
-                null /* tenantResolver */,
+                null! /* tenantResolver */,
                 tenantServiceProviderResolver));
             Assert.Throws<ArgumentNullException>("tenantServiceProviderResolver", () => new TenantMiddleware(
                 tenantResolver,
-                null /* tenantServiceProviderResolver */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                null! /* tenantServiceProviderResolver */));
         }
 
         [Fact]
@@ -46,14 +44,12 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             await Assert.ThrowsAsync<ArgumentNullException>("context", async () => await middleware.InvokeAsync(
-                null /* httpContext */,
+                null! /* httpContext */,
                 next));
             await Assert.ThrowsAsync<ArgumentNullException>("next", async () => await middleware.InvokeAsync(
                 httpContext,
-                null /* next */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                null! /* next */));
         }
 
         [Fact]

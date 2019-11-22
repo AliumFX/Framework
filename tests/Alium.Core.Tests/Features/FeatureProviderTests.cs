@@ -21,9 +21,7 @@ namespace Alium.Features
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("features", () => new FeatureProvider(null /* features */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("features", () => new FeatureProvider(null! /* features */));
         }
 
         [Fact]

@@ -21,9 +21,7 @@ namespace Alium
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new WorkContextExtensionReferences<ExtensionCache>(null /* extensions */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => new WorkContextExtensionReferences<ExtensionCache>(null! /* extensions */));
         }
 
         [Fact]

@@ -22,9 +22,7 @@ namespace Alium.Core.Tests
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("dependencyContext", () => new DependencyContextAssemblyProvider(null /* dependencyContext */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("dependencyContext", () => new DependencyContextAssemblyProvider(null! /* dependencyContext */));
         }
 
         [Fact]
@@ -46,9 +44,9 @@ namespace Alium.Core.Tests
             // Assert
             Assert.NotNull(discoveredAssemblies);
             Assert.Equal(3, discoveredAssemblies.Count);
-            Assert.Contains(discoveredAssemblies, a => a.FullName.Equals(assemblies[0].FullName));
-            Assert.Contains(discoveredAssemblies, a => a.FullName.Equals(assemblies[1].FullName));
-            Assert.Contains(discoveredAssemblies, a => a.FullName.Equals(assemblies[2].FullName));
+            Assert.Contains(discoveredAssemblies, a => a.FullName!.Equals(assemblies[0].FullName));
+            Assert.Contains(discoveredAssemblies, a => a.FullName!.Equals(assemblies[1].FullName));
+            Assert.Contains(discoveredAssemblies, a => a.FullName!.Equals(assemblies[2].FullName));
         }
     }
 }

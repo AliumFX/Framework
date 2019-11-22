@@ -31,23 +31,21 @@ namespace Alium.Features
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>("serviceProvider", () =>
                 new FeatureInitialiserHostedService(
-                    null /* serviceProvider */,
+                    null! /* serviceProvider */,
                     featureProvider,
                     featureStateProvider));
             Assert.Throws<ArgumentNullException>("featureProvider", () =>
                 new FeatureInitialiserHostedService(
                     serviceProvider,
-                    null /* featureProvider */,
+                    null! /* featureProvider */,
                     featureStateProvider));
             Assert.Throws<ArgumentNullException>("featureStateProvider", () =>
                 new FeatureInitialiserHostedService(
                     Mock.Of<IServiceProvider>(),
                     featureProvider,
-                    null /* featureStateProvider */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                    null! /* featureStateProvider */));
         }
 
         [Fact]

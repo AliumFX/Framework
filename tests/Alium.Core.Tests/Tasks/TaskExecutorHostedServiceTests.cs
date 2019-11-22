@@ -24,11 +24,9 @@ namespace Alium.Tasks
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>("executor", () =>
                 new TaskExecutorHostedService(
-                    null /* executor */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                    null! /* executor */));
         }
 
         [Fact]

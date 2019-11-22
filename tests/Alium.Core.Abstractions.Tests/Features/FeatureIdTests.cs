@@ -24,18 +24,16 @@ namespace Alium.Features
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, value));
             Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, value));
-            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, null! /* value */));
             Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, string.Empty /* value */));
             Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, FeatureId.Empty, value));
             Assert.Throws<ArgumentException>("sourceModuleId", () => new FeatureId(ModuleId.Empty, FeatureId.Empty, value));
             Assert.Throws<ArgumentException>("parentFeatureId", () => new FeatureId(moduleId, FeatureId.Empty, value));
             Assert.Throws<ArgumentException>("parentFeatureId", () => new FeatureId(moduleId, FeatureId.Empty, value));
-            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, featureId, null /* value */));
+            Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, featureId, null! /* value */));
             Assert.Throws<ArgumentException>("value", () => new FeatureId(moduleId, featureId, string.Empty /* value */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
         }
 
         [Fact]

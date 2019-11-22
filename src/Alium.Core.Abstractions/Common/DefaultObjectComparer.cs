@@ -37,7 +37,7 @@ namespace Alium
         public virtual int LowValue { get; }
 
         /// <inheritdoc />
-        public virtual int Compare(TObject x, TObject y)
+        public virtual int Compare(TObject? x, TObject? y)
         {
             if (_props == null || _props.Length == 0)
             {
@@ -85,7 +85,7 @@ namespace Alium
         }
 
         /// <inheritdoc />
-        public virtual bool Equals(TObject x, TObject y)
+        public virtual bool Equals(TObject? x, TObject? y)
         {
             if (ReferenceEquals(x, y))
             {
@@ -117,7 +117,7 @@ namespace Alium
         }
 
         /// <inheritdoc />
-        public virtual int GetHashCode(TObject obj)
+        public virtual int GetHashCode(TObject? obj)
         {
             if (_props == null || _props.Length == 0 || obj == null)
             {

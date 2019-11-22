@@ -402,17 +402,15 @@ namespace Alium.Administration
             var converter = new AdministrationUserId.AdministrationUserIdJsonConverter();
 
             // Act
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
             var result = converter.ReadJson(reader, typeof(AdministrationUserId), null, serialiser);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
 
             // Assert
             Assert.NotNull(result);
             Assert.IsType<AdministrationUserId>(result);
 
-#pragma warning disable CS8605 // Unboxing a possibly null value.
-            var id = (AdministrationUserId)result;
-#pragma warning restore CS8605 // Unboxing a possibly null value.
+            var id = (AdministrationUserId)result!;
             Assert.True(id.HasValue);
             Assert.Equal(10, id.Value);
         }

@@ -29,10 +29,8 @@ namespace Alium.Modules
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("builder", () => ModuleHostBuilderExtensions.UseModules(null /* builder */, module));
-            Assert.Throws<ArgumentNullException>("modules", () => ModuleHostBuilderExtensions.UseModules(builder, null /* modules */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("builder", () => ModuleHostBuilderExtensions.UseModules(null! /* builder */, module));
+            Assert.Throws<ArgumentNullException>("modules", () => ModuleHostBuilderExtensions.UseModules(builder, null! /* modules */));
         }
 
         [Fact]
@@ -113,9 +111,7 @@ namespace Alium.Modules
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => ModuleHostBuilderExtensions.UseDiscoveredModules(null /* builder */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => ModuleHostBuilderExtensions.UseDiscoveredModules(null! /* builder */));
         }
 
         [Fact]

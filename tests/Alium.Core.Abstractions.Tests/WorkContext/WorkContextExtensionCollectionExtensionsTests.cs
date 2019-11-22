@@ -20,9 +20,7 @@ namespace Alium
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => WorkContextExtensionCollectionExtensions.GetExtension<object>(null /* collection */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => WorkContextExtensionCollectionExtensions.GetExtension<object>(null! /* collection */));
         }
 
         [Fact]
@@ -49,9 +47,7 @@ namespace Alium
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => WorkContextExtensionCollectionExtensions.SetExtension<object>(null /* collection */, null /* extension */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => WorkContextExtensionCollectionExtensions.SetExtension<object>(null! /* collection */, null! /* extension */));
         }
 
         [Fact]

@@ -27,10 +27,8 @@ namespace Alium.Modules
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("parts", () => provider.PopulateFeature(null /* parts */, feature));
-            Assert.Throws<ArgumentNullException>("feature", () => provider.PopulateFeature(parts, null /* feature */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("parts", () => provider.PopulateFeature(null! /* parts */, feature));
+            Assert.Throws<ArgumentNullException>("feature", () => provider.PopulateFeature(parts, null! /* feature */));
         }
 
         [Fact]

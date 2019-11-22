@@ -26,9 +26,7 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new HttpContextTenantResolver(null /* featureStateProvider */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () => new HttpContextTenantResolver(null! /* featureStateProvider */));
         }
 
         [Fact]
@@ -41,9 +39,7 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await resolver.ResolveCurrentAsync(null /* httpContext */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await resolver.ResolveCurrentAsync(null! /* httpContext */));
         }
 
         [Fact]
@@ -154,9 +150,7 @@ namespace Alium.Tenancy
             var mock = new Mock<IFeatureStateProvider>();
 
             mock.Setup(fsp => fsp.GetFeatureState(It.IsAny<FeatureId>()))
-#pragma warning disable CS8604 // Possible null reference argument.
-                .Returns(state);
-#pragma warning restore CS8604 // Possible null reference argument.
+                .Returns(state!);
 
             mock.Setup(fsp => fsp.BeginTenantScope(It.IsAny<TenantId>()))
                 .Callback(onBeginTenantScope ?? (t => { }));

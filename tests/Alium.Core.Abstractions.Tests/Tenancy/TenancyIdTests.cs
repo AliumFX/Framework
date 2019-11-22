@@ -19,11 +19,8 @@ namespace Alium.Tenancy
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentException>("value", () => new TenantId(null /* value */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentException>("value", () => new TenantId(string.Empty /* value */));
-        }
+            Assert.Throws<ArgumentException>("value", () => new TenantId(null! /* value */));
+            Assert.Throws<ArgumentException>("value", () => new TenantId(string.Empty /* value */));        }
 
         [Fact]
         public void InitialisedInstance_HasValue()

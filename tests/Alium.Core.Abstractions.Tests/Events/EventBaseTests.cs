@@ -24,9 +24,7 @@ namespace Alium.Events
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("services", () => new TestEvent(null /* services */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("services", () => new TestEvent(null! /* services */));
         }
 
         [Fact]
@@ -39,9 +37,7 @@ namespace Alium.Events
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            await Assert.ThrowsAsync<ArgumentNullException>("context", async () => await @event.PublishAsync(null /* context */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            await Assert.ThrowsAsync<ArgumentNullException>("context", async () => await @event.PublishAsync(null! /* context */));
         }
 
         [Fact]
@@ -222,9 +218,7 @@ namespace Alium.Events
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => @event.Subscribe(null /* onNotificationAsync */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => @event.Subscribe(null! /* onNotificationAsync */));
         }
 
         [Fact]
@@ -252,9 +246,7 @@ namespace Alium.Events
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => @event.Unsubscribe(null /* subscriptioknToken */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>(() => @event.Unsubscribe(null! /* subscriptioknToken */));
         }
 
         [Fact]

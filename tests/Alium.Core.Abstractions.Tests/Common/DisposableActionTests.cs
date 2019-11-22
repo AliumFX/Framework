@@ -19,10 +19,10 @@ namespace Alium
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>(() => new Disposable(null /* action */));
-            Assert.Throws<ArgumentNullException>(() => new GenericDisposable(null /* action */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+
+            Assert.Throws<ArgumentNullException>(() => new Disposable(null! /* action */));
+            Assert.Throws<ArgumentNullException>(() => new GenericDisposable(null! /* action */));
+
         }
 
         [Fact]

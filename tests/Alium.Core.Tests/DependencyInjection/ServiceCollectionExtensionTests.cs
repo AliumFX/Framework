@@ -28,10 +28,8 @@ namespace Alium.DependencyInjection
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("services", () => ServiceCollectionExtensions.AddModuleServices(null /* services */, moduleProvider));
-            Assert.Throws<ArgumentNullException>("moduleProvider", () => ServiceCollectionExtensions.AddModuleServices(services, null /* moduleProvider */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("services", () => ServiceCollectionExtensions.AddModuleServices(null! /* services */, moduleProvider));
+            Assert.Throws<ArgumentNullException>("moduleProvider", () => ServiceCollectionExtensions.AddModuleServices(services, null! /* moduleProvider */));
         }
 
         [Fact]
@@ -79,11 +77,9 @@ namespace Alium.DependencyInjection
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
-            Assert.Throws<ArgumentNullException>("services", () => ServiceCollectionExtensions.AddFeatureServices(null /* services */, featureProvider, featureStateProvider));
-            Assert.Throws<ArgumentNullException>("featureProvider", () => ServiceCollectionExtensions.AddFeatureServices(services, null /* featureProvider */, featureStateProvider));
-            Assert.Throws<ArgumentNullException>("featureStateProvider", () => ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, null /* featureStateProvider */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+            Assert.Throws<ArgumentNullException>("services", () => ServiceCollectionExtensions.AddFeatureServices(null! /* services */, featureProvider, featureStateProvider));
+            Assert.Throws<ArgumentNullException>("featureProvider", () => ServiceCollectionExtensions.AddFeatureServices(services, null! /* featureProvider */, featureStateProvider));
+            Assert.Throws<ArgumentNullException>("featureStateProvider", () => ServiceCollectionExtensions.AddFeatureServices(services, featureProvider, null! /* featureStateProvider */));
         }
 
         [Fact]

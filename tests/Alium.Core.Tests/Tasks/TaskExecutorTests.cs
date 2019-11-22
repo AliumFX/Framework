@@ -24,10 +24,8 @@ namespace Alium.Tasks
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>("scopeFactory", () =>
-                new TaskExecutor(null /* scopeFactory */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                new TaskExecutor(null! /* scopeFactory */));
         }
 
         [Fact]
@@ -131,9 +129,7 @@ namespace Alium.Tasks
             mock.Setup(sp => sp.GetService(It.Is<Type>(t => t == typeof(IEnumerable<TService>))))
                 .Returns(() =>
                 {
-#pragma warning disable CS8653 // A default expression introduces a null value when 'TService' is a non-nullable reference type.
-                    if (Equals(default(TService), service))
-#pragma warning restore CS8653 // A default expression introduces a null value when 'TService' is a non-nullable reference type.
+                    if (Equals(default(TService)!, service))
                     {
                         return Array.Empty<TService>();
                     }

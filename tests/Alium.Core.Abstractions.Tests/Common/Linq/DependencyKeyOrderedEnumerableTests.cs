@@ -24,20 +24,18 @@ namespace Alium
             // Act
 
             // Assert
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
             Assert.Throws<ArgumentNullException>("source", () => new DependencyKeyOrderedEnumerable<string, string>(
-                null /* source */, 
+                null! /* source */, 
                 keySelector, 
                 dependentKeySelector));
             Assert.Throws<ArgumentNullException>("keySelector", () => new DependencyKeyOrderedEnumerable<string, string>(
                 source,
-                null /* keySelector */,
+                null! /* keySelector */,
                 dependentKeySelector));
             Assert.Throws<ArgumentNullException>("dependentKeySelector", () => new DependencyKeyOrderedEnumerable<string, string>(
                 source,
                 keySelector,
-                null /* dependentKeySelector */));
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference or unconstrained type parameter.
+                null! /* dependentKeySelector */));
         }
 
         [Fact]
