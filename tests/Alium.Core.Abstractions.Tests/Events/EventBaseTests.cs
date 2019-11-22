@@ -315,7 +315,7 @@ namespace Alium.Events
             mock.Setup(m => m.FilterAsync(It.IsAny<EventContext<object>>()))
                 .Returns<EventContext<object>>(c =>
                 {
-                    if (onFilter != null)
+                    if (onFilter is object)
                     {
                         return Task.FromResult(onFilter(c));
                     }

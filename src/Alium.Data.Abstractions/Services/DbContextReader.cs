@@ -69,7 +69,7 @@ namespace Alium.Data
         {
             var query = Query;
 
-            if (settings.Source != null)
+            if (settings.Source is object)
             {
                 // MA - Customise the query per-caller (for instance, applying includes, etc.)
                 query = settings.Source(query);

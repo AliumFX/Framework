@@ -55,7 +55,7 @@ namespace Alium.Modules
             Ensure.IsNotNull(builder, nameof(builder));
 
             dependencyContext = dependencyContext ?? DependencyContext.Default;
-            if (dependencyContext != null)
+            if (dependencyContext is object)
             {
                 // MA - Create the framework initialiser
                 var init = FrameworkInitialiser.FromDependencyContext(dependencyContext, CreateFrameworkConfiguration());

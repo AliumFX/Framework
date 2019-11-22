@@ -41,7 +41,7 @@ namespace Alium.Features
             foreach (var feature in _featureProvider.Features)
             {
                 var state = _featureStateProvider.GetFeatureState(feature.Id);
-                if (state != null && state.Enabled)
+                if (state is object && state.Enabled)
                 {
                     feature.Initialise(context);
                 }

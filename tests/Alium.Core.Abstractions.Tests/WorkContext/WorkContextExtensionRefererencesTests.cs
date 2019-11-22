@@ -153,19 +153,19 @@ namespace Alium
         {
             var mock = new Mock<IWorkContextExtensionCollection>();
 
-            if (onRevision != null)
+            if (onRevision is object)
             {
                 mock.Setup(wcec => wcec.Revision)
                     .Returns(() =>
                     {
-                        if (onRevision != null)
+                        if (onRevision is object)
                         {
                             return onRevision();
                         }
                         return revision.GetValueOrDefault(1);
                     });
             }
-            else if (revision != null)
+            else if (revision is object)
             {
                 mock.Setup(wcec => wcec.Revision)
                     .Returns(() => revision.GetValueOrDefault(1));
@@ -176,18 +176,18 @@ namespace Alium
                     .Returns(() => 0);
             }
 
-            if (extension != null)
+            if (extension is object)
             {
                 mock.SetupGet(wcfc => wcfc[It.IsAny<Type>()])
                     .Returns(extension);
             }
 
-            if (onGet != null)
+            if (onGet is object)
             {
                 mock.SetupGet(wcfc => wcfc[It.IsAny<Type>()])
                     .Returns(() =>
                     {
-                        if (onGet != null)
+                        if (onGet is object)
                         {
                             return onGet();
                         }
@@ -195,7 +195,7 @@ namespace Alium
                     });
             }
 
-            if (onSet != null)
+            if (onSet is object)
             {
                 mock.SetupSet(wcfc => wcfc[typeof(TExtension)] = It.IsAny<TExtension>())
                     .Callback<Type, object>((t, f) => onSet?.DynamicInvoke((TExtension)f));

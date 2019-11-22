@@ -57,10 +57,10 @@ namespace Alium
             }
 
             TExtension? extension = cached;
-            if (extension == null || cleared)
+            if (extension is null || cleared)
             {
                 extension = Extensions.GetExtension<TExtension>();
-                if (extension == null)
+                if (extension is null)
                 {
                     extension = factory(state);
                     Extensions.SetExtension(extension);

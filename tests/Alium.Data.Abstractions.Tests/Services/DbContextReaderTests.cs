@@ -68,7 +68,7 @@ namespace Alium.Data
         private UserDbContext CreateDbContext(params User[] users)
         {
             var context = new UserDbContext();
-            if (users != null && users.Length > 0)
+            if (users is object && users.Length > 0)
             {
                 context.Users?.AddRange(users);
                 context.SaveChanges();

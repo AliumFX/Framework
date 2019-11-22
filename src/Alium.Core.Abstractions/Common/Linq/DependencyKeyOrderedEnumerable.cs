@@ -100,7 +100,7 @@ namespace Alium
                     stack.Push(key);
 
                     var dependencies = _dependentKeySelector(item, key);
-                    if (dependencies != null)
+                    if (dependencies is object)
                     {
                         foreach (var dependency in dependencies)
                         {

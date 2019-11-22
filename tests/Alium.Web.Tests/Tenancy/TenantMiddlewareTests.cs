@@ -190,13 +190,13 @@ namespace Alium.Tenancy
             IServiceCollection? tenantServices = null,
             IWorkContext? workContext = null)
         {
-            if (tenantServiceProvider == null)
+            if (tenantServiceProvider is null)
             {
-                if (tenantServices == null)
+                if (tenantServices is null)
                 {
                     tenantServices = new ServiceCollection();
                 }
-                if (workContext != null)
+                if (workContext is object)
                 {
                     var wc = workContext;
                     tenantServices.AddScoped<IWorkContext>(sp => wc);

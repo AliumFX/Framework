@@ -51,7 +51,7 @@ namespace Alium.Infrastructure
 
         private IEnumerable<RuntimeLibrary> GetCandidateLibraries()
         {
-            if (ReferencedAssemblies == null)
+            if (ReferencedAssemblies is null)
             {
                 return Enumerable.Empty<RuntimeLibrary>();
             }

@@ -39,13 +39,13 @@ namespace Alium
         /// <inheritdoc />
         public virtual int Compare(TObject? x, TObject? y)
         {
-            if (_props == null || _props.Length == 0)
+            if (_props is null || _props.Length == 0)
             {
                 // MA - We have nothing to compare.
                 return 0;
             }
 
-            if (x == null && y == null)
+            if (x is null && y is null)
             {
                 // MA - Both instances are null values.
                 return 0;
@@ -57,13 +57,13 @@ namespace Alium
                 return 0;
             }
 
-            if (x == null)
+            if (x is null)
             {
                 // MA - x is null, so that comes first.
                 return -1;
             }
 
-            if (y == null)
+            if (y is null)
             {
                 // MA - x is null, and y is not, so y comes first.
                 return 1;
@@ -93,13 +93,13 @@ namespace Alium
                 return true;
             }
 
-            if (x == null || y == null)
+            if (x is null || y is null)
             {
                 // MA - One of the items is null.
                 return false;
             }
 
-            if (_props == null || _props.Length == 0)
+            if (_props is null || _props.Length == 0)
             {
                 // MA - Nothing to compare.
                 return true;
@@ -119,7 +119,7 @@ namespace Alium
         /// <inheritdoc />
         public virtual int GetHashCode(TObject? obj)
         {
-            if (_props == null || _props.Length == 0 || obj == null)
+            if (_props is null || _props.Length == 0 || obj is null)
             {
                 // MA - Nothing to generate hashcode for.
                 return 0;
@@ -133,7 +133,7 @@ namespace Alium
                 {
                     object value = prop(obj);
 
-                    if (value == null)
+                    if (value is null)
                     {
                         hash = hash * HighValue - 1;
                     }

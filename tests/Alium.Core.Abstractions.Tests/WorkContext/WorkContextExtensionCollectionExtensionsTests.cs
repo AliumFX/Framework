@@ -73,12 +73,12 @@ namespace Alium
         {
             var mock = new Mock<IWorkContextExtensionCollection>();
 
-            if (extension != null)
+            if (extension is object)
             {
                 mock.SetupGet(wcfc => wcfc[It.IsAny<Type>()])
                     .Returns(extension);
             }
-            if (onSet != null)
+            if (onSet is object)
             {
                 mock.SetupSet(wcfc => wcfc[typeof(TExtension)] = It.IsAny<TExtension>())
                     .Callback<Type, TExtension>((t, f) => onSet?.DynamicInvoke(f));

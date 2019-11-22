@@ -49,15 +49,15 @@ namespace Alium.Tenancy
             // MA - Get the tenants as configuration objects.
             var config = _configThunk.Value;
 
-            if (config.Tenants == null || config.Tenants.Length == 0)
+            if (config.Tenants is null || config.Tenants.Length == 0)
             {
                 return Task.FromResult(TenantId.Empty);
             }
 
             // MA - Resolve against a matching host name.
             string hostname = context.Request.Host.ToString();
-            var tenantConfig = config.Tenants.FirstOrDefault(t => t.HostNames != null && t.HostNames.Contains(hostname, StringComparer.OrdinalIgnoreCase));
-            if (tenantConfig != null)
+            var tenantConfig = config.Tenants.FirstOrDefault(t => t.HostNames is object && t.HostNames.Contains(hostname, StringComparer.OrdinalIgnoreCase));
+            if (tenantConfig is object)
             {
                 // MA - Create the tenant id.
                 var tenantId = new TenantId(tenantConfig.Id);
@@ -76,7 +76,7 @@ namespace Alium.Tenancy
             var config = new TenantsConfiguration();
             var tenants = new List<TenantConfiguration>();
 
-            if (configuration != null)
+            if (configuration is object)
             {
                 foreach (var section in configuration.GetSection("tenants").GetChildren())
                 {

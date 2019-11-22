@@ -42,7 +42,7 @@ namespace Alium.Parts
             }
 
             var dependencyContext = DependencyContext.Load(Assembly);
-            if (dependencyContext != null)
+            if (dependencyContext is object)
             {
                 return dependencyContext.CompileLibraries.SelectMany(cl => cl.ResolveReferencePaths());
             }

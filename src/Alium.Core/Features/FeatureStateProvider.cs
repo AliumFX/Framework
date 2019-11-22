@@ -102,9 +102,9 @@ namespace Alium.Features
             private FeatureState GetFeatureStateCore(FeatureId featureId)
             {
                 var section = _section?.GetSection(featureId.Value);
-                if (section == null)
+                if (section is null)
                 {
-                    if (_rootScope != null)
+                    if (_rootScope is object)
                     {
                         return _rootScope.GetFeatureState(featureId);
                     }
@@ -119,7 +119,7 @@ namespace Alium.Features
                 if (!featureId.ParentFeatureId.Equals(FeatureId.Empty))
                 {
                     var parentState = GetFeatureState(featureId.ParentFeatureId);
-                    if (parentState == null || !parentState.Enabled)
+                    if (parentState is null || !parentState.Enabled)
                     {
                         return false;
                     }
@@ -135,13 +135,13 @@ namespace Alium.Features
                     return enabled;
                 }
 
-                if (_rootScope != null)
+                if (_rootScope is object)
                 {
                     return _rootScope.ResolveEnabled(featureId, _rootScope._section);
                 }
 
                 var feature = _featureProvider.GetFeature(featureId);
-                if (feature != null)
+                if (feature is object)
                 {
                     return feature.EnabledByDefault;
                 }

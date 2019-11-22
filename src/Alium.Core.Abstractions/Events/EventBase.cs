@@ -39,7 +39,7 @@ namespace Alium.Events
             Ensure.IsNotNull(context, nameof(context));
 
             // MA - Process any directly added event subscribers
-            if (_subscriptions != null)
+            if (_subscriptions is object)
             {
                 List<SubscriptionToken>? unsubscribe = null;
 
@@ -47,10 +47,10 @@ namespace Alium.Events
                 {
                     var notification = subscription.Value.OnNotificationAsync;
                     var filter = subscription.Value.OnFilterAsync;
-                    if (notification == null)
+                    if (notification is null)
                     {
                         // MA - The subscription is no longer alive, therefore queue up the token to be unsubscribed
-                        if (unsubscribe == null)
+                        if (unsubscribe is null)
                         {
                             unsubscribe = new List<SubscriptionToken>();
                         }
@@ -58,13 +58,13 @@ namespace Alium.Events
                         continue;
                     }
 
-                    if (filter == null || await filter(context))
+                    if (filter is null || await filter(context))
                     {
                         await notification(context);
                     }
                 }
 
-                if (unsubscribe != null)
+                if (unsubscribe is object)
                 {
                     foreach (var token in unsubscribe)
                     {
@@ -74,7 +74,7 @@ namespace Alium.Events
             }
 
             // MA - Process any dynamically resolved subscribers from DI
-            if (_services.Subscribers != null && _services.Subscribers.Count > 0)
+            if (_services.Subscribers is object && _services.Subscribers.Count > 0)
             {
                 foreach (var subscriber in _services.Subscribers)
                 {

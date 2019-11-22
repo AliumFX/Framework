@@ -34,7 +34,7 @@ namespace Alium.Infrastructure
             return (TValue)_convertedFlags.GetOrAdd(flag, f =>
             {
                 var section = _root.GetSection(flag);
-                if (section == null || string.IsNullOrEmpty(section.Value))
+                if (section is null || string.IsNullOrEmpty(section.Value))
                 {
                     return @default;
                 }
@@ -51,7 +51,7 @@ namespace Alium.Infrastructure
             return _stringFlags.GetOrAdd(flag, f =>
             {
                 var section = _root.GetSection(flag);
-                if (section == null || string.IsNullOrEmpty(section.Value))
+                if (section is null || string.IsNullOrEmpty(section.Value))
                 {
                     return @default;
                 }

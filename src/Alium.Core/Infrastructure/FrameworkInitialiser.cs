@@ -71,11 +71,11 @@ namespace Alium.Infrastructure
 
             services.AddSingleton(_partManager);
 
-            if (_moduleProvider != null)
+            if (_moduleProvider is object)
             {
                 services.AddModuleServices(_moduleProvider);
             }
-            if (_featureProvider != null && _featureStateProvider != null)
+            if (_featureProvider is object && _featureStateProvider is object)
             {
                 services.AddFeatureServices(_featureProvider, _featureStateProvider);
             }
@@ -91,7 +91,7 @@ namespace Alium.Infrastructure
         {
             Ensure.IsNotNull(builder, nameof(builder));
 
-            if (_moduleProvider != null)
+            if (_moduleProvider is object)
             {
                 foreach (var module in _moduleProvider.Modules)
                 {
@@ -102,12 +102,12 @@ namespace Alium.Infrastructure
                 }
             }
 
-            if (_featureProvider != null && _featureStateProvider != null)
+            if (_featureProvider is object && _featureStateProvider is object)
             {
                 foreach (var feature in _featureProvider.Features)
                 {
                     var state = _featureStateProvider.GetFeatureState(feature.Id);
-                    if (state != null && state.Enabled && feature is IAppConfigurationExtender extender)
+                    if (state is object && state.Enabled && feature is IAppConfigurationExtender extender)
                     {
                         extender.BuildConfiguration(context, builder);
                     }

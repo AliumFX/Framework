@@ -64,7 +64,7 @@ namespace Alium.Tenancy
 
             await next(context);
 
-            if (scope != null)
+            if (scope is object)
             {
                 // MA - Remove access to the HTTP feature by replacing it
                 context.Features.Set<ITenantServicesHttpFeature>(new TenantServicesHttpFeature());

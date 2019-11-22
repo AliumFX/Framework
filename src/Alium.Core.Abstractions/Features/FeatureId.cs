@@ -94,7 +94,7 @@ namespace Alium.Features
         {
             get
             {
-                return _parentFeatureIdThunk == null
+                return _parentFeatureIdThunk is null
                     ? FeatureId.Empty
                     : _parentFeatureIdThunk.Value;
             }

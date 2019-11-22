@@ -58,7 +58,7 @@ namespace Alium.Tenancy
             RunTests(
                 config: services => services.AddTenantScoped<IService, Service>(typedFactory),
                 predicate: descriptor => descriptor.ServiceType == typeof(IService)
-                                         && descriptor.ImplementationFactory != null);
+                                         && descriptor.ImplementationFactory is object);
             
             RunTests(
                 config: services => services.AddTenantScoped(typeof(IService), objectFactory),

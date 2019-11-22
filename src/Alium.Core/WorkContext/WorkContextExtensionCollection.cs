@@ -41,7 +41,7 @@ namespace Alium
             {
                 Ensure.IsNotNull(key, nameof(key));
 
-                return _extensions != null
+                return _extensions is object
                     && _extensions.TryGetValue(key, out object result)
                     ? result
                     : _defaults?[key];
@@ -50,16 +50,16 @@ namespace Alium
             {
                 Ensure.IsNotNull(key, nameof(key));
 
-                if (value == null)
+                if (value is null)
                 {
-                    if (_extensions != null && _extensions.Remove(key))
+                    if (_extensions is object && _extensions.Remove(key))
                     {
                         _revision++;
                     }
                     return;
                 }
 
-                if (_extensions == null)
+                if (_extensions is null)
                 {
                     _extensions = new Dictionary<Type, object>();
                 }
@@ -71,7 +71,7 @@ namespace Alium
         /// <inheritdoc />
         public IEnumerator<KeyValuePair<Type, object>> GetEnumerator()
         {
-            if (_extensions != null)
+            if (_extensions is object)
             {
                 foreach (var pair in _extensions)
                 {
@@ -79,9 +79,9 @@ namespace Alium
                 }
             }
 
-            if (_defaults != null)
+            if (_defaults is object)
             {
-                foreach (var pair in _extensions == null ? _defaults : _defaults.Except(_extensions, _comparer))
+                foreach (var pair in _extensions is null ? _defaults : _defaults.Except(_extensions, _comparer))
                 {
                     yield return pair;
                 }

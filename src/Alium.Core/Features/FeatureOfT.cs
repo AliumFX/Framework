@@ -76,7 +76,7 @@ namespace Alium.Features
         /// <returns>The configuration isntance.</returns>
         private TConfiguration? BindConfiguration()
         {
-            if (base.Configuration == null)
+            if (base.Configuration is null)
             {
                 return default;
             }

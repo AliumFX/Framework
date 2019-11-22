@@ -67,7 +67,7 @@ namespace Alium.Events
         /// </summary>
         public EventId ParentEventId
         {
-            get => _parentEventIdThunk == null ? EventId.Empty : _parentEventIdThunk.Value;
+            get => _parentEventIdThunk is null ? EventId.Empty : _parentEventIdThunk.Value;
         }
 
         /// <summary>
