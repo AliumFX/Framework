@@ -4,15 +4,14 @@
 namespace Alium.Modules
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.DependencyModel;
     using Microsoft.Extensions.Hosting;
     using Xunit;
 
     using Alium.Parts;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Provides tests for the <see cref="ModuleHostBuilderExtensions"/> type.

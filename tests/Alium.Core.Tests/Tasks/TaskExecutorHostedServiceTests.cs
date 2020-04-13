@@ -6,8 +6,6 @@ namespace Alium.Tasks
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
     using Moq;
     using Xunit;
 

@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup Label="Project">
+    <AliumProjectType>UnitTest</AliumProjectType>
+  </PropertyGroup>
+
+  <Import Project="../Directory.Build.Props" Condition="Exists('../Directory.Build.props')" />
+</Project>

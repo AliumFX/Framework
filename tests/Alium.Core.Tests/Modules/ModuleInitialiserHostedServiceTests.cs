@@ -8,7 +8,6 @@ namespace Alium.Modules
     using System.Collections.ObjectModel;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Builder;
     using Moq;
     using Xunit;
 
