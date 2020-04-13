@@ -1,5 +1,5 @@
 <Project>
-    <Import Project="./build-template/build.props" />
+    <Import Project="./build/build.props" />
     
     <PropertyGroup>
         <VersionPrefix>0.1.0</VersionPrefix>
