@@ -78,6 +78,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{DCC5A489
 		build\README.md = build\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{B8AFD146-A002-42DD-B44E-99C84BC47630}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AB9110B2-2926-47D9-BD6E-F0C233558FAB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{FBD20AA4-58B9-43BA-8C08-E73EE66A6844}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\main.yml = .github\workflows\main.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -279,6 +291,7 @@ Global
 		{2B0F78B0-D7B8-4AB6-AEE8-7D8416A5D0A3} = {DC3964A9-C266-4A8A-954D-44504A64EF8C}
 		{5C1FC005-EA60-46AE-83F4-93CD89EDD722} = {90942F87-D52A-475D-9165-38EEAF660F43}
 		{90942F87-D52A-475D-9165-38EEAF660F43} = {5D55F44D-1016-4AD9-9A82-FB7655EF5983}
+		{FBD20AA4-58B9-43BA-8C08-E73EE66A6844} = {AB9110B2-2926-47D9-BD6E-F0C233558FAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1371E398-484E-40EA-B773-61F8FE41836D}

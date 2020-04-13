@@ -1,10 +1,10 @@
-<Project>
+﻿<Project>
     <Import Project="./build/build.props" />
     
-    <PropertyGroup>
-        <VersionPrefix>0.1.0</VersionPrefix>
-        <VersionSuffix>alpha</VersionSuffix>
-
+    <PropertyGroup Label="Project">
+        <Version>0.2.0-alpha0147</Version>
+        <InformationalVersion>0.2.0-alpha.147+Branch.develop.Sha.5452a6e92194845aa5324e50e2cc53dbf648dcc9</InformationalVersion>
+        
         <Product>Alium Framework</Product>
         <ProjectUrl>https://github.com/AliumFX/Framework</ProjectUrl>
     </PropertyGroup>

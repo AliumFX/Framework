@@ -1,21 +1,31 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+    - 'release/**'
+    - 'develop'
 
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macOS-latest]
+        os: [windows-latest]
     steps:
       - name: Get the sources
         uses: actions/checkout@v1
         with:
           ref: develop
           submodules: true
-      - name: Run the build script
-        uses: ecampidoglio/cake-action@master
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v1.4.0
         with:
-          target: Default
-          script-path: build-template/build.cake
+            dotnet-version: '3.1.100'
+
+      - name: Restore .NET Core local tools
+        run: dotnet tool restore
+
+      - name: Run the build script
+        run: dotnet cake --deploy --nugetFeed="${{ secrets.GPR_URL }}" --nugetApiKey="${{ secrets.GITHUB_TOKEN }}"
+        working-directory: ./build
